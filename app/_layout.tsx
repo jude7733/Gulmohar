@@ -34,15 +34,16 @@ const usePlatformSpecificSetup = Platform.select({
 export default function RootLayout() {
   usePlatformSpecificSetup();
   const { isDarkColorScheme } = useColorScheme();
+  console.log(`Current color scheme: ${isDarkColorScheme ? 'dark' : 'light'}`);
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
       <Stack>
         <Stack.Screen
-          name='index'
+          name='(tabs)'
           options={{
-            title: 'Starter Base',
+            title: 'Gulmohar',
             headerRight: () => <ThemeToggle />,
           }}
         />
@@ -68,4 +69,4 @@ function useSetAndroidNavigationBar() {
   }, []);
 }
 
-function noop() {}
+function noop() { }
