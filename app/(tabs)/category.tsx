@@ -13,10 +13,7 @@ export default function Category() {
 
   // Handle category card press
   const handleCategoryPress = (categoryName: string) => {
-    router.push({
-      pathname: '(tabs)/category/[category]',
-      params: { category: categoryName }
-    });
+    router.push(`/category-content/${categoryName}`);
   };
 
   return (

@@ -24,11 +24,10 @@ export interface ContentItem {
   title: string;
   author_name: string;
   department: string;
-  created_at: string;
-  category: string;
+  category: Category;
   body: string;
+  created_at: Date;
   media_items: MediaItem[];
   is_featured: boolean;
   tags: string[];
-  view_count: number;
 }

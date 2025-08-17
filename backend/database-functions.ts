@@ -18,13 +18,3 @@ export async function fetchStorage(url: string, category: Category) {
     .download(`${category}/${url}`);
   return { data, error };
 }
-
-// Get public URL for storage file
-export function getStorageUrl(category: Category, filePath: string): string | undefined {
-  const fullPath = `${category}/${filePath}`;
-  const { data } = supabase.storage
-    .from(category)
-    .getPublicUrl(fullPath);
-  return data.publicUrl;
-}
-

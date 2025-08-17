@@ -16,17 +16,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
-        options={{
-          title: 'About',
-          tabBarIcon: ({ color }) => <FontAwesome name="info-circle" size={24} color={color} />,
-        }}
-      />
-      <Tabs.Screen
         name="category"
         options={{
           title: 'Category',
           tabBarIcon: ({ color }) => <FontAwesome name="compass" size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="about"
+        options={{
+          title: 'About',
+          tabBarIcon: ({ color }) => <FontAwesome name="info-circle" size={24} color={color} />,
         }}
       />
     </Tabs>
