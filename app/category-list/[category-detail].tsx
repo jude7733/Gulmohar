@@ -131,8 +131,9 @@ const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void
 };
 
 // Main Component
-export default function CategoryDetailScreen() {
-  const { category }: { category: Category } = useLocalSearchParams();
+export default function CategoryListScreen() {
+  const params = useLocalSearchParams();
+  const category = params.category as Category;
   const router = useRouter();
   const [content, setContent] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -188,12 +189,13 @@ export default function CategoryDetailScreen() {
     }
   }, [category, sortBy]);
 
-  // Handle content item press
   const handleContentPress = (item: ContentItem) => {
-    // Navigate to content detail screen
     router.push({
-      pathname: `/content/${item.content_id}`,
-      params: { data: JSON.stringify(item) }
+      pathname: '/content/[detail]',
+      params: {
+        detail: item.content_id,
+        data: JSON.stringify(item)
+      }
     });
   };
 

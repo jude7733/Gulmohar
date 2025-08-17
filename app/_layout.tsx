@@ -38,17 +38,38 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack>
+      <Stack
+        screenOptions={{
+          animation: Platform.OS === 'android' ? 'slide_from_right' : 'default',
+          statusBarStyle: isDarkColorScheme ? 'light' : 'dark',
+        }}
+      >
         <Stack.Screen
           name='(tabs)'
           options={{
-            title: 'Gulmohar',
+            title: 'BMC-Art-Gallery',
             headerRight: () => <ThemeToggle />,
+          }}
+        />
+        <Stack.Screen
+          name="category-list/[category-detail]"
+          options={{
+            headerShown: true,
+            presentation: 'modal',
+            animation: 'slide_from_right'
+          }}
+        />
+        <Stack.Screen
+          name="content/[detail]"
+          options={{
+            headerShown: true,
+            presentation: 'modal',
+            animation: 'slide_from_right'
           }}
         />
       </Stack>
       <PortalHost />
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }
 
@@ -64,7 +85,7 @@ function useSetWebBackgroundClassName() {
 
 function useSetAndroidNavigationBar() {
   React.useLayoutEffect(() => {
-    setAndroidNavigationBar(Appearance.getColorScheme() ?? 'light');
+    setAndroidNavigationBar(Appearance.getColorScheme() ?? 'dark');
   }, []);
 }
 

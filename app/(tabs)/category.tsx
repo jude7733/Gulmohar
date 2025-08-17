@@ -11,9 +11,11 @@ export default function Category() {
   const tint = isDarkColorScheme ? 'dark' : 'light';
   const router = useRouter();
 
-  // Handle category card press
   const handleCategoryPress = (categoryName: string) => {
-    router.push(`/category-content/${categoryName}`);
+    router.push({
+      pathname: '/category-content/[category-list]',
+      params: { category: categoryName }
+    });
   };
 
   return (
