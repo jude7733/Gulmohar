@@ -13,7 +13,7 @@ export default function Category() {
 
   const handleCategoryPress = (categoryName: string) => {
     router.push({
-      pathname: '/category-content/[category-list]',
+      pathname: '/category-list/[category-detail]',
       params: { category: categoryName }
     });
   };
@@ -40,7 +40,7 @@ export default function Category() {
                 onPress={() => handleCategoryPress(item.category)}
                 className="w-full max-w-3xl"
               >
-                <Card className='mb-4 w-full bg-card/90 dark:bg-card/60 active:scale-95 transition-transform'>
+                <Card className='mb-4 w-full bg-card/90 dark:bg-card/60'>
                   <CardHeader>
                     <Image
                       source={{ uri: item.image }}
