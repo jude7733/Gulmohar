@@ -23,17 +23,17 @@ export const NAV_THEME = {
 export const categories: CategoryItem[] = [
   {
     category: "Literary Arts",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1519791883288-dc8bd696e667?auto=format&fit=crop&w=600&q=80",
     items: ["Poetry", "Short Stories", "Novels"],
   },
   {
     category: "Print Media",
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1616873065098-9bdc6fda9c68?auto=format&fit=crop&w=600&q=80",
     items: ["Newspapers", "Magazines"],
   },
   {
     category: "Visual Arts",
-    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1570804606950-8b2eb25a2d68?auto=format&fit=crop&w=600&q=80",
     items: [
       "Mural Art",
       "Contemporary Painting",
@@ -42,7 +42,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Photography",
-    image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?auto=format&fit=crop&w=600&q=80",
     items: ["Documentary Photography", "Artistic Photography"],
   },
   {
@@ -57,7 +57,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Radio & Podcasts",
-    image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1627667050025-be23c83837e9?auto=format&fit=crop&w=600&q=80",
     items: [
       "Radio Plays",
       "Literary Podcasts",
