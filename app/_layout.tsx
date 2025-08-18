@@ -3,13 +3,14 @@ import '~/global.css';
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import * as React from 'react';
 import { Appearance, Platform } from 'react-native';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useEffect, useLayoutEffect } from 'react';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -37,44 +38,46 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack
-        screenOptions={{
-          animation: Platform.OS === 'android' ? 'slide_from_right' : 'default',
-          statusBarStyle: isDarkColorScheme ? 'light' : 'dark',
-        }}
-      >
-        <Stack.Screen
-          name='(tabs)'
-          options={{
-            title: 'BMC-Art-Gallery',
-            headerRight: () => <ThemeToggle />,
+      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} animated translucent />
+      <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
+        <Stack
+          screenOptions={{
+            animation: Platform.OS === 'android' ? 'slide_from_right' : 'default',
+            statusBarStyle: isDarkColorScheme ? 'light' : 'dark',
           }}
-        />
-        <Stack.Screen
-          name="category-list/[category-detail]"
-          options={{
-            headerShown: true,
-            presentation: 'modal',
-            animation: 'slide_from_right'
-          }}
-        />
-        <Stack.Screen
-          name="content/[detail]"
-          options={{
-            headerShown: true,
-            presentation: 'modal',
-            animation: 'slide_from_right'
-          }}
-        />
-      </Stack>
+        >
+          <Stack.Screen
+            name='(tabs)'
+            options={{
+              title: 'BMC-Art-Gallery',
+              headerRight: () => <ThemeToggle />,
+            }}
+          />
+          <Stack.Screen
+            name="category-list/[category-detail]"
+            options={{
+              headerShown: true,
+              presentation: 'modal',
+              animation: 'slide_from_right'
+            }}
+          />
+          <Stack.Screen
+            name="content/[detail]"
+            options={{
+              headerShown: true,
+              presentation: 'modal',
+              animation: 'slide_from_right'
+            }}
+          />
+        </Stack>
+      </SafeAreaView>
       <PortalHost />
     </ThemeProvider >
   );
 }
 
 const useIsomorphicLayoutEffect =
-  Platform.OS === 'web' && typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
+  Platform.OS === 'web' && typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 function useSetWebBackgroundClassName() {
   useIsomorphicLayoutEffect(() => {
@@ -84,7 +87,7 @@ function useSetWebBackgroundClassName() {
 }
 
 function useSetAndroidNavigationBar() {
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     setAndroidNavigationBar(Appearance.getColorScheme() ?? 'dark');
   }, []);
 }

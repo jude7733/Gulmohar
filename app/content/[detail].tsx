@@ -5,20 +5,14 @@ import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchStorage } from '~/backend/database-functions';
 
 // Format date utility
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  });
-};
 
 export default function ContentDetailScreen() {
   const { data } = useLocalSearchParams<{ data: string }>();
   const dataObj: ContentItem = data ? JSON.parse(data) : null;
   const [loading, setLoading] = useState(true);
   const [file, setFile] = useState<string | null>(null);
+
+  const date = new Date(dataObj.created_at).toDateString();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -117,10 +111,10 @@ export default function ContentDetailScreen() {
           },
         }}
       />
-      <ScrollView className="flex-1 bg-gray-50 dark:bg-gray-900 px-4 py-4">
+      <ScrollView className="flex-1 bg-[#5cbdb9] dark:bg-gray-900 px-4 py-4">
         <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{dataObj.title}</Text>
         <Text className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-          By {dataObj.author_name} • {dataObj.department} • Date
+          By {dataObj.author_name} • {dataObj.department} • {date}
         </Text>
         <Text className="text-base text-gray-700 dark:text-gray-300 mb-6">{dataObj.body}</Text>
 

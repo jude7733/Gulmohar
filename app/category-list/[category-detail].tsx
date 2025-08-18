@@ -13,7 +13,6 @@ import { Category, ContentItem } from '~/lib/types';
 import { useEffect, useState } from 'react';
 
 
-// Get category display info
 const getCategoryInfo = (category: Category) => {
   const categoryMap: { [key: string]: { icon: string; color: string } } = {
     'Literary Arts': { icon: '📚', color: '#FF6B6B' },
@@ -27,13 +26,12 @@ const getCategoryInfo = (category: Category) => {
   return categoryMap[category] || { icon: '📄', color: '#gray' };
 };
 
-// Content Card Component
 const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void }) => {
-  const categoryInfo = getCategoryInfo(item.category);
+  const date = new Date(item.created_at).toDateString();
 
   return (
     <Pressable onPress={onPress} className="mb-4">
-      <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
+      <Card className="bg-blue-100/50 dark:bg-card/50 border border-gray-700 dark:border-gray-200 shadow-sm">
         <CardHeader className="pb-3">
           <View className="flex-row items-start justify-between">
             <View className="flex-1 pr-3">
@@ -55,7 +53,6 @@ const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void
               </View>
             </View>
             <View className="items-center">
-              <Text className="text-2xl mb-1">{categoryInfo.icon}</Text>
               {item.is_featured && (
                 <View className="bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded-full">
                   <Text className="text-xs font-medium text-yellow-800 dark:text-yellow-200">
@@ -86,21 +83,13 @@ const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void
             </Text>
           )}
 
-          {/* Media Items Info */}
-          {item.media_items && item.media_items.length > 0 && (
-            <View className="flex-row flex-wrap gap-2 mb-3">
-              {item.media_items.map((media, index) => (
-                <View
-                  key={index}
-                  className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md"
-                >
-                  <Text className="text-xs text-gray-600 dark:text-gray-300">
-                    {media.type.toUpperCase()}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          )}
+          <View
+            className="bg-gray-100 dark:bg-gray-700 mb-3 px-2 py-1 max-w-[150px] rounded-md"
+          >
+            <Text className="text-xs text-gray-600 dark:text-gray-300">
+              {date}
+            </Text>
+          </View>
 
           {/* Tags */}
           {item.tags && item.tags.length > 0 && (
