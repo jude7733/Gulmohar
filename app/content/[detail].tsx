@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Alert, Image, Dimensions } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, Button } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
-import { fetchStorage } from '~/backend/database-functions';
-
-// Format date utility
+import { fetchPublicUrl } from '~/backend/database-functions';
+import { openInBrowser, sharePdfWithNativeApp } from '~/lib/file-funtions/pdf';
+import PDFViewer from '~/components/filerender/PDFViewer';
 
 export default function ContentDetailScreen() {
   const { data } = useLocalSearchParams<{ data: string }>();
   const dataObj: ContentItem = data ? JSON.parse(data) : null;
   const [loading, setLoading] = useState(true);
-  const [file, setFile] = useState<string | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   const date = new Date(dataObj.created_at).toDateString();
 
@@ -18,16 +18,19 @@ export default function ContentDetailScreen() {
     const fetchContent = async () => {
       if (!dataObj) return;
       setLoading(true);
-      const { data, error } = await fetchStorage(
+      const data: string = await fetchPublicUrl(
+        dataObj.category,
         dataObj.media_items[0].storagePath,
-        dataObj.category
       );
-      const text = data && await data.text();
-      text && setFile(text);
-      if (error) {
-        Alert.alert('Error', 'Failed to load content.');
+      setFileUrl(data);
+
+      if (!data) {
+        console.log('Error', 'Failed to load content.');
         setLoading(false);
         return;
+      }
+      else {
+        console.log('File URL:', data);
       }
       setLoading(false);
     };
@@ -56,7 +59,7 @@ export default function ContentDetailScreen() {
 
   // Render media items
   const renderMediaItem = (media: MediaItem, index: number) => {
-    const publicUrl = media.storagePath
+    const publicUrl = fileUrl || ''
 
     switch (media.type) {
       case 'image':
@@ -69,11 +72,13 @@ export default function ContentDetailScreen() {
           />
         );
       case 'pdf':
-        // You may integrate a PDF viewer library here
         return (
           <View key={index} className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
-            <Text className="font-semibold text-gray-900 dark:text-white">{media.title}</Text>
-            <Text className="text-sm text-blue-600 underline">{publicUrl}</Text>
+            <View className="flex-row justify-between mt-2">
+              <Button title="Open" onPress={() => openInBrowser(publicUrl)} />
+              <Button title="Share" onPress={() => sharePdfWithNativeApp(publicUrl)} />
+            </View>
+            <PDFViewer uri={publicUrl} />
           </View>
         );
       case 'video':

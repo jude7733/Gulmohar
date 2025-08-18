@@ -1,7 +1,6 @@
 import { Category } from "~/lib/types";
 import { supabase } from './supabase';
 
-// Fetch content by category
 export async function fetchContentByCategory(category: Category) {
   const { data, error } = await supabase
     .from('content')
@@ -11,7 +10,6 @@ export async function fetchContentByCategory(category: Category) {
   return { data, error };
 }
 
-// Fetch content by ID
 export async function fetchContentById(contentId: string) {
   const { data, error } = await supabase
     .from('content')
@@ -21,10 +19,25 @@ export async function fetchContentById(contentId: string) {
   return { data, error };
 }
 
-// Fetch raw storage file (download)
-export async function fetchStorage(url: string, category: Category) {
-  const { data, error } = await supabase.storage
-    .from(category)
-    .download(`${category}/${url}`);
-  return { data, error };
+function categoryToBucketName(category: Category): string {
+  const mapping: Record<Category, string> = {
+    'Literary Arts': 'literary-arts',
+    'Print Media': 'print-media',
+    'Visual Arts': 'visual-arts',
+    'Photography': 'photography',
+    'Media & Mixed Arts': 'media-mixed-arts',
+    'Radio & Podcasts': 'radio-podcasts',
+    'Blogs': 'blogs',
+  };
+  return mapping[category];
+}
+
+export async function fetchPublicUrl(category: Category, filePath: string) {
+  const bucket = categoryToBucketName(category);
+  const { data } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(filePath);
+  console.log(bucket)
+
+  return data.publicUrl;
 }
