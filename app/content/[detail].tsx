@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, Button } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, Button, SafeAreaView } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchPublicUrl } from '~/backend/database-functions';
@@ -78,7 +78,7 @@ export default function ContentDetailScreen() {
               <Button title="Open" onPress={() => openInBrowser(publicUrl)} />
               <Button title="Share" onPress={() => sharePdfWithNativeApp(publicUrl)} />
             </View>
-            <PDFViewer uri={publicUrl} />
+            <PDFViewer uri={publicUrl} classname='w-full overflow-hidden py-4' />
           </View>
         );
       case 'video':
@@ -104,27 +104,29 @@ export default function ContentDetailScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: dataObj.title,
-          headerStyle: {
-            backgroundColor: '#3182ce',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
-      <ScrollView className="flex-1 bg-[#5cbdb9] dark:bg-gray-900 px-4 py-4">
-        <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{dataObj.title}</Text>
-        <Text className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-          By {dataObj.author_name} • {dataObj.department} • {date}
-        </Text>
-        <Text className="text-base text-gray-700 dark:text-gray-300 mb-6">{dataObj.body}</Text>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Stack.Screen
+          options={{
+            title: dataObj.title,
+            headerStyle: {
+              backgroundColor: '#3182ce',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <ScrollView className="flex-1 bg-[#5cbdb9] dark:bg-gray-900 px-4 py-4">
+          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{dataObj.title}</Text>
+          <Text className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            By {dataObj.author_name} • {dataObj.department} • {date}
+          </Text>
+          <Text className="text-base text-gray-700 dark:text-gray-300 mb-6">{dataObj.body}</Text>
 
-        {dataObj.media_items && dataObj.media_items.map(renderMediaItem)}
-      </ScrollView>
+          {dataObj.media_items && dataObj.media_items.map(renderMediaItem)}
+        </ScrollView>
+      </SafeAreaView>
     </>
   );
 }

@@ -1,19 +1,25 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, useWindowDimensions } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import Pdf from 'react-native-pdf';
 
 interface PDFViewerProps {
   uri: string;
+  classname?: string;
+  width?: number;
+  height?: number;
 }
 
-const PDFViewer: React.FC<PDFViewerProps> = ({ uri }) => {
-  const { width, height } = useWindowDimensions();
+const PDFViewer: React.FC<PDFViewerProps> = ({ uri, classname, width, height }) => {
+  const { width: deviceWidth, height: deviceHeight } = useWindowDimensions();
+
+  // Use props if passed; subtract margins after fallback to device dimensions
+  const pdfWidth: number = (width ?? deviceWidth) - 32;
+  const pdfHeight: number = (height ?? deviceHeight) - 250;
+
   if (!uri) return null;
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, width, height }}
-    >
+    <View style={{ flex: 1 }} className={classname}>
       <Pdf
         source={{ uri }}
         trustAllCerts={false}
@@ -32,9 +38,9 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ uri }) => {
         onPressLink={(uri) => {
           console.log(`Link pressed: ${uri}`);
         }}
-        style={{ flex: 1, width, height }}
+        style={{ flex: 1, width: pdfWidth, height: pdfHeight }}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
