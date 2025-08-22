@@ -1,11 +1,16 @@
 import { Tabs } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Platform } from 'react-native';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        // Conditionally hide the tab bar on web
+        tabBarStyle: {
+          display: Platform.OS === 'web' ? 'none' : 'flex',
+        },
       }}
     >
       <Tabs.Screen

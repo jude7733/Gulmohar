@@ -71,7 +71,7 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
       <TouchableOpacity
         onPress={goToPrev}
         disabled={currentIndex === 0}
-        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 transition-all ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
+        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'<'}</Text>
       </TouchableOpacity>
@@ -79,7 +79,7 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
       <TouchableOpacity
         onPress={goToNext}
         disabled={currentIndex === articles.length - 1}
-        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 transition-all ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
+        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'>'}</Text>
       </TouchableOpacity>

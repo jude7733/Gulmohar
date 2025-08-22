@@ -27,7 +27,7 @@ export default function Home() {
       <ScrollView className="flex-1 py-2">
         <View className="px-4 pb-4">
           <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-            Welcome to Gulmohar
+            Welcome creators
           </Text>
           <Text className="text-gray-600 dark:text-gray-400 mt-2">
             Discover the latest articles and publications
