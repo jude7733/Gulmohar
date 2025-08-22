@@ -1,4 +1,4 @@
-import { CategoryItem } from "./types";
+import { Category, CategoryItem } from "./types";
 
 export const NAV_THEME = {
   light: {
@@ -74,3 +74,19 @@ export const categories: CategoryItem[] = [
     ],
   },
 ];
+
+
+
+export const getCategoryInfo = (category: Category) => {
+  const categoryMap: { [key: string]: { icon: string; color: string } } = {
+    'Literary Arts': { icon: '📚', color: '#FF6B6B' },
+    'Print Media': { icon: '📰', color: '#4ECDC4' },
+    'Visual Arts': { icon: '🎨', color: '#45B7D1' },
+    'Photography': { icon: '📸', color: '#96CEB4' },
+    'Media & Mixed Arts': { icon: '🎬', color: '#FFEAA7' },
+    'Radio & Podcasts': { icon: '🎵', color: '#DDA0DD' },
+    'Blogs': { icon: '✍️', color: '#A0E7E5' }
+  };
+  return categoryMap[category] || { icon: '📄', color: '#gray' };
+};
+

@@ -17,6 +17,7 @@ export type MediaItem = {
   type: "pdf" | "video" | "audio" | "image";
   storagePath: string;
   title?: string;
+  thumbnailPath?: string;
 };
 
 export interface ContentItem {
@@ -30,4 +31,12 @@ export interface ContentItem {
   media_items: MediaItem[];
   is_featured: boolean;
   tags: string[];
+}
+
+export type FeaturedContent = {
+  content_id: string;
+  title: string;
+  author_name: string;
+  category: Category;
+  media_items: MediaItem[];
 }

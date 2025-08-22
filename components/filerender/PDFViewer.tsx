@@ -21,7 +21,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ uri, classname, width, height }) 
   return (
     <View style={{ flex: 1 }} className={classname}>
       <Pdf
-        source={{ uri }}
+        source={{ uri: uri, cache: true }}
         trustAllCerts={false}
         page={1}
         horizontal

@@ -11,20 +11,8 @@ import { Card, CardContent, CardHeader } from '~/components/ui/card';
 import { fetchContentByCategory } from '~/backend/database-functions';
 import { Category, ContentItem } from '~/lib/types';
 import { useEffect, useState } from 'react';
+import { getCategoryInfo } from '~/lib/constants';
 
-
-const getCategoryInfo = (category: Category) => {
-  const categoryMap: { [key: string]: { icon: string; color: string } } = {
-    'Literary Arts': { icon: '📚', color: '#FF6B6B' },
-    'Print Media': { icon: '📰', color: '#4ECDC4' },
-    'Visual Arts': { icon: '🎨', color: '#45B7D1' },
-    'Photography': { icon: '📸', color: '#96CEB4' },
-    'Media & Mixed Arts': { icon: '🎬', color: '#FFEAA7' },
-    'Radio & Podcasts': { icon: '🎵', color: '#DDA0DD' },
-    'Blogs': { icon: '✍️', color: '#A0E7E5' }
-  };
-  return categoryMap[category] || { icon: '📄', color: '#gray' };
-};
 
 const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void }) => {
   const date = new Date(item.created_at).toDateString();
@@ -119,7 +107,6 @@ const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void
   );
 };
 
-// Main Component
 export default function CategoryListScreen() {
   const params = useLocalSearchParams();
   const category = params.category as Category;
@@ -176,7 +163,7 @@ export default function CategoryListScreen() {
     if (category) {
       fetchContent();
     }
-  }, [category, sortBy]);
+  }, [category]);
 
   const handleContentPress = (item: ContentItem) => {
     router.push({

@@ -37,7 +37,20 @@ export async function fetchPublicUrl(category: Category, filePath: string) {
   const { data } = supabase.storage
     .from(bucket)
     .getPublicUrl(filePath);
-  console.log(bucket)
+
+  if (!data?.publicUrl) {
+    console.warn(`Failed to get public URL for "${filePath}" in bucket "${bucket}". Returning default thumbnail.`);
+    return "https://ionicframework.com/docs/img/demos/thumbnail.svg";
+  }
 
   return data.publicUrl;
+}
+
+
+export async function fetchFeatured() {
+  const { data, error } = await supabase
+    .from('content')
+    .select('content_id, title, author_name, category, media_items')
+    .eq('is_featured', true);
+  return { data, error };
 }

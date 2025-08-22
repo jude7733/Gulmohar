@@ -2,35 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, Button, SafeAreaView } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
-import { fetchPublicUrl } from '~/backend/database-functions';
+import { fetchContentById, fetchPublicUrl } from '~/backend/database-functions';
 import { openInBrowser, sharePdfWithNativeApp } from '~/lib/file-funtions/pdf';
 import PDFViewer from '~/components/filerender/PDFViewer';
 
 export default function ContentDetailScreen() {
-  const { data } = useLocalSearchParams<{ data: string }>();
-  const dataObj: ContentItem = data ? JSON.parse(data) : null;
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const [details, setDetails] = useState<ContentItem | null>(null);
   const [loading, setLoading] = useState(true);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
+  const [fileUrl, setFileUrl] = useState<string[] | null>(null);
 
-  const date = new Date(dataObj.created_at).toDateString();
+  const date = details && new Date(details.created_at).toDateString();
 
   useEffect(() => {
     const fetchContent = async () => {
-      if (!dataObj) return;
       setLoading(true);
-      const data: string = await fetchPublicUrl(
-        dataObj.category,
-        dataObj.media_items[0].storagePath,
-      );
-      setFileUrl(data);
+      const { data, error } = await fetchContentById(id);
+      setDetails(data);
 
-      if (!data) {
+      if (details?.media_items?.length) {
+        const urls = await Promise.all(
+          details.media_items.map(async (mediaItem) => {
+            const filePath = await fetchPublicUrl(details.category, mediaItem.storagePath);
+            return filePath;
+          })
+        );
+        setFileUrl(urls);
+      }
+
+      if (error) {
         console.log('Error', 'Failed to load content.');
         setLoading(false);
         return;
-      }
-      else {
-        console.log('File URL:', data);
       }
       setLoading(false);
     };
@@ -47,7 +50,7 @@ export default function ContentDetailScreen() {
     );
   }
 
-  if (!dataObj) {
+  if (!details) {
     return (
       <View className="flex-1 justify-center items-center bg-gray-50 dark:bg-gray-900 px-6">
         <Text className="text-xl font-semibold text-gray-900 dark:text-white">Content not found</Text>
@@ -57,15 +60,34 @@ export default function ContentDetailScreen() {
 
   const screenWidth = Dimensions.get('window').width;
 
-  // Render media items
   const renderMediaItem = (media: MediaItem, index: number) => {
-    const publicUrl = fileUrl || ''
+    if (!fileUrl) return null;
 
+    // If fileUrl is array and has more than one file, map over it
+    if (Array.isArray(fileUrl) && fileUrl.length > 1) {
+      return fileUrl.map((url, i) => (
+        <RenderSingleMediaItem key={`${index}-${i}`} media={media} publicUrl={url} />
+      ));
+    }
+
+    // Otherwise treat as single URL
+    const publicUrl = Array.isArray(fileUrl) ? fileUrl[0] : fileUrl;
+
+    return <RenderSingleMediaItem key={index} media={media} publicUrl={publicUrl} />;
+  };
+
+  // Helper single item render component
+  const RenderSingleMediaItem = ({
+    media,
+    publicUrl,
+  }: {
+    media: MediaItem;
+    publicUrl: string;
+  }) => {
     switch (media.type) {
       case 'image':
         return (
           <Image
-            key={index}
             source={{ uri: publicUrl }}
             style={{ width: screenWidth - 32, height: 250, borderRadius: 12, marginBottom: 16 }}
             resizeMode="cover"
@@ -73,26 +95,24 @@ export default function ContentDetailScreen() {
         );
       case 'pdf':
         return (
-          <View key={index} className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <View className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
             <View className="flex-row justify-between mt-2">
               <Button title="Open" onPress={() => openInBrowser(publicUrl)} />
               <Button title="Share" onPress={() => sharePdfWithNativeApp(publicUrl)} />
             </View>
-            <PDFViewer uri={publicUrl} classname='w-full overflow-hidden py-4' />
+            <PDFViewer uri={publicUrl} classname="w-full overflow-hidden py-4" />
           </View>
         );
       case 'video':
-        // Integrate video player if needed
         return (
-          <View key={index} className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <View className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
             <Text className="font-semibold text-gray-900 dark:text-white">{media.title}</Text>
             <Text className="text-sm text-blue-600 underline">{publicUrl}</Text>
           </View>
         );
       case 'audio':
-        // Integrate audio player if needed
         return (
-          <View key={index} className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+          <View className="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
             <Text className="font-semibold text-gray-900 dark:text-white">{media.title}</Text>
             <Text className="text-sm text-blue-600 underline">{publicUrl}</Text>
           </View>
@@ -107,7 +127,7 @@ export default function ContentDetailScreen() {
       <SafeAreaView style={{ flex: 1 }}>
         <Stack.Screen
           options={{
-            title: dataObj.title,
+            title: details.title,
             headerStyle: {
               backgroundColor: '#3182ce',
             },
@@ -118,13 +138,13 @@ export default function ContentDetailScreen() {
           }}
         />
         <ScrollView className="flex-1 bg-[#5cbdb9] dark:bg-gray-900 px-4 py-4">
-          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{dataObj.title}</Text>
+          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{details.title}</Text>
           <Text className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            By {dataObj.author_name} • {dataObj.department} • {date}
+            By {details.author_name} • {details.department} • {date}
           </Text>
-          <Text className="text-base text-gray-700 dark:text-gray-300 mb-6">{dataObj.body}</Text>
+          <Text className="text-base text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
 
-          {dataObj.media_items && dataObj.media_items.map(renderMediaItem)}
+          {details.media_items && details.media_items.map(renderMediaItem)}
         </ScrollView>
       </SafeAreaView>
     </>
