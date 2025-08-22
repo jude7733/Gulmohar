@@ -13,7 +13,7 @@ export default function Category() {
 
   const handleCategoryPress = (categoryName: string) => {
     router.push({
-      pathname: '/category-list/[category-detail]',
+      pathname: '/category-list/[category]',
       params: { category: categoryName }
     });
   };

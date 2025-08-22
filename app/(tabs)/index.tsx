@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView className="flex-1 py-2 bg-gray-50 dark:bg-gray-900">
+      <ScrollView className="flex-1 py-2">
         <View className="px-4 pb-4">
           <Text className="text-2xl font-bold text-gray-900 dark:text-white">
             Welcome to Gulmohar

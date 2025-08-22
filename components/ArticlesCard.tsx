@@ -25,10 +25,8 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
       if (item?.media_items?.[0]?.storagePath) {
         try {
           const defaultPath = item.media_items[0].thumbnailPath ?? item.media_items[0].storagePath;
-          console.log("Fetching public URL for:", item.category, defaultPath);
           const url = await fetchPublicUrl(item.category, defaultPath);
           setPublicUrl(url);
-          console.log("Fetched public URL:", url);
         } catch (error) {
           console.error('Error fetching public URL:', error);
         }
@@ -39,7 +37,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
 
   const handleContentPress = (id: string) => { // Added type for id
     router.push({
-      pathname: '/content/[detail]',
+      pathname: '/content/[id]',
       params: { id: id }
     });
   };
@@ -61,6 +59,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
           <Image
             source={{ uri: publicUrl || undefined }} // Use the state variable here
             style={{ width: '100%', height: 356, backgroundColor: isDarkColorScheme ? '#4b5563' : '#e5e7eb' }}
+            className="lg:h-[500px]"
             resizeMode="cover"
           />
         </CardHeader>

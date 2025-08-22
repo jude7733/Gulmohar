@@ -52,7 +52,7 @@ const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void
           </View>
         </CardHeader>
 
-        <CardContent className="pt-0">
+        <CardContent>
           {/* Thumbnail for visual content */}
           {/* {thumbnailUrl && ( */}
           {/*   <Image */}
@@ -72,7 +72,7 @@ const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void
           )}
 
           <View
-            className="bg-gray-100 dark:bg-gray-700 mb-3 px-2 py-1 max-w-[150px] rounded-md"
+            className="bg-gray-100 dark:bg-gray-700 mb-3 px-2 py-1 max-w-[120px] rounded-md"
           >
             <Text className="text-xs text-gray-600 dark:text-gray-300">
               {date}
@@ -165,12 +165,11 @@ export default function CategoryListScreen() {
     }
   }, [category]);
 
-  const handleContentPress = (item: ContentItem) => {
+  const handleContentPress = (content_id: string) => {
     router.push({
-      pathname: '/content/[detail]',
+      pathname: '/content/[id]',
       params: {
-        detail: item.content_id,
-        data: JSON.stringify(item)
+        id: content_id,
       }
     });
   };
@@ -197,7 +196,7 @@ export default function CategoryListScreen() {
         }}
       />
 
-      <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <View className="flex-1">
         {/* Header Section */}
         <View className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
           <View className="flex-row items-center mb-3">
@@ -260,7 +259,7 @@ export default function CategoryListScreen() {
               <ContentCard
                 key={item.content_id}
                 item={item}
-                onPress={() => handleContentPress(item)}
+                onPress={() => handleContentPress(item.content_id)}
               />
             ))}
           </ScrollView>

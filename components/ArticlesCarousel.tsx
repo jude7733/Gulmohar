@@ -20,8 +20,7 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
 
   const onScroll = (event: any) => {
     const slideSize = cardWidth + (cardMargin * 2);
-    const index = Math.round(event.nativeEvent.contentOffset.x / slideSize);
-    setCurrentIndex(index);
+    const index = Math.round(event.nativeEvent.contentOffset.x / slideSize); setCurrentIndex(index);
   };
 
   const goToSlide = (index: number) => {

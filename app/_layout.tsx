@@ -54,7 +54,7 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="category-list/[category-detail]"
+            name="category-list/[category]"
             options={{
               headerShown: true,
               presentation: 'modal',
@@ -62,7 +62,7 @@ export default function RootLayout() {
             }}
           />
           <Stack.Screen
-            name="content/[detail]"
+            name="content/[id]"
             options={{
               headerShown: true,
               presentation: 'modal',
