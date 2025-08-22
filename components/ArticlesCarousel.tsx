@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { FeaturedContent } from '~/lib/types';
 import { ArticleCard } from './ArticlesCard';
@@ -14,7 +14,7 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
   const { width: screenWidth } = Dimensions.get('window');
 
   const cardHorizontalMargin = 8;
-  const cardWidth = screenWidth * 0.95;
+  const cardWidth = screenWidth * (Platform.OS === 'web' ? 0.7 : 0.95);
   const cardMargin = 10;
 
 
@@ -31,6 +31,9 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
     });
     setCurrentIndex(index);
   };
+
+  const goToNext = () => goToSlide(currentIndex + 1);
+  const goToPrev = () => goToSlide(currentIndex - 1);
 
   return (
     <View className="mt-6">
@@ -64,7 +67,22 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
           paddingHorizontal: (screenWidth - cardWidth) / 2 - cardHorizontalMargin,
         }}
       />
+      {/* Arrow Buttons... */}
+      <TouchableOpacity
+        onPress={goToPrev}
+        disabled={currentIndex === 0}
+        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 transition-all ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
+      >
+        <Text className="text-white font-bold text-xl leading-none px-1">{'<'}</Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity
+        onPress={goToNext}
+        disabled={currentIndex === articles.length - 1}
+        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 transition-all ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
+      >
+        <Text className="text-white font-bold text-xl leading-none px-1">{'>'}</Text>
+      </TouchableOpacity>
       <View className="flex-row justify-center mt-4 space-x-2">
         {articles.map((_, index) => (
           <TouchableOpacity
