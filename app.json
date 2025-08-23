@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jude7733.Gulmohar"
     },
     "android": {
       "adaptiveIcon": {

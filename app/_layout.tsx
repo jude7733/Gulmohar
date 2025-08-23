@@ -1,49 +1,19 @@
 import '~/global.css';
 
-import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from '@react-navigation/native';
 import { Link, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Appearance, Platform, Text, View } from 'react-native';
-import { NAV_THEME } from '~/lib/constants';
-import { useColorScheme } from '~/lib/useColorScheme';
+import { Platform, Text, View } from 'react-native';
+import { NAV_THEME } from '~/lib/theme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
-import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useLayoutEffect } from 'react';
-
-const LIGHT_THEME: Theme = {
-  ...DefaultTheme,
-  colors: NAV_THEME.light,
-};
-const DARK_THEME: Theme = {
-  ...DarkTheme,
-  colors: NAV_THEME.dark,
-};
+import { useColorScheme } from 'nativewind';
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
-
-// --- Helper hooks for platform-specific setup ---
-const useIsomorphicLayoutEffect =
-  typeof window === 'undefined' ? useEffect : useLayoutEffect;
-
-function useSetWebBackgroundClassName() {
-  useIsomorphicLayoutEffect(() => {
-    document.documentElement.classList.add('bg-background');
-    return () => {
-      document.documentElement.classList.remove('bg-background');
-    };
-  }, []);
-}
-
-function useSetAndroidNavigationBar() {
-  useLayoutEffect(() => {
-    setAndroidNavigationBar(Appearance.getColorScheme() ?? 'dark');
-  }, []);
-}
 
 const navLinks = [
   { href: '/', title: 'Home' },
@@ -52,7 +22,7 @@ const navLinks = [
 ];
 
 function WebLayout() {
-  const { isDarkColorScheme } = useColorScheme();
+
   return (
     <SafeAreaView className="flex-1 bg-background">
       {/* --- Web Navbar --- */}
@@ -70,14 +40,8 @@ function WebLayout() {
         </View>
       </View>
 
-      <Stack
-        screenOptions={{
-          statusBarStyle: isDarkColorScheme ? 'dark' : 'light',
-        }}
-      >
-        {/* Hide the header for tab screens, as our custom navbar replaces it */}
+      <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        {/* Keep modal screens as they were */}
         <Stack.Screen
           name="category-list/[category]"
           options={{
@@ -136,18 +100,11 @@ function NativeLayout() {
 }
 
 export default function RootLayout() {
-  Platform.OS === 'web' ? useSetWebBackgroundClassName() : useSetAndroidNavigationBar();
-  const { isDarkColorScheme } = useColorScheme();
-  // TODO: fix status nav bar color on android
+  const { colorScheme } = useColorScheme();
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar
-        style={isDarkColorScheme ? 'light' : 'dark'}
-        animated
-        backgroundColor={isDarkColorScheme ? '#000' : '#FFF'}
-        translucent={false}
-      />
+    <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
+      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       {Platform.OS === 'web' ? <WebLayout /> : <NativeLayout />}
       <PortalHost />
     </ThemeProvider>

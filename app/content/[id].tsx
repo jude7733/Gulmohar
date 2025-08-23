@@ -5,6 +5,7 @@ import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchContentById, fetchPublicUrl } from '~/backend/database-functions';
 import { openInBrowser, sharePdfWithNativeApp } from '~/lib/file-funtions/pdf';
 import PDFViewer from '~/components/filerender/PDFViewer';
+import { ShareArticle } from '~/components/share-article';
 
 export default function ContentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -64,6 +65,7 @@ export default function ContentDetailScreen() {
   }
 
   const screenWidth = Dimensions.get('window').width;
+  const screenHeight = Dimensions.get('window').height;
 
   const renderMediaItem = (media: MediaItem, index: number) => {
     if (!fileUrl) return null;
@@ -82,7 +84,6 @@ export default function ContentDetailScreen() {
     return <RenderSingleMediaItem key={index} media={media} publicUrl={publicUrl} />;
   };
 
-  // Helper single item render component
   const RenderSingleMediaItem = ({
     media,
     publicUrl,
@@ -93,19 +94,19 @@ export default function ContentDetailScreen() {
     switch (media.type) {
       case 'image':
         return (
-          <Image
-            source={{ uri: publicUrl }}
-            style={{ width: screenWidth - 32, height: 250, borderRadius: 12, marginBottom: 16 }}
-            resizeMode="cover"
-          />
+          <>
+            <ShareArticle publicUrl={publicUrl} />
+            <Image
+              source={{ uri: publicUrl }}
+              style={{ width: screenWidth, height: screenHeight - 200, borderRadius: 12, marginBottom: 10 }}
+              resizeMode="contain"
+            />
+          </>
         );
       case 'pdf':
         return (
-          <View className="mb-4 p-4 rounded-lg">
-            <View className="flex-row justify-between mt-2">
-              <Button title="Open" onPress={() => openInBrowser(publicUrl)} />
-              <Button title="Share" onPress={() => sharePdfWithNativeApp(publicUrl)} />
-            </View>
+          <View className="mb-4 rounded-lg">
+            <ShareArticle publicUrl={publicUrl} />
             <PDFViewer uri={publicUrl} classname="w-full overflow-hidden py-4" />
           </View>
         );
@@ -132,22 +133,15 @@ export default function ContentDetailScreen() {
     <>
       <SafeAreaView style={{ flex: 1 }}>
         <Stack.Screen options={{
-          title: details.title,
-          headerStyle: {
-            backgroundColor: '#3182ce',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          headerShown: false
         }}
         />
-        <ScrollView className="flex-1 px-4 py-4">
-          <Text className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{details.title}</Text>
-          <Text className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        <ScrollView className="flex-1 px-2 py-8">
+          <Text className="px-4 text-3xl font-bold text-gray-900 dark:text-white mb-2">{details.title}</Text>
+          <Text className="px-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
             By {details.author_name} • {details.department} • {date}
           </Text>
-          <Text className="text-base text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
+          <Text className="text-base px-4 text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
 
           {details.media_items.map(renderMediaItem)}
         </ScrollView>

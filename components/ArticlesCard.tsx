@@ -3,9 +3,8 @@ import { Image, Pressable } from "react-native";
 import { fetchPublicUrl } from "~/backend/database-functions";
 import { FeaturedContent } from "~/lib/types";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./ui/card";
-import { useColorScheme } from "~/lib/useColorScheme";
-import { Text } from "./ui/text";
 import { useRouter } from "expo-router";
+import { useColorScheme } from "nativewind";
 
 type ArticleCardProps = {
   item: FeaturedContent;
@@ -14,14 +13,16 @@ type ArticleCardProps = {
 };
 
 export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => {
-  // State for the image URL now lives inside each card, which is correct.
   const [publicUrl, setPublicUrl] = useState<string>("");
-  const { isDarkColorScheme } = useColorScheme();
+  const [loading, setLoading] = useState<boolean>(true);
+  const { colorScheme } = useColorScheme();
+  const isDarkColorScheme = colorScheme === 'dark';
   const router = useRouter();
 
   // This useEffect fetches the image URL for this specific card when it mounts.
   useEffect(() => {
     const fetchContent = async () => {
+      setLoading(true);
       if (item?.media_items?.[0]?.storagePath) {
         try {
           const defaultPath = item.media_items[0].thumbnailPath ?? item.media_items[0].storagePath;
@@ -31,6 +32,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
           console.error('Error fetching public URL:', error);
         }
       }
+      setLoading(false);
     };
     fetchContent();
   }, [item]); // Dependency array ensures this runs if the item changes.
@@ -41,6 +43,24 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
       params: { id: id }
     });
   };
+
+  if (loading) {
+    return (
+      <Card
+        style={{
+          backgroundColor: isActive ? (isDarkColorScheme ? '#1f2937' : '#fff') : (isDarkColorScheme ? '#374151' : '#f9fafb'),
+          borderRadius: 12,
+          overflow: 'hidden',
+          shadowColor: '#000',
+          shadowOpacity: 0.1,
+          shadowRadius: 12,
+          elevation: 5,
+        }}
+      >
+      </Card>
+
+    )
+  }
 
   return (
     <Pressable onPress={() => handleContentPress(item.content_id)} style={{ width: cardWidth, marginHorizontal: 8 }}>
@@ -73,19 +93,6 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
           <CardDescription numberOfLines={2} style={{ fontSize: 14, color: isDarkColorScheme ? '#d1d5db' : '#4b5563' }}>
             {item.title}
           </CardDescription>
-        </CardContent>
-        <CardContent style={{ paddingHorizontal: 16, paddingBottom: 16 }}>
-          <Pressable
-            // Note: You probably intended to pass the content_id here, not the whole item object.
-            onPress={() => handleContentPress(item.content_id)}
-            style={{
-              backgroundColor: '#3b82f6',
-              paddingVertical: 10,
-              borderRadius: 8,
-            }}
-          >
-            <Text style={{ color: '#fff', textAlign: 'center', fontWeight: '600' }}>Read Full Article</Text>
-          </Pressable>
         </CardContent>
       </Card>
     </Pressable>

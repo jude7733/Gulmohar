@@ -13,8 +13,8 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ uri, classname, width, height }) 
   const { width: deviceWidth, height: deviceHeight } = useWindowDimensions();
 
   // Use props if passed; subtract margins after fallback to device dimensions
-  const pdfWidth: number = (width ?? deviceWidth) - 32;
-  const pdfHeight: number = (height ?? deviceHeight) - 250;
+  const pdfWidth: number = (width ?? deviceWidth);
+  const pdfHeight: number = (height ?? deviceHeight) - 270;
 
   if (!uri) return null;
 

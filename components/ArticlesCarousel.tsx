@@ -83,7 +83,7 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'>'}</Text>
       </TouchableOpacity>
-      <View className="flex-row justify-center mt-4 space-x-2">
+      <View className="flex-row justify-center mt-2 space-x-2">
         {articles.map((_, index) => (
           <TouchableOpacity
             key={index}

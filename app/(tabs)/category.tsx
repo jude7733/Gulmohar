@@ -1,14 +1,13 @@
 import { Image, FlatList, Text, Pressable } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
-import { useColorScheme } from '~/lib/useColorScheme';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { categories } from '~/lib/constants';
 import { useRouter } from 'expo-router';
+import { useColorScheme } from 'nativewind';
 
 export default function Category() {
-  const { isDarkColorScheme } = useColorScheme();
-  const tint = isDarkColorScheme ? 'dark' : 'light';
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
 
   const handleCategoryPress = (categoryName: string) => {
@@ -35,7 +34,7 @@ export default function Category() {
           keyExtractor={item => item.category}
           contentContainerStyle={{ padding: 16, margin: 2 }}
           renderItem={({ item }) => (
-            <BlurView tint={tint} intensity={100} className='md:flex-1 justify-center items-center m-2 lg:mx-80 rounded-md'>
+            <BlurView tint={colorScheme} intensity={100} className='md:flex-1 justify-center items-center m-2 lg:mx-80 rounded-md'>
               <Pressable
                 onPress={() => handleCategoryPress(item.category)}
                 className="w-full max-w-3xl"
