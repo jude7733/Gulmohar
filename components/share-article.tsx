@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Button } from "./ui/button";
 import { openInBrowser, sharePdfWithNativeApp } from "~/lib/file-funtions/pdf";
 import { Icon } from "./ui/icon";
-import { ExternalLink, Share } from "lucide-react-native";
+import { ExternalLink, Share2 } from "lucide-react-native";
 
 export function ShareArticle({ publicUrl }: { publicUrl: string }) {
   if (!publicUrl) return null;
@@ -12,7 +12,7 @@ export function ShareArticle({ publicUrl }: { publicUrl: string }) {
         <Icon as={ExternalLink} />
       </Button>
       <Button variant="secondary" size="icon" onPress={() => sharePdfWithNativeApp(publicUrl)}>
-        <Icon as={Share} />
+        <Icon as={Share2} />
       </Button>
     </View>
   )
