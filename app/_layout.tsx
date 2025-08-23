@@ -56,13 +56,13 @@ function WebLayout() {
   return (
     <SafeAreaView className="flex-1 bg-background">
       {/* --- Web Navbar --- */}
-      <View className="flex-row items-center justify-between p-4 border-b border-border bg-card">
+      <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary border-border">
         <Link href="/">
           <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
         </Link>
         <View className="flex-row items-center gap-6">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="text-foreground hover:text-primary">
+            <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-xl">
               <Text>{link.title}</Text>
             </Link>
           ))}

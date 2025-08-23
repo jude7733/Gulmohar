@@ -10,3 +10,20 @@ A starting point to help you set up your project quickly and use the common comp
   - Persistent mode
 - Common components
   - ThemeToggle, Avatar, Button, Card, Progress, Text, Tooltip
+
+## Build
+
+### Web
+
+```
+npx expo export --platform web
+
+eas deploy
+```
+
+### Android
+
+```
+# Use replace profile with your own
+ eas build --profile development --platform android --local
+```

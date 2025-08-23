@@ -14,17 +14,12 @@ interface PDFViewerProps {
 const PDFViewer: React.FC<PDFViewerProps> = ({
   uri,
   className = '',
-  width = '100%',
-  height = '100%'
 }) => {
-  // If no URI is provided, we render nothing.
   if (!uri) {
     console.warn("PDFViewer: No URI provided.");
     return null;
   }
 
-  // Define the style for the iframe container.
-  // This makes the iframe responsive and fit within its parent container.
   const containerStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
@@ -33,12 +28,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
     alignItems: 'center',
   };
 
-  // Define the style for the iframe itself.
   // It takes the width and height props, defaulting to 100%.
   const iframeStyle: React.CSSProperties = {
-    width: width,
-    height: height,
-    border: 'none', // Remove the default border from iframes
+    width: '100vw',
+    height: '100vh',
+    border: 'none',
   };
 
   return (
