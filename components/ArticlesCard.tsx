@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Image, Pressable } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import { fetchPublicUrl } from "~/backend/database-functions";
 import { FeaturedContent } from "~/lib/types";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
+import { Skeleton } from "./ui/skeleton";
 
 type ArticleCardProps = {
   item: FeaturedContent;
@@ -19,7 +20,6 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
   const isDarkColorScheme = colorScheme === 'dark';
   const router = useRouter();
 
-  // This useEffect fetches the image URL for this specific card when it mounts.
   useEffect(() => {
     const fetchContent = async () => {
       setLoading(true);
@@ -35,7 +35,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
       setLoading(false);
     };
     fetchContent();
-  }, [item]); // Dependency array ensures this runs if the item changes.
+  }, [item]);
 
   const handleContentPress = (id: string) => { // Added type for id
     router.push({
@@ -46,19 +46,13 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
 
   if (loading) {
     return (
-      <Card
-        style={{
-          backgroundColor: isActive ? (isDarkColorScheme ? '#1f2937' : '#fff') : (isDarkColorScheme ? '#374151' : '#f9fafb'),
-          borderRadius: 12,
-          overflow: 'hidden',
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowRadius: 12,
-          elevation: 5,
-        }}
-      >
-      </Card>
-
+      <View className="flex flex-row items-center gap-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <View className="gap-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </View>
+      </View>
     )
   }
 

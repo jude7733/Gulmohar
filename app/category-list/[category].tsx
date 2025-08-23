@@ -5,107 +5,15 @@ import {
   Pressable,
   ActivityIndicator,
   Alert,
+  FlatList,
+  Image,
 } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { Card, CardContent, CardHeader } from '~/components/ui/card';
 import { fetchContentByCategory } from '~/backend/database-functions';
 import { Category, ContentItem } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { getCategoryInfo } from '~/lib/constants';
-
-
-const ContentCard = ({ item, onPress }: { item: ContentItem; onPress: () => void }) => {
-  const date = new Date(item.created_at).toDateString();
-
-  return (
-    <Pressable onPress={onPress} className="mb-4">
-      <Card className="bg-blue-100/50 dark:bg-card/50 border border-gray-700 dark:border-gray-200 shadow-sm">
-        <CardHeader className="pb-3">
-          <View className="flex-row items-start justify-between">
-            <View className="flex-1 pr-3">
-              <Text className="text-lg font-semibold text-gray-900 dark:text-white leading-6 mb-1">
-                {item.title}
-              </Text>
-              <View className="flex-row items-center mb-2">
-                <Text className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  by {item.author_name}
-                </Text>
-                {item.department && (
-                  <>
-                    <Text className="text-sm text-gray-500 dark:text-gray-400 mx-2">•</Text>
-                    <Text className="text-sm text-gray-600 dark:text-gray-400">
-                      {item.department}
-                    </Text>
-                  </>
-                )}
-              </View>
-            </View>
-            <View className="items-center">
-              {item.is_featured && (
-                <View className="bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded-full">
-                  <Text className="text-xs font-medium text-yellow-800 dark:text-yellow-200">
-                    Featured
-                  </Text>
-                </View>
-              )}
-            </View>
-          </View>
-        </CardHeader>
-
-        <CardContent>
-          {/* Thumbnail for visual content */}
-          {/* {thumbnailUrl && ( */}
-          {/*   <Image */}
-          {/*     source={{ uri: thumbnailUrl }} */}
-          {/*     className="w-full h-48 rounded-lg mb-3" */}
-          {/*     style={{ resizeMode: 'cover' }} */}
-          {/*   /> */}
-          {/* )} */}
-
-          {item.body && (
-            <Text
-              className="text-sm text-gray-600 dark:text-gray-300 leading-5 mb-3"
-              numberOfLines={2}
-            >
-              {item.body}
-            </Text>
-          )}
-
-          <View
-            className="bg-gray-100 dark:bg-gray-700 mb-3 px-2 py-1 max-w-[120px] rounded-md"
-          >
-            <Text className="text-xs text-gray-600 dark:text-gray-300">
-              {date}
-            </Text>
-          </View>
-
-          {/* Tags */}
-          {item.tags && item.tags.length > 0 && (
-            <View className="flex-row flex-wrap gap-1">
-              {item.tags.slice(0, 3).map((tag, index) => (
-                <View
-                  key={index}
-                  className="bg-blue-50 dark:bg-blue-900 px-2 py-1 rounded-full"
-                >
-                  <Text className="text-xs text-blue-700 dark:text-blue-300">
-                    #{tag}
-                  </Text>
-                </View>
-              ))}
-              {item.tags.length > 3 && (
-                <View className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
-                  <Text className="text-xs text-gray-600 dark:text-gray-400">
-                    +{item.tags.length - 3} more
-                  </Text>
-                </View>
-              )}
-            </View>
-          )}
-        </CardContent>
-      </Card>
-    </Pressable>
-  );
-};
+import { CategoryContentCard } from '~/components/Category-content-card';
 
 export default function CategoryListScreen() {
   const params = useLocalSearchParams();
@@ -117,7 +25,6 @@ export default function CategoryListScreen() {
 
   const categoryInfo = getCategoryInfo(category);
 
-  // Fetch content using your function
   const fetchContent = async () => {
     try {
       setLoading(true);
@@ -196,6 +103,14 @@ export default function CategoryListScreen() {
         }}
       />
 
+      <Image
+        source={require('../../assets/images/icon.png')}
+        className='absolute w-[400px] h-[400px] mt-[-200px] ml-[-200px] md:w-[600px] md:h-[600px] md:mt-[-500px] md:ml-[-500px]'
+        style={{
+          left: '50%',
+          top: '50%',
+        }}
+      />
       <View className="flex-1">
         {/* Header Section */}
         <View className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
@@ -212,27 +127,27 @@ export default function CategoryListScreen() {
           </View>
 
           {/* Sort Options */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View className="flex-row gap-2">
-              {sortOptions.map((option) => (
-                <Pressable
-                  key={option.key}
-                  onPress={() => setSortBy(option.key as any)}
-                  className={`px-4 py-2 rounded-full border ${sortBy === option.key
-                    ? 'bg-blue-500 border-blue-500'
-                    : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'
-                    }`}
-                >
-                  <Text className={`text-sm font-medium ${sortBy === option.key
-                    ? 'text-white'
-                    : 'text-gray-700 dark:text-gray-300'
-                    }`}>
-                    {option.label}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
-          </ScrollView>
+          {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+          {/*   <View className="flex-row gap-2"> */}
+          {/*     {sortOptions.map((option) => ( */}
+          {/*       <Pressable */}
+          {/*         key={option.key} */}
+          {/*         onPress={() => setSortBy(option.key as any)} */}
+          {/*         className={`px-4 py-2 rounded-full border ${sortBy === option.key */}
+          {/*           ? 'bg-blue-500 border-blue-500' */}
+          {/*           : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600' */}
+          {/*           }`} */}
+          {/*       > */}
+          {/*         <Text className={`text-sm font-medium ${sortBy === option.key */}
+          {/*           ? 'text-white' */}
+          {/*           : 'text-gray-700 dark:text-gray-300' */}
+          {/*           }`}> */}
+          {/*           {option.label} */}
+          {/*         </Text> */}
+          {/*       </Pressable> */}
+          {/*     ))} */}
+          {/*   </View> */}
+          {/* </ScrollView> */}
         </View>
 
         {/* Content List */}
@@ -254,15 +169,18 @@ export default function CategoryListScreen() {
             </Text>
           </View>
         ) : (
-          <ScrollView className="flex-1 px-4 py-4">
-            {content.map((item) => (
-              <ContentCard
+          <FlatList
+            data={content}
+            keyExtractor={item => item.content_id}
+            contentContainerStyle={{ padding: 16, margin: 2 }}
+            renderItem={({ item }) => (
+              <CategoryContentCard
                 key={item.content_id}
                 item={item}
-                onPress={() => handleContentPress(item.content_id)}
+                onPress={handleContentPress}
               />
-            ))}
-          </ScrollView>
+            )}
+          />
         )}
       </View>
     </>
