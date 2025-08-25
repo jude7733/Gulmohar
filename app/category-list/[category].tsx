@@ -1,8 +1,6 @@
 import {
   View,
-  ScrollView,
   Text,
-  Pressable,
   ActivityIndicator,
   Alert,
   FlatList,
@@ -92,14 +90,7 @@ export default function CategoryListScreen() {
     <>
       <Stack.Screen
         options={{
-          title: category || 'Category',
-          headerStyle: {
-            backgroundColor: categoryInfo.color,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          headerShown: false,
         }}
       />
 

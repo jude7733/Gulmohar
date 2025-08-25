@@ -1,17 +1,36 @@
-import { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { View, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { FeaturedContent } from '~/lib/types';
 import { ArticleCard } from './ArticlesCard';
+import { fetchFeatured } from '~/backend/database-functions';
+import { useRouter } from 'expo-router';
+import { Button } from './ui/button';
+import { Text } from './ui/text';
 
-type ArticlesCarouselProps = {
-  articles: FeaturedContent[];
-}
-
-export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
+export const ArticlesCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [featuredList, setFeaturedList] = useState<FeaturedContent[]>([]);
   const flatListRef = useRef<FlatList>(null);
   const { width: screenWidth } = Dimensions.get('window');
+  const router = useRouter()
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const { data } = await fetchFeatured()
+        setFeaturedList(data || []);
+      }
+      catch (error) {
+        console.error('Error fetching featured content:', error);
+      }
+    }
+    fetchContent()
+  }, []);
+
+  const handleViewAll = () => {
+    router.push('/category');
+  }
 
   const cardHorizontalMargin = 8;
   const cardWidth = screenWidth * (Platform.OS === 'web' ? 0.7 : 0.95);
@@ -42,13 +61,15 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
           Latest Articles
         </Text>
         <TouchableOpacity>
-          <Text className="text-blue-500 font-medium">View All</Text>
+          <Button size="sm" variant="link" onPress={handleViewAll}>
+            <Text>View All</Text>
+          </Button>
         </TouchableOpacity>
       </View>
 
       <FlatList
         ref={flatListRef}
-        data={articles}
+        data={featuredList}
         renderItem={({ item, index }) => (
           <ArticleCard
             item={item} isActive={index === currentIndex}
@@ -71,20 +92,20 @@ export const ArticlesCarousel = ({ articles }: ArticlesCarouselProps) => {
       <TouchableOpacity
         onPress={goToPrev}
         disabled={currentIndex === 0}
-        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
+        className={`hidden md:absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'<'}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={goToNext}
-        disabled={currentIndex === articles.length - 1}
-        className={`absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
+        disabled={currentIndex === featuredList.length - 1}
+        className={`hidden md:absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'>'}</Text>
       </TouchableOpacity>
-      <View className="flex-row justify-center mt-2 space-x-2">
-        {articles.map((_, index) => (
+      <View className="flex-row justify-center space-x-2">
+        {featuredList.map((_, index) => (
           <TouchableOpacity
             key={index}
             onPress={() => goToSlide(index)}

@@ -21,7 +21,6 @@ export default function ContentDetailScreen() {
       const { data, error } = await fetchContentById(id);
       setDetails(data);
 
-      console.log('Inspecting data object:', JSON.stringify(data, null, 2));
       if (data?.media_items?.length) {
         const urls = await Promise.all(
           data.media_items.map(async (mediaItem: MediaItem) => {
@@ -30,7 +29,6 @@ export default function ContentDetailScreen() {
           })
         );
         setFileUrl(urls);
-        console.log('File URLs:', urls);
       } else {
         setFileUrl(null);
         console.log('No media items found for this content.');

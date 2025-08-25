@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/com
 import { categories } from '~/lib/constants';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from 'nativewind';
+import { Button } from '~/components/ui/button';
 
 export default function Category() {
   const { colorScheme } = useColorScheme();
@@ -28,7 +29,6 @@ export default function Category() {
             top: '50%',
           }}
         />
-        <Text className='text-foreground text-3xl text-center p-4 bg-secondary/40'>Categories</Text>
         <FlatList
           data={categories}
           keyExtractor={item => item.category}
@@ -60,9 +60,11 @@ export default function Category() {
                         {subitem}
                       </CardDescription>
                     ))}
-                    <Text className="text-sm text-muted-foreground mt-2">
-                      Tap to view all {item.category} content →
-                    </Text>
+                    <Button variant="link" className="p-0 mt-2">
+                      <Text className="text-sm text-muted-foreground">
+                        Tap to view all {item.category} content →
+                      </Text>
+                    </Button>
                   </CardContent>
                 </Card>
               </Pressable>

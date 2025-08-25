@@ -46,12 +46,8 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
 
   if (loading) {
     return (
-      <View className="flex flex-row items-center gap-4">
-        <Skeleton className="h-12 w-12 rounded-full" />
-        <View className="gap-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
-        </View>
+      <View className="flex-1">
+        <Skeleton className="h-96 w-full rounded-md" />
       </View>
     )
   }
@@ -60,7 +56,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
     <Pressable onPress={() => handleContentPress(item.content_id)} style={{ width: cardWidth, marginHorizontal: 8 }}>
       <Card
         style={{
-          backgroundColor: isActive ? (isDarkColorScheme ? '#1f2937' : '#fff') : (isDarkColorScheme ? '#374151' : '#f9fafb'),
+          backgroundColor: isActive ? (isDarkColorScheme ? '#1e1b4b' : '#ddd6fe') : (isDarkColorScheme ? '#374151' : '#f9fafb'),
           borderRadius: 12,
           overflow: 'hidden',
           shadowColor: '#000',
@@ -71,20 +67,20 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
       >
         <CardHeader>
           <Image
-            source={{ uri: publicUrl || undefined }} // Use the state variable here
-            style={{ width: '100%', height: 356, backgroundColor: isDarkColorScheme ? '#4b5563' : '#e5e7eb' }}
+            source={{ uri: publicUrl || undefined }}
+            style={{ width: '100%', height: 356 }}
             className="lg:h-[500px]"
             resizeMode="cover"
           />
         </CardHeader>
         <CardContent style={{ padding: 16 }}>
-          <CardTitle numberOfLines={2} style={{ fontSize: 20, fontWeight: 'bold', color: isDarkColorScheme ? '#fff' : '#111827', marginBottom: 8 }}>
+          <CardTitle numberOfLines={2} style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>
             {item.title}
           </CardTitle>
-          <CardDescription style={{ fontSize: 14, color: isDarkColorScheme ? '#9ca3af' : '#6b7280', marginBottom: 6 }}>
+          <CardDescription style={{ fontSize: 14, marginBottom: 6 }}>
             By {item.author_name}
           </CardDescription>
-          <CardDescription numberOfLines={2} style={{ fontSize: 14, color: isDarkColorScheme ? '#d1d5db' : '#4b5563' }}>
+          <CardDescription numberOfLines={2} style={{ fontSize: 14 }}>
             {item.title}
           </CardDescription>
         </CardContent>
