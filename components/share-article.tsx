@@ -5,13 +5,14 @@ import { Icon } from "./ui/icon";
 import { ExternalLink, Share2 } from "lucide-react-native";
 
 export function ShareArticle({ publicUrl }: { publicUrl: string }) {
+  // TODO: enhance share (with content title etc)
   if (!publicUrl) return null;
   return (
-    <View className="flex-row justify-end gap-2 md:hidden">
-      <Button variant="secondary" size="icon" onPress={() => openInBrowser(publicUrl)}>
+    <View className="flex-row justify-end gap-2">
+      <Button size="icon" onPress={() => openInBrowser(publicUrl)}>
         <Icon as={ExternalLink} />
       </Button>
-      <Button variant="secondary" size="icon" onPress={() => sharePdfWithNativeApp(publicUrl)}>
+      <Button size="icon" className="md:hidden" onPress={() => sharePdfWithNativeApp(publicUrl)}>
         <Icon as={Share2} />
       </Button>
     </View>

@@ -6,9 +6,9 @@ import NewsUpdates from '~/components/news';
 export default function Home() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView className="flex-1 pb-2 gap-4">
-        <View className="px-4 lg:px-96 py-4 bg-secondary">
-          <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+      <ScrollView className="flex-1 pb-2 gap-4 bg-background">
+        <View className="px-4 lg:px-96 py-4 md:mt-20">
+          <Text className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
             Welcome enthusiast!
           </Text>
           <Text className="text-gray-600 dark:text-gray-400 mt-2">

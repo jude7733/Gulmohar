@@ -90,7 +90,19 @@ export default function CategoryListScreen() {
     <>
       <Stack.Screen
         options={{
-          headerShown: false,
+          header: () => (
+            <View className="flex-row items-center px-4 py-2 bg-white dark:bg-gray-900">
+              <Text className="text-3xl mr-3">{categoryInfo.icon}</Text>
+              <View className="flex-1">
+                <Text className="text-xl font-bold text-gray-900 dark:text-white">
+                  {category}
+                </Text>
+                <Text className="text-sm text-gray-600 dark:text-gray-400">
+                  {content.length} items
+                </Text>
+              </View>
+            </View>
+          ),
         }}
       />
 
@@ -104,42 +116,30 @@ export default function CategoryListScreen() {
       />
       <View className="flex-1">
         {/* Header Section */}
-        <View className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700">
-          <View className="flex-row items-center mb-3">
-            <Text className="text-3xl mr-3">{categoryInfo.icon}</Text>
-            <View className="flex-1">
-              <Text className="text-xl font-bold text-gray-900 dark:text-white">
-                {category}
-              </Text>
-              <Text className="text-sm text-gray-600 dark:text-gray-400">
-                {content.length} items
-              </Text>
-            </View>
-          </View>
-
-          {/* Sort Options */}
-          {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
-          {/*   <View className="flex-row gap-2"> */}
-          {/*     {sortOptions.map((option) => ( */}
-          {/*       <Pressable */}
-          {/*         key={option.key} */}
-          {/*         onPress={() => setSortBy(option.key as any)} */}
-          {/*         className={`px-4 py-2 rounded-full border ${sortBy === option.key */}
-          {/*           ? 'bg-blue-500 border-blue-500' */}
-          {/*           : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600' */}
-          {/*           }`} */}
-          {/*       > */}
-          {/*         <Text className={`text-sm font-medium ${sortBy === option.key */}
-          {/*           ? 'text-white' */}
-          {/*           : 'text-gray-700 dark:text-gray-300' */}
-          {/*           }`}> */}
-          {/*           {option.label} */}
-          {/*         </Text> */}
-          {/*       </Pressable> */}
-          {/*     ))} */}
-          {/*   </View> */}
-          {/* </ScrollView> */}
-        </View>
+        {/* <View className="bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700"> */}
+        {/* Sort Options */}
+        {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}> */}
+        {/*   <View className="flex-row gap-2"> */}
+        {/*     {sortOptions.map((option) => ( */}
+        {/*       <Pressable */}
+        {/*         key={option.key} */}
+        {/*         onPress={() => setSortBy(option.key as any)} */}
+        {/*         className={`px-4 py-2 rounded-full border ${sortBy === option.key */}
+        {/*           ? 'bg-blue-500 border-blue-500' */}
+        {/*           : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600' */}
+        {/*           }`} */}
+        {/*       > */}
+        {/*         <Text className={`text-sm font-medium ${sortBy === option.key */}
+        {/*           ? 'text-white' */}
+        {/*           : 'text-gray-700 dark:text-gray-300' */}
+        {/*           }`}> */}
+        {/*           {option.label} */}
+        {/*         </Text> */}
+        {/*       </Pressable> */}
+        {/*     ))} */}
+        {/*   </View> */}
+        {/* </ScrollView> */}
+        {/* </View> */}
 
         {/* Content List */}
         {loading ? (

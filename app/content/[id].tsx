@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, Button, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, SafeAreaView } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchContentById, fetchPublicUrl } from '~/backend/database-functions';
-import { openInBrowser, sharePdfWithNativeApp } from '~/lib/file-funtions/pdf';
 import PDFViewer from '~/components/filerender/PDFViewer';
 import { ShareArticle } from '~/components/share-article';
 
@@ -77,7 +76,6 @@ export default function ContentDetailScreen() {
 
     // Otherwise treat as single URL
     const publicUrl = Array.isArray(fileUrl) ? fileUrl[0] : fileUrl;
-    console.log('Rendering media item:', media, 'with URL:', publicUrl);
 
     return <RenderSingleMediaItem key={index} media={media} publicUrl={publicUrl} />;
   };
@@ -96,7 +94,7 @@ export default function ContentDetailScreen() {
             <ShareArticle publicUrl={publicUrl} />
             <Image
               source={{ uri: publicUrl }}
-              style={{ width: screenWidth, height: screenHeight - 200, borderRadius: 12, marginBottom: 10 }}
+              style={{ width: screenWidth, height: screenHeight - 240, borderRadius: 12, marginBottom: 4 }}
               resizeMode="contain"
             />
           </>
@@ -105,7 +103,7 @@ export default function ContentDetailScreen() {
         return (
           <View className="mb-4 rounded-lg">
             <ShareArticle publicUrl={publicUrl} />
-            <PDFViewer uri={publicUrl} classname="w-full overflow-hidden py-4" />
+            <PDFViewer uri={publicUrl} classname="w-full" />
           </View>
         );
       case 'video':
@@ -129,21 +127,19 @@ export default function ContentDetailScreen() {
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Stack.Screen options={{
-          headerShown: false
-        }}
-        />
-        <ScrollView className="flex-1 px-2 py-8">
-          <Text className="px-4 text-3xl font-bold text-gray-900 dark:text-white mb-2">{details.title}</Text>
-          <Text className="px-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
-            By {details.author_name} • {details.department} • {date}
-          </Text>
-          <Text className="text-base px-4 text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
+      <Stack.Screen options={{
+        headerShown: false
+      }}
+      />
+      <ScrollView className="flex-1 px-2 py-8 bg-secondary">
+        <Text className="px-4 text-3xl font-bold text-gray-900 dark:text-white mb-2">{details.title}</Text>
+        <Text className="px-4 text-sm text-gray-600 dark:text-gray-400 mb-4">
+          By {details.author_name} • {details.department} • {date}
+        </Text>
+        <Text className="text-base px-4 text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
 
-          {details.media_items.map(renderMediaItem)}
-        </ScrollView>
-      </SafeAreaView>
+        {details.media_items.map(renderMediaItem)}
+      </ScrollView>
     </>
   );
 }

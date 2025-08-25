@@ -47,7 +47,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
   if (loading) {
     return (
       <View className="flex-1">
-        <Skeleton className="h-96 w-full rounded-md" />
+        <Skeleton className="h-[500px] w-full rounded-md" />
       </View>
     )
   }
@@ -69,19 +69,16 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
           <Image
             source={{ uri: publicUrl || undefined }}
             style={{ width: '100%', height: 356 }}
-            className="lg:h-[500px]"
+            className="lg:h-[700px]"
             resizeMode="cover"
           />
         </CardHeader>
-        <CardContent style={{ padding: 16 }}>
+        <CardContent style={{ padding: 16 }} className="flex flex-col items-center justify-start">
           <CardTitle numberOfLines={2} style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 8 }}>
             {item.title}
           </CardTitle>
           <CardDescription style={{ fontSize: 14, marginBottom: 6 }}>
             By {item.author_name}
-          </CardDescription>
-          <CardDescription numberOfLines={2} style={{ fontSize: 14 }}>
-            {item.title}
           </CardDescription>
         </CardContent>
       </Card>

@@ -32,7 +32,7 @@ function WebLayout() {
         </Link>
         <View className="flex-row items-center gap-6">
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-xl">
+            <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-sm md:text-xl">
               <Text>{link.title}</Text>
             </Link>
           ))}

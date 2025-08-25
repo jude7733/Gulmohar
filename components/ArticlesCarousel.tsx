@@ -55,8 +55,8 @@ export const ArticlesCarousel = () => {
   const goToPrev = () => goToSlide(currentIndex - 1);
 
   return (
-    <View className="mt-6">
-      <View className="flex-row justify-between items-center px-4 mb-4">
+    <View className="mt-6 bg-secondary py-8 md:py-14">
+      <View className="flex-row justify-between md:justify-evenly items-center px-4 mb-4">
         <Text className="text-2xl font-bold text-gray-900 dark:text-white">
           Latest Articles
         </Text>
@@ -92,7 +92,7 @@ export const ArticlesCarousel = () => {
       <TouchableOpacity
         onPress={goToPrev}
         disabled={currentIndex === 0}
-        className={`hidden md:absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
+        className={`hidden md:block absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'left-20' : 'left-5'}`}
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'<'}</Text>
       </TouchableOpacity>
@@ -100,11 +100,11 @@ export const ArticlesCarousel = () => {
       <TouchableOpacity
         onPress={goToNext}
         disabled={currentIndex === featuredList.length - 1}
-        className={`hidden md:absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
+        className={`hidden md:block absolute top-1/2 -translate-y-1/2 z-10 bg-black/40 rounded-full p-2 shadow-lg disabled:opacity-20 ${Platform.OS === 'web' ? 'right-20' : 'right-5'}`}
       >
         <Text className="text-white font-bold text-xl leading-none px-1">{'>'}</Text>
       </TouchableOpacity>
-      <View className="flex-row justify-center space-x-2">
+      <View className="flex-row justify-center mt-2 space-x-2">
         {featuredList.map((_, index) => (
           <TouchableOpacity
             key={index}

@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter }
 import { ArrowUpRight } from "lucide-react-native";
 import { Text } from "./ui/text";
 import { Button } from "./ui/button";
+import { Skeleton } from "./ui/skeleton";
 
 function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
   const AnimatedCard = Animated.createAnimatedComponent(View);
@@ -25,7 +26,7 @@ function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
         marginBottom: 16,
       }}
     >
-      <Pressable onPress={handlePress} style={{ width: "96%" }}>
+      <Pressable onPress={handlePress} style={{ width: "96%" }} className="max-w-3xl">
         <Card className="rounded-lg border border-border shadow-md shadow-primary">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle numberOfLines={2}>{item.title}</CardTitle>
@@ -47,7 +48,6 @@ function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
 export default function NewsUpdates() {
   const [loading, setLoading] = useState(true);
   const [updates, setUpdates] = useState<UpdateItem[]>([]);
-  // TODO: implement Loading
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -61,22 +61,40 @@ export default function NewsUpdates() {
     };
     fetchContent();
   }, []);
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <FlatList
+          data={[1, 2, 3, 4]}
+          keyExtractor={(item) => item.toString()}
+          renderItem={() => (
+            <View className="w-full mb-4">
+              <Skeleton className="h-40 w-full rounded-md" />
+            </View>
+          )}
+          contentContainerStyle={{ padding: 16 }}
+        />
+      </View>
+    );
+
+  }
 
   return (
-    <View>
+    <View className="mt-6 max-w-5xl flex flex-1 self-center w-full">
       <Text className="text-2xl font-bold mt-10 text-gray-900 dark:text-white px-4 mb-4">
         News & Updates
       </Text>
-      <FlatList
-        data={updates}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item, index }) => (
-          <UpdatesCard item={item} index={index} />
-        )}
-        contentContainerStyle={{ padding: 16 }}
-        nestedScrollEnabled
-        className="h-[500px]"
-      />
+      <View className="h-[600px]">
+        <FlatList
+          data={updates}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item, index }) => (
+            <UpdatesCard item={item} index={index} />
+          )}
+          contentContainerStyle={{ padding: 16 }}
+          nestedScrollEnabled
+        />
+      </View>
     </View>
   );
 }
