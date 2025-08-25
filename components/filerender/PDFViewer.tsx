@@ -26,18 +26,6 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ uri, classname, width, height }) 
         page={1}
         horizontal
         maxScale={6.0}
-        onLoadComplete={(numberOfPages, filePath) => {
-          console.log(`Number of pages: ${numberOfPages}`);
-        }}
-        onPageChanged={(page, numberOfPages) => {
-          console.log(`Current page: ${page}`);
-        }}
-        onError={(error) => {
-          console.log(error);
-        }}
-        onPressLink={(uri) => {
-          console.log(`Link pressed: ${uri}`);
-        }}
         style={{ flex: 1, width: pdfWidth, height: pdfHeight }}
       />
     </View>

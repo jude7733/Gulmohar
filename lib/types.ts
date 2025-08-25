@@ -40,3 +40,10 @@ export type FeaturedContent = {
   category: Category;
   media_items: MediaItem[];
 }
+
+export type UpdateItem = {
+  id: string;
+  title: string;
+  desc: string;
+  link: string;
+}

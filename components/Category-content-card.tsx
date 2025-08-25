@@ -12,8 +12,6 @@ export const CategoryContentCard = ({ item, onPress }: { item: ContentItem; onPr
   const [publicUrl, setPublicUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const date = new Date(item.created_at).toDateString();
-  const thumbnail = item.media_items[0].thumbnailPath ?? item.media_items[0].storagePath;
-  console.log('Thumbnail URL:', thumbnail);
   const { colorScheme } = useColorScheme();
 
   useEffect(() => {

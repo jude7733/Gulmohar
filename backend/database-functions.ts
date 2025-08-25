@@ -54,3 +54,10 @@ export async function fetchFeatured() {
     .eq('is_featured', true);
   return { data, error };
 }
+
+export async function fetchUpdates() {
+  const { data, error } = await supabase
+    .from('updates')
+    .select('*')
+  return { data, error };
+}

@@ -1,35 +1,82 @@
-import { Text, View } from "react-native"
+import { useEffect, useState } from "react";
+import { FlatList, Pressable, Linking, View } from "react-native";
+import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
+import { fetchUpdates } from "~/backend/database-functions";
+import { UpdateItem } from "~/lib/types";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "./ui/card";
+import { ArrowUpRight } from "lucide-react-native";
+import { Text } from "./ui/text";
+import { Button } from "./ui/button";
 
-export function NewsComponent() {
+function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
+  const AnimatedCard = Animated.createAnimatedComponent(View);
+
+  const animation = index % 2 === 0 ? FadeInLeft : FadeInRight;
+  const cardAlign = index % 2 === 0 ? "flex-start" : "flex-end";
+
+  const handlePress = () => {
+    Linking.openURL(item.link);
+  };
   return (
-    <View className="px-6 py-4 my-6 bg-white dark:bg-gray-900 rounded-lg shadow-md mx-4">
-      <Text className="text-3xl font-semibold text-gray-700 dark:text-gray-300 text-center mb-6">
-        Updates and News
+    <AnimatedCard
+      entering={animation.duration(550)}
+      style={{
+        alignItems: cardAlign,
+        marginBottom: 16,
+      }}
+    >
+      <Pressable onPress={handlePress} style={{ width: "96%" }}>
+        <Card className="rounded-lg border border-border shadow-md shadow-primary">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle numberOfLines={2}>{item.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>{item.desc}</CardDescription>
+          </CardContent>
+          <CardFooter className="flex justify-end">
+            <Button size="icon">
+              <ArrowUpRight size={18} />
+            </Button>
+          </CardFooter>
+        </Card>
+      </Pressable>
+    </AnimatedCard>
+  );
+}
+
+export default function NewsUpdates() {
+  const [loading, setLoading] = useState(true);
+  const [updates, setUpdates] = useState<UpdateItem[]>([]);
+  // TODO: implement Loading
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      setLoading(true);
+      const { data, error } = await fetchUpdates()
+      setUpdates(data || []);
+      if (error) {
+        console.error("Error fetching updates:", error);
+      }
+      setLoading(false);
+    };
+    fetchContent();
+  }, []);
+
+  return (
+    <View>
+      <Text className="text-2xl font-bold mt-10 text-gray-900 dark:text-white px-4 mb-4">
+        News & Updates
       </Text>
-
-      <View className="bg-gray-100 dark:bg-gray-800 rounded-md p-6 space-y-6 border border-gray-200 dark:border-gray-700">
-
-        {/* News Item 1 */}
-        <View className="space-y-1">
-          <Text className="text-xl font-bold text-gray-800 dark:text-gray-200 text-center">
-            Upcoming Events
-          </Text>
-          <Text className="text-gray-600 dark:text-gray-400 text-center text-base">
-            Tech Talk on AI, Workshop on React Native - Join us to learn the latest in tech!
-          </Text>
-        </View>
-
-        {/* News Item 2 */}
-        <View className="space-y-1">
-          <Text className="text-xl font-bold text-gray-800 dark:text-gray-200 text-center">
-            New Articles
-          </Text>
-          <Text className="text-gray-600 dark:text-gray-400 text-center text-base">
-            Understanding React Native, Building Scalable Apps - Explore our expert guides and tutorials.
-          </Text>
-        </View>
-
-      </View>
+      <FlatList
+        data={updates}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item, index }) => (
+          <UpdatesCard item={item} index={index} />
+        )}
+        contentContainerStyle={{ padding: 16 }}
+        nestedScrollEnabled
+        className="h-[500px]"
+      />
     </View>
-  )
+  );
 }
