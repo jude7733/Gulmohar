@@ -9,7 +9,7 @@ export const categories: CategoryItem[] = [
   {
     category: "Print Media",
     image: "https://images.unsplash.com/photo-1616873065098-9bdc6fda9c68?auto=format&fit=crop&w=600&q=80",
-    items: ["Newspapers", "Magazines"],
+    items: ["Newspapers", "Magazines", "Digital Publications"],
   },
   {
     category: "Visual Arts",
@@ -23,7 +23,7 @@ export const categories: CategoryItem[] = [
   {
     category: "Photography",
     image: "https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?auto=format&fit=crop&w=600&q=80",
-    items: ["Documentary Photography", "Artistic Photography"],
+    items: ["Documentary Photography", "Artistic Photography", "Portraits"],
   },
   {
     category: "Media & Mixed Arts",
@@ -32,7 +32,6 @@ export const categories: CategoryItem[] = [
       "Film & Television",
       "Short Films",
       "Documentaries",
-      "TV Serials",
     ],
   },
   {
@@ -41,18 +40,19 @@ export const categories: CategoryItem[] = [
     items: [
       "Radio Plays",
       "Literary Podcasts",
+      "Interviews",
     ],
   },
-  {
-    category: "Blogs",
-    image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80",
-    items: [
-      "Tech Blogs",
-      "Travel Blogs",
-      "Lifestyle Blogs",
-      "Educational Blogs",
-    ],
-  },
+  // {
+  //   category: "Blogs",
+  //   image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80",
+  //   items: [
+  //     "Tech Blogs",
+  //     "Travel Blogs",
+  //     "Lifestyle Blogs",
+  //     "Educational Blogs",
+  //   ],
+  // },
 ];
 
 

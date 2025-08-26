@@ -12,6 +12,8 @@ import { Skeleton } from "./ui/skeleton";
 function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
   const AnimatedCard = Animated.createAnimatedComponent(View);
 
+  const date = item && new Date(item.created_at).toDateString();
+
   const animation = index % 2 === 0 ? FadeInLeft : FadeInRight;
   const cardAlign = index % 2 === 0 ? "flex-start" : "flex-end";
 
@@ -34,7 +36,8 @@ function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
           <CardContent>
             <CardDescription>{item.desc}</CardDescription>
           </CardContent>
-          <CardFooter className="flex justify-end">
+          <CardFooter className="flex justify-between">
+            <Text className="text-sm font-semibold">{date}</Text>
             <Button size="icon">
               <ArrowUpRight size={18} />
             </Button>
@@ -84,7 +87,7 @@ export default function NewsUpdates() {
       <Text className="text-2xl font-bold mt-10 text-gray-900 dark:text-white px-4 mb-4">
         News & Updates
       </Text>
-      <View className="h-[600px]">
+      <View className="h-[700px]">
         <FlatList
           data={updates}
           keyExtractor={(item) => item.id}

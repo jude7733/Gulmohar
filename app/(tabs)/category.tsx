@@ -1,4 +1,4 @@
-import { FlatList, Pressable, View, useWindowDimensions } from 'react-native';
+import { FlatList, Platform, Pressable, View, useWindowDimensions } from 'react-native';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
 import { Image } from 'expo-image';
 import { categories } from '~/lib/constants';
@@ -48,7 +48,7 @@ export default function Category() {
               accessibilityRole="button"
               android_ripple={{ color: '#c7d2fe' }}
             >
-              <Card className='w-full bg-card/90 dark:bg-card/90 md:bg-card dark:md:bg-card shadow-primary shadow-md'>
+              <Card className={`w-full bg-card/90 dark:bg-card/90 ${Platform.OS == "web" && "bg-card dark:bg-card"} shadow-primary shadow-md`}>
                 <CardHeader className='bg-secondary py-4'>
                   <CardTitle className="text-xl font-bold">{item.category}</CardTitle>
                 </CardHeader>
@@ -57,8 +57,6 @@ export default function Category() {
                   style={{
                     width: "100%",
                     height: 200,
-                    borderTopLeftRadius: 12,
-                    borderTopRightRadius: 12,
                     marginBottom: 12,
                   }}
                   contentFit='cover'

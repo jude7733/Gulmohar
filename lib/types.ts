@@ -46,4 +46,5 @@ export type UpdateItem = {
   title: string;
   desc: string;
   link: string;
+  created_at: Date;
 }

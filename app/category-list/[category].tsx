@@ -28,10 +28,8 @@ export default function CategoryListScreen() {
   const categoryInfo = getCategoryInfo(category);
 
   const isDesktop = window.width >= 768;
-
-  // Use same image as background with size based on screen
   const baseImageUrl =
-    'https://images.unsplash.com/photo-1597730945481-f35a5cf39021?ixlib=rb-4.1.0';
+    'https://images.unsplash.com/photo-1704634616614-281ace4a8bfc?ixlib=rb-4.1.0';
 
   const backgroundImageUrl = isDesktop
     ? `${baseImageUrl}&w=1920&dpr=2&fit=crop&auto=format`
