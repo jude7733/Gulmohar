@@ -14,7 +14,7 @@ export default function Home() {
       >
         <View
           className={`
-        px-4 lg:px-96 py-8 rounded-lg shadow-md 
+        px-4 lg:px-96 py-4 rounded-lg shadow-md 
         ${colorScheme === 'dark' ? 'bg-gray-900/90 from-gray-900 to-transparent' : 'bg-white/90 from-white to-transparent'}
       `}
           style={{
@@ -22,14 +22,14 @@ export default function Home() {
           }}
         >
           <Text
-            className={`text-3xl md:text-4xl font-extrabold drop-shadow-md ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
+            className={`text-2xl md:text-4xl font-extrabold drop-shadow-md ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}
           >
             Welcome enthusiast!
           </Text>
           <Text
             className={`
-          mt-3 max-w-xl tracking-wide leading-relaxed text-md md:text-xl
+          mt-3 max-w-xl text-md md:text-xl
           ${colorScheme === 'dark' ? 'text-gray-300' : 'text-gray-700'}
         `}
           >

@@ -8,11 +8,11 @@ export function ShareArticle({ publicUrl }: { publicUrl: string }) {
   // TODO: enhance share (with content title etc)
   if (!publicUrl) return null;
   return (
-    <View className="flex-row justify-end gap-2">
+    <View className="flex-row justify-end gap-2 mb-2 md:hidden">
       <Button size="icon" onPress={() => openInBrowser(publicUrl)}>
         <Icon as={ExternalLink} />
       </Button>
-      <Button size="icon" className="md:hidden" onPress={() => sharePdfWithNativeApp(publicUrl)}>
+      <Button size="icon" onPress={() => sharePdfWithNativeApp(publicUrl)}>
         <Icon as={Share2} />
       </Button>
     </View>
