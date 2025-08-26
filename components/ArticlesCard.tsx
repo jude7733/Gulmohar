@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Image, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { fetchPublicUrl } from "~/backend/database-functions";
 import { FeaturedContent } from "~/lib/types";
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { useRouter } from "expo-router";
 import { useColorScheme } from "nativewind";
+import { Image } from 'expo-image';
 import { Skeleton } from "./ui/skeleton";
 
 type ArticleCardProps = {
@@ -56,7 +57,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
     <Pressable onPress={() => handleContentPress(item.content_id)} style={{ width: cardWidth, marginHorizontal: 8 }}>
       <Card
         style={{
-          backgroundColor: isActive ? (isDarkColorScheme ? '#1e1b4b' : '#ddd6fe') : (isDarkColorScheme ? '#374151' : '#f9fafb'),
+          backgroundColor: isActive ? (isDarkColorScheme ? '#2c2a4a' : '#ddd6fe') : (isDarkColorScheme ? '#374151' : '#f9fafb'),
           borderRadius: 12,
           overflow: 'hidden',
           shadowColor: '#000',

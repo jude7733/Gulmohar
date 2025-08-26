@@ -4,14 +4,16 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
-  Image,
+  Pressable,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { fetchContentByCategory } from '~/backend/database-functions';
 import { Category, ContentItem } from '~/lib/types';
 import { useEffect, useState } from 'react';
 import { getCategoryInfo } from '~/lib/constants';
 import { CategoryContentCard } from '~/components/Category-content-card';
+import { ArrowLeft } from 'lucide-react-native';
 
 export default function CategoryListScreen() {
   const params = useLocalSearchParams();
@@ -92,6 +94,13 @@ export default function CategoryListScreen() {
         options={{
           header: () => (
             <View className="flex-row items-center px-4 py-2 bg-white dark:bg-gray-900">
+              <Pressable onPress={() => router.back()} className="mr-3 p-1">
+                <ArrowLeft
+                  size={28}
+                  color="#999"
+                  style={{ marginRight: 8 }}
+                />
+              </Pressable>
               <Text className="text-3xl mr-3">{categoryInfo.icon}</Text>
               <View className="flex-1">
                 <Text className="text-xl font-bold text-gray-900 dark:text-white">

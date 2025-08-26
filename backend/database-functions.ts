@@ -51,7 +51,7 @@ export async function fetchFeatured() {
   const { data, error } = await supabase
     .from('content')
     .select('content_id, title, author_name, category, media_items')
-    .eq('is_featured', true);
+    .eq('is_featured', true).order('created_at', { ascending: false });
   return { data, error };
 }
 

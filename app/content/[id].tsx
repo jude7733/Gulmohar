@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, Image, Dimensions, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Dimensions } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchContentById, fetchPublicUrl } from '~/backend/database-functions';
+import { Image } from 'expo-image';
 import PDFViewer from '~/components/filerender/PDFViewer';
 import { ShareArticle } from '~/components/share-article';
 
