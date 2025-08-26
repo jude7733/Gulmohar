@@ -55,14 +55,14 @@ export const ArticlesCarousel = () => {
   const goToPrev = () => goToSlide(currentIndex - 1);
 
   return (
-    <View className="mt-6 bg-secondary py-8 md:py-14">
+    <View className="mt-6 py-8 md:py-14">
       <View className="flex-row justify-between md:justify-evenly items-center px-4 mb-4">
         <Text className="text-2xl font-bold text-gray-900 dark:text-white">
           Latest Articles
         </Text>
         <TouchableOpacity>
-          <Button size="sm" variant="link" onPress={handleViewAll}>
-            <Text>View All</Text>
+          <Button size="sm" variant="default" onPress={handleViewAll}>
+            <Text className='text-sm'>Explore</Text>
           </Button>
         </TouchableOpacity>
       </View>

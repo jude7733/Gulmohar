@@ -28,8 +28,8 @@ function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
         marginBottom: 16,
       }}
     >
-      <Pressable onPress={handlePress} style={{ width: "96%" }} className="max-w-3xl">
-        <Card className="rounded-lg border border-border shadow-md shadow-primary">
+      <Pressable onPress={handlePress} style={{ width: "96%" }} className="max-w-2xl">
+        <Card className="rounded-lg border border-border shadow-md shadow-primary bg-secondary">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle numberOfLines={2}>{item.title}</CardTitle>
           </CardHeader>
@@ -39,7 +39,7 @@ function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
           <CardFooter className="flex justify-between">
             <Text className="text-sm font-semibold">{date}</Text>
             <Button size="icon">
-              <ArrowUpRight size={18} />
+              <ArrowUpRight size={18} color="white" />
             </Button>
           </CardFooter>
         </Card>
@@ -83,11 +83,11 @@ export default function NewsUpdates() {
   }
 
   return (
-    <View className="mt-6 max-w-5xl flex flex-1 self-center w-full">
-      <Text className="text-2xl font-bold mt-10 text-gray-900 dark:text-white px-4 mb-4">
+    <View className="mt-6 max-w-4xl flex flex-1 self-center w-full">
+      <Text className="text-2xl md:text-3xl font-bold mt-10 text-gray-900 dark:text-white px-4 mb-4">
         News & Updates
       </Text>
-      <View className="h-[700px]">
+      <View className="h-[750px]">
         <FlatList
           data={updates}
           keyExtractor={(item) => item.id}
@@ -96,6 +96,7 @@ export default function NewsUpdates() {
           )}
           contentContainerStyle={{ padding: 16 }}
           nestedScrollEnabled
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </View>

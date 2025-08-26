@@ -29,7 +29,7 @@ export default function CategoryListScreen() {
 
   const isDesktop = window.width >= 768;
   const baseImageUrl =
-    'https://images.unsplash.com/photo-1704634616614-281ace4a8bfc?ixlib=rb-4.1.0';
+    'https://images.unsplash.com/photo-1643665833086-f4d4b1450990?ixlib=rb-4.1.0';
 
   const backgroundImageUrl = isDesktop
     ? `${baseImageUrl}&w=1920&dpr=2&fit=crop&auto=format`

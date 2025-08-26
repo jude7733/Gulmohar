@@ -56,7 +56,6 @@ export const categories: CategoryItem[] = [
 ];
 
 
-
 export const getCategoryInfo = (category: Category) => {
   const categoryMap: { [key: string]: { icon: string; color: string } } = {
     'Literary Arts': { icon: '📚', color: '#FF6B6B' },
@@ -69,4 +68,18 @@ export const getCategoryInfo = (category: Category) => {
   };
   return categoryMap[category] || { icon: '📄', color: '#gray' };
 };
+
+
+export const contacts = [
+  { name: 'Fr Varghese paul', phone: '+91 95626 86623' },
+  { name: 'Karun k', phone: '+91 98475 30608' },
+];
+
+export const adLogos = [
+  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-1.png',
+  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-2.png',
+  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-3.png',
+  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-4.png'
+];
+
 

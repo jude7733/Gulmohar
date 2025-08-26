@@ -12,8 +12,7 @@ export default function Category() {
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
   const isDesktop = window.width >= 768; // md breakpoint approx
-
-  const baseUrl = 'https://images.unsplash.com/photo-1597730945481-f35a5cf39021?ixlib=rb-4.1.0';
+  const baseUrl = 'https://images.unsplash.com/photo-1605183884269-902a8e19b3fb?ixlib=rb-4.1.0';
   const imageUrl = isDesktop
     ? `${baseUrl}&w=1920&dpr=2&fit=crop&auto=format`
     : `${baseUrl}&w=640&dpr=1&fit=crop&auto=format`;
@@ -28,7 +27,7 @@ export default function Category() {
   return (
     <ImageBackground
       source={imageUrl}
-      blurRadius={isDesktop ? 20 : 3}
+      blurRadius={isDesktop ? 10 : 0}
       contentFit="cover"
       style={{ flex: 1 }}
       placeholder={blurhash}

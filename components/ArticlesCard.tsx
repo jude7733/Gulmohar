@@ -48,7 +48,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
   if (loading) {
     return (
       <View className="flex-1">
-        <Skeleton className="h-[500px] w-full rounded-md" />
+        <Skeleton className="h-[800px] w-full rounded-md" />
       </View>
     )
   }
