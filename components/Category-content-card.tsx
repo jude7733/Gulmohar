@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from 'nativewind';
-import { Pressable, View } from 'react-native';
+import { Pressable, useWindowDimensions, View } from 'react-native';
 import { Image } from 'expo-image';
 import { fetchPublicUrl } from '~/backend/database-functions';
 import { ContentItem } from '~/lib/types';
@@ -8,7 +8,6 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card'
 import { useEffect, useState } from 'react';
 import { Skeleton } from './ui/skeleton';
 import { Text } from './ui/text';
-import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 
 type CategoryContentCardProps = {
   item: ContentItem;
@@ -20,6 +19,9 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
   const [loading, setLoading] = useState(true);
   const date = new Date(item.created_at).toDateString();
   const { colorScheme } = useColorScheme();
+  const window = useWindowDimensions();
+
+  const isDesktop = window.width >= 768;
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -40,44 +42,43 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
 
   if (loading) {
     return (
-      <View className="flex flex-row items-center gap-4">
-        <Skeleton className="h-12 w-12 rounded-full" />
-        <View className="gap-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
-        </View>
+      <View className="flex flex-col items-center gap-4">
+        <Skeleton className="h-[500px] w-full rounded-md" />
+        <Skeleton className="h-[500px] w-full rounded-md" />
       </View>
     );
   }
   return (
-    <BlurView tint={colorScheme} intensity={100} className="md:flex-1 justify-center items-center m-2 lg:mx-80 rounded-md">
-      <Pressable onPress={() => onPress(item.content_id)} className="w-full max-w-3xl"
-        android_ripple={{ color: '#c7d2fe' }}
-      >
-        <Card className="w-full bg-card/90 dark:bg-card/90 shadow-primary">
+    <Pressable onPress={() => onPress(item.content_id)}
+      className={`overflow-hidden justify-center items-center rounded-md ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-3xl'}`}
+      accessibilityRole="button"
+      android_ripple={{ color: '#c7d2fe' }}
+    >
+      <Card className="mb-4 w-full bg-card/90 dark:bg-card/90 shadow-md shadow-primary rounded-md">
+        <BlurView tint={colorScheme} intensity={100} className="md:flex-1 justify-center items-center rounded-md">
           <Image
             source={{ uri: publicUrl }}
             style={{
               width: '100%',
-              height: 250,
+              height: 350,
               marginBottom: 12,
-              resizeMode: 'cover',
             }}
+            contentFit="cover"
           />
           <CardHeader>
             <CardTitle className="text-xl font-semibold">{item.title}</CardTitle>
           </CardHeader>
           <CardContent>
             <View className="flex-row items-center justify-between mb-2">
-              <Text className="text-sm font-medium">by {item.author_name}</Text>
-              <View className="flex-row items-center">
+              <Text className="text-sm font-medium">{item.author_name}</Text>
+              <View className="flex-row items-center ml-2">
                 <Text className="text-xs font-medium text-gray-700 dark:text-gray-300">{date}</Text>
               </View>
             </View>
 
             {/* Tags List */}
             {item.tags.length > 0 && (
-              <View className="flex-row flex-wrap gap-2">
+              <View className="flex-row flex-wrap gap-2 mb-3">
                 {item.tags.map((tag) => (
                   <View
                     key={tag}
@@ -98,8 +99,8 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
               </View>
             )}
           </CardFooter>
-        </Card>
-      </Pressable>
-    </BlurView>
+        </BlurView>
+      </Card>
+    </Pressable >
   );
 };

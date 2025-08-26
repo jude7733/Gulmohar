@@ -1,4 +1,5 @@
-import { ScrollView, ImageBackground } from 'react-native';
+import { ScrollView } from 'react-native';
+import { ImageBackground } from 'expo-image';
 import { BlurView } from 'expo-blur';
 import { Text } from '~/components/ui/text';
 import { Card } from '~/components/ui/card';
@@ -9,7 +10,7 @@ export default function About() {
       <ImageBackground
         source={{ uri: "https://images.unsplash.com/photo-1679304319966-61712c71ebe4?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGhleXlhbXxlbnwwfHwwfHx8MA%3D%3D" }}
         imageStyle={{ width: "100%", height: "100%" }}
-        resizeMode="cover"
+        contentFit="cover"
         className='md:flex-1 md:flex-row md:justify-center md:items-center md:p-8 md:py-20'
       >
         <BlurView intensity={100} className='rounded-xl'>
@@ -24,7 +25,7 @@ export default function About() {
       <ImageBackground
         source={{ uri: "https://images.unsplash.com/photo-1546778316-dfda79f1c84e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDExfHx8ZW58MHx8fHx8" }}
         imageStyle={{ width: "100%", height: "100%" }}
-        resizeMode="cover"
+        contentFit="cover"
         className='md:flex-1 md:flex-row md:justify-center md:items-center md:p-8 md:py-20'
       >
         <BlurView intensity={100} className='rounded-xl'>

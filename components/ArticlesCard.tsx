@@ -71,7 +71,7 @@ export const ArticleCard = ({ item, isActive, cardWidth }: ArticleCardProps) => 
             source={{ uri: publicUrl || undefined }}
             style={{ width: '100%', height: 356 }}
             className="lg:h-[700px]"
-            resizeMode="cover"
+            contentFit="cover"
           />
         </CardHeader>
         <CardContent style={{ padding: 16 }} className="flex flex-col items-center justify-start">

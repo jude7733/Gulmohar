@@ -96,7 +96,7 @@ export default function ContentDetailScreen() {
             <Image
               source={{ uri: publicUrl }}
               style={{ width: screenWidth, height: screenHeight - 240, borderRadius: 12, marginBottom: 4 }}
-              resizeMode="contain"
+              contentFit="contain"
             />
           </>
         );
