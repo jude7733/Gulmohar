@@ -73,21 +73,6 @@ export default function About() {
           </Text>
         </Card>
 
-        {/* Ads Section */}
-        <Card className="pt-4 rounded-xl max-w-4xl bg-secondary items-center justify-center">
-          <Text className="text-3xl font-bold mb-6 text-center">Our Sponsors</Text>
-          <View className="flex-row flex-wrap justify-center gap-8 bg-violet-950">
-            {adLogos.map((logoUrl, idx) => (
-              <Image
-                key={idx}
-                source={logoUrl}
-                style={{ width: 280, height: 180 }}
-                contentFit="contain"
-              />
-            ))}
-          </View>
-        </Card>
-
         {/* Contact Us Section */}
         <View className="rounded-xl max-w-4xl w-full p-6 bg-white dark:bg-gray-900 shadow-md">
           <Text className="text-3xl font-bold mb-6 text-center">Contact Us</Text>
