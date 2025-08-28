@@ -64,6 +64,7 @@ function WebLayout() {
 }
 
 function NativeLayout() {
+  const { colorScheme } = useColorScheme();
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
       <Stack
@@ -76,6 +77,8 @@ function NativeLayout() {
           options={{
             title: 'BMC-Art-Gallery',
             headerRight: () => <ThemeToggle />,
+            headerStyle: { backgroundColor: colorScheme === "dark" ? "#310047" : "#f3ccff" },
+            headerTitleStyle: { fontWeight: 'bold' },
           }}
         />
         <Stack.Screen

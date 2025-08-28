@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
+import { View, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchContentById, fetchPublicUrl } from '~/backend/database-functions';
 import { Image } from 'expo-image';
 import PDFViewer from '~/components/filerender/PDFViewer';
 import { ShareArticle } from '~/components/share-article';
+import { useColorScheme } from 'nativewind';
+import { Text } from '~/components/ui/text';
 
 export default function ContentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -15,6 +17,7 @@ export default function ContentDetailScreen() {
   const date = details && new Date(details.created_at).toDateString();
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
+  const { colorScheme } = useColorScheme();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -100,19 +103,22 @@ export default function ContentDetailScreen() {
       <Stack.Screen
         options={{
           title: details.title,
-          headerStyle: { backgroundColor: '#00ccd3' },
-          headerTitleStyle: { fontWeight: 'bold', fontSize: 18 },
-          headerTintColor: '#1a202c',
+          headerStyle: { backgroundColor: colorScheme === "dark" ? "#310047" : "#f3ccff" },
         }}
       />
-      <View className="flex-1 bg-secondary px-2 py-8">
-        <View>
-          <Text className="px-4 text-sm text-gray-600 dark:text-gray-400 mb-4 md:mb-20">
-            By {details.author_name} • {details.department} • {date}
-          </Text>
-          <Text className="text-base px-4 text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
-          {details.media_items.map(renderMediaItem)}
+      <View className="flex-1 bg-accent py-8">
+        <View className='px-4'>
+          <View className='flex flex-row items-center justify-between mb-8'>
+            <Text className="text-md">
+              {details.author_name}
+            </Text>
+            <Text className="text-md text-gray-600 dark:text-gray-400">
+              {details.department}
+            </Text>
+          </View>
+          <Text className="text-sm italic text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
         </View>
+        {details.media_items.map(renderMediaItem)}
       </View>
     </>
   );

@@ -14,7 +14,6 @@ import { useEffect, useState } from 'react';
 import { getCategoryInfo } from '~/lib/constants';
 import { CategoryContentCard } from '~/components/Category-content-card';
 import { ArrowLeft } from 'lucide-react-native';
-import { ImageBackground } from 'expo-image';
 
 export default function CategoryListScreen() {
   const params = useLocalSearchParams();
@@ -26,14 +25,7 @@ export default function CategoryListScreen() {
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'popular'>('newest');
 
   const categoryInfo = getCategoryInfo(category);
-
   const isDesktop = window.width >= 768;
-  const baseImageUrl =
-    'https://images.unsplash.com/photo-1643665833086-f4d4b1450990?ixlib=rb-4.1.0';
-
-  const backgroundImageUrl = isDesktop
-    ? `${baseImageUrl}&w=1920&dpr=2&fit=crop&auto=format`
-    : `${baseImageUrl}&w=640&dpr=1&fit=crop&auto=format`;
 
   const fetchContent = async () => {
     try {
@@ -110,12 +102,7 @@ export default function CategoryListScreen() {
         }}
       />
 
-      <ImageBackground
-        blurRadius={isDesktop ? 20 : 3}
-        source={backgroundImageUrl}
-        contentFit="cover"
-        style={{ flex: 1, width: '100%' }}
-      >
+      <View style={{ flex: 1, width: '100%' }}>
         <View className="flex-1 p-2 lg:p-20 w-full">
           {loading ? (
             <View className="flex-1 justify-center items-center">
@@ -134,7 +121,7 @@ export default function CategoryListScreen() {
             <FlatList
               data={content}
               keyExtractor={item => item.content_id}
-              contentContainerStyle={{ padding: 16, margin: 2, gap: 14 }}
+              contentContainerStyle={{ paddingVertical: 40, gap: 14 }}
               showsVerticalScrollIndicator={false}
               numColumns={isDesktop ? 2 : 1}
               columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}
@@ -144,7 +131,7 @@ export default function CategoryListScreen() {
             />
           )}
         </View>
-      </ImageBackground>
+      </View>
     </>
   );
 }
