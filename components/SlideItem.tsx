@@ -58,7 +58,6 @@ export const SlideItem: React.FC<Props> = (props) => {
   return (
     <Pressable
       onPress={() => handleContentPress(item?.content_id)}
-      android_ripple={{ color: '#ccc', radius: 10, borderless: true, foreground: true }}
     >
       <Animated.View
         testID={testID}

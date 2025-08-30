@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
-import Carousel from "react-native-reanimated-carousel";
+import Carousel, { ICarouselInstance, Pagination } from "react-native-reanimated-carousel";
 import { window } from "~/lib/constants";
 import { SlideItem } from "./SlideItem";
 import { fetchFeatured } from "~/backend/database-functions";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function FeaturedCarousel() {
   const progress = useSharedValue<number>(0);
@@ -23,6 +23,14 @@ function FeaturedCarousel() {
     fetchContent()
   }, []);
 
+  const ref = useRef<ICarouselInstance>(null);
+  const onPressPagination = (index: number) => {
+    ref.current?.scrollTo({
+      count: index - progress.value,
+      animated: true,
+    });
+  };
+
   return (
     <View
       id="carousel-component"
@@ -32,6 +40,7 @@ function FeaturedCarousel() {
       <Carousel
         autoPlayInterval={4000}
         data={featuredList}
+        ref={ref}
         autoPlay={true}
         height={458}
         loop={true}
@@ -53,6 +62,26 @@ function FeaturedCarousel() {
           />
         )}
       />
+      <Pagination.Basic<{ color: string }>
+        progress={progress}
+        data={featuredList.map((color) => ({ color }))}
+        dotStyle={{
+          width: 25,
+          height: 4,
+          backgroundColor: "#4cc9f0",
+        }}
+        activeDotStyle={{
+          overflow: "hidden",
+          backgroundColor: "#4361ee",
+        }}
+        containerStyle={{
+          gap: 10,
+          marginBottom: 10,
+        }}
+        horizontal
+        onPress={onPressPagination}
+      />
+
     </View>
   );
 }
