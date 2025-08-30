@@ -36,6 +36,7 @@ export default function Category() {
               onPress={() => handleCategoryPress(item.category)}
               className={`justify-center items-center rounded-md mb-2 ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-3xl'}`}
               accessibilityRole="button"
+              android_ripple={{ color: '#ccc', radius: 20, borderless: true, foreground: true }}
             >
               <Card className={`w-full bg-card dark:bg-card shadow-primary shadow-md`}>
                 <CardHeader className='bg-secondary py-4'>

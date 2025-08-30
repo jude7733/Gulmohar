@@ -51,6 +51,7 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
     <Pressable onPress={() => onPress(item.content_id)}
       className={`overflow-hidden justify-center items-center rounded-xl ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-4xl'}`}
       accessibilityRole="button"
+      android_ripple={{ color: '#ccc', radius: 10, borderless: true, foreground: true }}
     >
       <Card className="mb-4 w-full bg-card/90 dark:bg-card/90 shadow-xl shadow-primary rounded-md">
         <CardHeader className='justify-between items-center flex-row bg-secondary py-4'>

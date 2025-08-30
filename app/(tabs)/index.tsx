@@ -1,8 +1,8 @@
 import { useColorScheme } from 'nativewind';
 import { Text, View, ScrollView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ArticlesCarousel } from '~/components/ArticlesCarousel';
 import NewsUpdates from '~/components/news';
+import FeaturedCarousel from '~/components/FeaturedCarousel';
 
 export default function Home() {
   const { colorScheme } = useColorScheme();
@@ -37,7 +37,8 @@ export default function Home() {
           </Text>
         </View>
 
-        <ArticlesCarousel />
+        <FeaturedCarousel />
+        {/* <ArticlesCarousel /> */}
         <NewsUpdates />
 
       </ScrollView >

@@ -75,11 +75,19 @@ export const contacts = [
   { name: 'Karun k', phone: '+91 98475 30608' },
 ];
 
-export const adLogos = [
-  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-1.png',
-  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-2.png',
-  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-3.png',
-  'https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/sponsors/logo-4.png'
-];
+import type { ScaledSize } from "react-native";
+import { Dimensions, Platform } from "react-native";
 
+export const HEADER_HEIGHT = 100;
 
+export const ElementsText = {
+  AUTOPLAY: "AutoPlay",
+};
+
+const isWeb = Platform.OS === "web";
+
+export const MAX_WIDTH = 930;
+
+export const window: ScaledSize = isWeb
+  ? { width: MAX_WIDTH, height: 800, scale: 1, fontScale: 1 }
+  : Dimensions.get("screen");

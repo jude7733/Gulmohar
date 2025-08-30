@@ -89,7 +89,9 @@ export default function CategoryListScreen() {
         options={{
           header: () => (
             <View className="flex-row items-center px-4 py-2 bg-white dark:bg-gray-900">
-              <Pressable onPress={() => router.back()} className="mr-3 p-1">
+              <Pressable onPress={() => router.back()} className="mr-3 p-1"
+                android_ripple={{ color: '#ccc', radius: 40, borderless: true, foreground: true }}
+              >
                 <ArrowLeft size={28} color="#999" style={{ marginRight: 8 }} />
               </Pressable>
               <Text className="text-3xl mr-3">{categoryInfo.icon}</Text>
