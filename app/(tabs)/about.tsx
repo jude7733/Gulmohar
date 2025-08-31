@@ -104,7 +104,7 @@ export default function About() {
               >
                 <Text className="text-lg">{dev.name}</Text>
                 <Button size="icon" variant="default" onPress={() => openUrl(dev.socialUrl)}>
-                  <Github className="inline-block mr-2" color="white" size={16} />
+                  <Github className="inline-block" color="white" size={16} />
                 </Button>
               </View>
             ))}

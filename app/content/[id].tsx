@@ -8,13 +8,13 @@ import PDFViewer from '~/components/filerender/PDFViewer';
 import { ShareArticle } from '~/components/share-article';
 import { useColorScheme } from 'nativewind';
 import { Text } from '~/components/ui/text';
+import VideoScreen from '~/components/filerender/VideoPlayer';
 
 export default function ContentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [details, setDetails] = useState<ContentItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [fileUrl, setFileUrl] = useState<string[] | null>(null);
-  const date = details && new Date(details.created_at).toDateString();
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
   const { colorScheme } = useColorScheme();
@@ -88,11 +88,12 @@ export default function ContentDetailScreen() {
       case 'video':
       case 'audio':
         return (
-          <View key={index} className="mb-4 p-4 rounded-lg">
-            <Text className="font-semibold text-gray-900 dark:text-white">{media.title}</Text>
-            <Text className="text-sm text-blue-600 underline">{publicUrl}</Text>
+
+          <View key={index} className="mb-4 space-y-8 rounded-lg" style={{ height: screenHeight - 240 }}>
+            <ShareArticle publicUrl={publicUrl} />
+            <VideoScreen url={publicUrl} />
           </View>
-        );
+        )
       default:
         return null;
     }

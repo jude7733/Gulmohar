@@ -54,8 +54,11 @@ export default function Category() {
                 <CardContent>
                   <View className="flex w-full flex-row flex-wrap gap-2">
                     {item.items.map((subitem, idx) => (
-                      <Badge key={idx} className='bg-[#4895ef]'>
-                        <Text className='font-light text-xs'>
+                      <Badge
+                        key={idx}
+                        className="bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded-full"
+                      >
+                        <Text className="text-xs text-blue-700 dark:text-blue-300 font-semibold">
                           {subitem}
                         </Text>
                       </Badge>

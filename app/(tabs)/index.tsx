@@ -25,7 +25,7 @@ export default function Home() {
             className={`text-2xl md:text-4xl font-extrabold drop-shadow-md ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}
           >
-            Welcome enthusiast!
+            Explore Creative Journeys
           </Text>
           <Text
             className={`
