@@ -73,7 +73,7 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
           source={{ uri: publicUrl }}
           style={{
             width: '100%',
-            height: 450,
+            height: 350,
             marginBottom: 12,
             borderRadius: 8,
           }}

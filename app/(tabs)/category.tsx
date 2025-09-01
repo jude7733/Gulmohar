@@ -27,7 +27,7 @@ export default function Category() {
         <FlatList
           data={categories}
           keyExtractor={item => item.category}
-          contentContainerStyle={{ padding: 8, paddingVertical: 40, margin: 2, gap: 14 }}
+          contentContainerStyle={{ padding: 8, paddingVertical: 20, margin: 2, gap: 14 }}
           showsVerticalScrollIndicator={false}
           numColumns={isDesktop ? 2 : 1}
           columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}

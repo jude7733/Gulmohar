@@ -9,6 +9,8 @@ import { ShareArticle } from '~/components/share-article';
 import { useColorScheme } from 'nativewind';
 import { Text } from '~/components/ui/text';
 import VideoScreen from '~/components/filerender/VideoPlayer';
+import AudioComponent from '~/components/filerender/AudioPlayer';
+import VideoPlayer from '~/components/filerender/VideoPlayer';
 
 export default function ContentDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -86,12 +88,17 @@ export default function ContentDetailScreen() {
           </View>
         );
       case 'video':
-      case 'audio':
         return (
-
           <View key={index} className="mb-4 space-y-8 rounded-lg" style={{ height: screenHeight - 240 }}>
             <ShareArticle publicUrl={publicUrl} />
-            <VideoScreen url={publicUrl} />
+            <VideoPlayer url={publicUrl} />
+          </View>
+        )
+      case 'audio':
+        return (
+          <View key={index} className="mb-4 space-y-8 rounded-lg" style={{ height: screenHeight - 240 }}>
+            <ShareArticle publicUrl={publicUrl} />
+            <VideoPlayer url={publicUrl} isAudio />
           </View>
         )
       default:
