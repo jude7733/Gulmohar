@@ -123,7 +123,7 @@ export default function CategoryListScreen() {
             <FlatList
               data={content}
               keyExtractor={item => item.content_id}
-              contentContainerStyle={{ paddingVertical: 20, gap: 14 }}
+              contentContainerStyle={{ paddingVertical: 24, gap: 14 }}
               showsVerticalScrollIndicator={false}
               numColumns={isDesktop ? 2 : 1}
               columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}

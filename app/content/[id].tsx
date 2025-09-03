@@ -8,8 +8,6 @@ import PDFViewer from '~/components/filerender/PDFViewer';
 import { ShareArticle } from '~/components/share-article';
 import { useColorScheme } from 'nativewind';
 import { Text } from '~/components/ui/text';
-import VideoScreen from '~/components/filerender/VideoPlayer';
-import AudioComponent from '~/components/filerender/AudioPlayer';
 import VideoPlayer from '~/components/filerender/VideoPlayer';
 
 export default function ContentDetailScreen() {
@@ -20,6 +18,8 @@ export default function ContentDetailScreen() {
   const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
   const { colorScheme } = useColorScheme();
+
+  const date = details && new Date(details.created_at).toDateString();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -124,7 +124,8 @@ export default function ContentDetailScreen() {
               {details.department}
             </Text>
           </View>
-          <Text className="text-sm italic text-gray-700 dark:text-gray-300 mb-6">{details.body}</Text>
+          <Text className="text-xs font-semibold text-gray-800 dark:text-gray-100">{date}</Text>
+          <Text className="text-sm italic text-gray-700 dark:text-gray-300 my-4">{details.body}</Text>
         </View>
         {details.media_items.map(renderMediaItem)}
       </View>

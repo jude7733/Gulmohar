@@ -27,18 +27,18 @@ export default function Category() {
         <FlatList
           data={categories}
           keyExtractor={item => item.category}
-          contentContainerStyle={{ padding: 8, paddingVertical: 20, margin: 2, gap: 14 }}
+          contentContainerStyle={{ padding: 8, paddingVertical: 24, margin: 2, gap: 14 }}
           showsVerticalScrollIndicator={false}
           numColumns={isDesktop ? 2 : 1}
           columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}
           renderItem={({ item }) => (
             <Pressable
               onPress={() => handleCategoryPress(item.category)}
-              className={`justify-center items-center rounded-md mb-2 ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-3xl'}`}
+              className={`justify-center items-center rounded-2xl mb-2 ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-3xl'}`}
               accessibilityRole="button"
               android_ripple={{ color: '#ccc', radius: 20, borderless: true, foreground: true }}
             >
-              <Card className={`w-full bg-card dark:bg-card shadow-primary shadow-md`}>
+              <Card className={`w-full bg-card dark:bg-card shadow-primary rounded-2xl shadow-md`}>
                 <CardHeader className='bg-secondary py-4'>
                   <CardTitle className="text-lg font-bold">{item.category}</CardTitle>
                 </CardHeader>
@@ -46,7 +46,7 @@ export default function Category() {
                   source={{ uri: item.image }}
                   style={{
                     width: "100%",
-                    height: 300,
+                    height: 200,
                     marginBottom: 20,
                   }}
                   contentFit='cover'
@@ -56,9 +56,9 @@ export default function Category() {
                     {item.items.map((subitem, idx) => (
                       <Badge
                         key={idx}
-                        className="bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded-full"
+                        className="bg-blue-100 dark:bg-blue-800"
                       >
-                        <Text className="text-xs text-blue-700 dark:text-blue-300 font-semibold">
+                        <Text className="text-xs text-blue-700 dark:text-blue-300">
                           {subitem}
                         </Text>
                       </Badge>

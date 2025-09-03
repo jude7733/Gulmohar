@@ -25,7 +25,6 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
   const [palette, setPalette] = useState<Partial<PaletteResult>>({});
   const { colorScheme } = useColorScheme()
 
-  const date = new Date(item.created_at).toDateString();
   const window = useWindowDimensions();
 
   const isDesktop = window.width >= 768;
@@ -64,50 +63,37 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
   }
   return (
     <Pressable onPress={() => onPress(item.content_id)}
-      className={`overflow-hidden justify-center items-center rounded-xl ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-4xl'}`}
+      className={`overflow-hidden justify-center items-center rounded-2xl ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-4xl'}`}
       accessibilityRole="button"
       android_ripple={{ color: '#ccc', radius: 10, borderless: true, foreground: true }}
     >
       <Card
-        className="mb-4 w-full shadow-xl shadow-primary rounded-md"
+        className="mb-4 w-full shadow-xl shadow-primary rounded-2xl"
         style={{ backgroundColor: colorScheme == "dark" ? palette?.darkMuted : palette?.lightMuted }}
       >
-        <CardHeader className='justify-between items-center flex-row py-4'>
-          <View className='flex flex-row items-center gap-2 justify-start'>
-            <Avatar alt="Avatar">
-              <AvatarFallback>
-                <Text>{item.author_name.charAt(0)}</Text>
-              </AvatarFallback>
-            </Avatar>
-            <CardTitle className='text-lg'>{item.author_name}</CardTitle>
-          </View>
-          {item.is_featured && (
-            <View className="bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded-full">
-              <Text className="text-xs font-medium text-yellow-800 dark:text-yellow-200">Featured</Text>
-            </View>
-          )}
+        <CardHeader className='justify-between items-center flex-row p-2'>
+          <Image
+            source={{ uri: publicUrl }}
+            style={{
+              width: '100%',
+              height: 350,
+              marginBottom: 12,
+              borderRadius: 8,
+            }}
+            contentFit="cover"
+          />
         </CardHeader>
-        <Image
-          source={{ uri: publicUrl }}
-          style={{
-            width: '100%',
-            height: 350,
-            marginBottom: 12,
-            borderRadius: 8,
-          }}
-          contentFit="cover"
-        />
         <CardContent>
           <CardTitle className='text-lg mb-2'>{item.title}</CardTitle>
           {/* Tags List */}
           {item.tags.length > 0 && (
-            <View className="flex-row flex-wrap gap-2">
+            <View className="flex-row flex-wrap gap-2 mt-2">
               {item.tags.map((tag) => (
                 <Badge
                   key={tag}
-                  className="bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded-full"
+                  className="bg-blue-100 dark:bg-blue-800"
                 >
-                  <Text className="text-xs text-blue-700 dark:text-blue-300 font-semibold">
+                  <Text className="text-xs text-blue-700 dark:text-blue-300">
                     {tag}
                   </Text>
                 </Badge>
@@ -116,8 +102,20 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
           )}
         </CardContent>
         <CardFooter>
-          <View className="flex-row items-center mt-2">
-            <Text className="text-xs font-medium text-gray-700 dark:text-gray-300">{date}</Text>
+          <View className="flex-row items-center w-full justify-between">
+            <View className='flex flex-row items-center gap-2 justify-start'>
+              <Avatar alt="Avatar" className='w-6 h-6'>
+                <AvatarFallback>
+                  <Text className='text-xs'>{item.author_name.charAt(0)}</Text>
+                </AvatarFallback>
+              </Avatar>
+              <CardTitle className='text-sm'>{item.author_name}</CardTitle>
+            </View>
+            {item.is_featured && (
+              <View className="bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded-full">
+                <Text className="text-xs font-medium text-yellow-800 dark:text-yellow-200">Featured</Text>
+              </View>
+            )}
           </View>
         </CardFooter>
       </Card>
