@@ -27,7 +27,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Media & Mixed Arts",
-    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1575411602736-5e9f24e277d0?auto=format&fit=crop&w=600&q=80",
     items: [
       "Film & Television",
       "Short Films",
@@ -43,16 +43,16 @@ export const categories: CategoryItem[] = [
       "Interviews",
     ],
   },
-  // {
-  //   category: "Blogs",
-  //   image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80",
-  //   items: [
-  //     "Tech Blogs",
-  //     "Travel Blogs",
-  //     "Lifestyle Blogs",
-  //     "Educational Blogs",
-  //   ],
-  // },
+  {
+    category: "Blogs",
+    image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80",
+    items: [
+      "Tech Blogs",
+      "Travel Blogs",
+      "Lifestyle Blogs",
+      "Educational Blogs",
+    ],
+  },
 ];
 
 

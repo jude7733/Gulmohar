@@ -8,6 +8,11 @@ import { Skeleton } from './ui/skeleton';
 import { Text } from './ui/text';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { Badge } from './ui/badge';
+import {
+  getPalette,
+  type PaletteResult,
+} from '@somesoap/react-native-image-palette';
+import { useColorScheme } from 'nativewind';
 
 type CategoryContentCardProps = {
   item: ContentItem;
@@ -17,6 +22,9 @@ type CategoryContentCardProps = {
 export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps) => {
   const [publicUrl, setPublicUrl] = useState('');
   const [loading, setLoading] = useState(true);
+  const [palette, setPalette] = useState<Partial<PaletteResult>>({});
+  const { colorScheme } = useColorScheme()
+
   const date = new Date(item.created_at).toDateString();
   const window = useWindowDimensions();
 
@@ -30,6 +38,12 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
           const defaultPath = item.media_items[0].thumbnailPath ?? item.media_items[0].storagePath;
           const url = await fetchPublicUrl(item.category, defaultPath);
           setPublicUrl(url);
+          getPalette(url, {
+            fallbackColor: colorScheme === 'dark' ? '#240038' : '#e5f9ff',
+          })
+            .then(setPalette)
+            .catch(console.error);
+          console.log("/npalette:", palette, "from url:", url);
         } catch (error) {
           console.error('Error fetching public URL:', error);
         }
@@ -38,6 +52,7 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
     };
     fetchContent();
   }, [item]);
+
 
   if (loading) {
     return (
@@ -53,10 +68,13 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
       accessibilityRole="button"
       android_ripple={{ color: '#ccc', radius: 10, borderless: true, foreground: true }}
     >
-      <Card className="mb-4 w-full bg-card/90 dark:bg-card/90 shadow-xl shadow-primary rounded-md">
-        <CardHeader className='justify-between items-center flex-row bg-secondary py-4'>
+      <Card
+        className="mb-4 w-full shadow-xl shadow-primary rounded-md"
+        style={{ backgroundColor: colorScheme == "dark" ? palette?.darkMuted : palette?.lightMuted }}
+      >
+        <CardHeader className='justify-between items-center flex-row py-4'>
           <View className='flex flex-row items-center gap-2 justify-start'>
-            <Avatar alt="Zach Nugent's Avatar">
+            <Avatar alt="Avatar">
               <AvatarFallback>
                 <Text>{item.author_name.charAt(0)}</Text>
               </AvatarFallback>
