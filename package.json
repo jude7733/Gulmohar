@@ -59,6 +59,7 @@
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@types/react": "~19.0.14",
+    "eas-build-cache-provider": "^16.4.2",
     "typescript": "^5.9.2"
   },
   "private": true
