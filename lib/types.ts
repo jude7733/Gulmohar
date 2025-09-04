@@ -11,6 +11,9 @@ export type CategoryItem = {
   category: Category;
   image: string;
   items: string[];
+  mutedDark: string;
+  mutedLight: string;
+  vibrantColor: string;
 }
 
 export type MediaItem = {

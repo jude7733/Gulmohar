@@ -61,28 +61,3 @@ export async function fetchUpdates() {
     .select('*')
   return { data, error };
 }
-
-export async function fetchAllFileUrls(bucketName: string, folder = ''): Promise<string[]> {
-  // List files in the bucket/folder; limit & offset can be adjusted for pagination
-  const { data: files, error } = await supabase.storage
-    .from(bucketName)
-    .list(folder, {
-      limit: 10,
-      offset: 0,
-      sortBy: { column: 'name', order: 'asc' },
-    });
-
-  if (error) {
-    console.error('Error listing files from bucket:', error.message);
-    return [];
-  }
-
-  if (!files) return [];
-
-  const urls = files.map((file) => {
-    const { data } = supabase.storage.from(bucketName).getPublicUrl(file.name);
-    return data.publicUrl;
-  });
-
-  return urls;
-}

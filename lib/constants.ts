@@ -3,55 +3,76 @@ import { Category, CategoryItem } from "./types";
 export const categories: CategoryItem[] = [
   {
     category: "Literary Arts",
-    image: "https://images.unsplash.com/photo-1519791883288-dc8bd696e667?auto=format&fit=crop&w=600&q=80",
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Literary%20Arts.png",
     items: ["Poetry", "Short Stories", "Novels"],
-  },
-  {
-    category: "Print Media",
-    image: "https://images.unsplash.com/photo-1616873065098-9bdc6fda9c68?auto=format&fit=crop&w=600&q=80",
-    items: ["Newspapers", "Magazines", "Digital Publications"],
+    mutedDark: "#271b19",
+    mutedLight: "#cfb086",
+    vibrantColor: "#cfb086",
   },
   {
     category: "Visual Arts",
-    image: "https://images.unsplash.com/photo-1570804606950-8b2eb25a2d68?auto=format&fit=crop&w=600&q=80",
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Visual%20Arts.png",
     items: [
       "Mural Art",
-      "Contemporary Painting",
-      "Sketches & Illustrations",
+      "Painting",
+      "Illustrations"
     ],
+    mutedDark: "#3b6188",
+    mutedLight: "#7ca8ad",
+    vibrantColor: "#c9a88d",
+
+  },
+  {
+    category: "Print Media",
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Print%20Media.png",
+    items: ["Newspapers", "Magazines", "Publications"],
+    mutedDark: "#3e3332",
+    mutedLight: "#948c7c",
+    vibrantColor: "#79438f",
   },
   {
     category: "Photography",
-    image: "https://images.unsplash.com/photo-1541516160071-4bb0c5af65ba?auto=format&fit=crop&w=600&q=80",
-    items: ["Documentary Photography", "Artistic Photography", "Portraits"],
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Photography.png",
+    items: ["Artistic Photography", "Portraits"],
+    mutedDark: "#2f3440",
+    mutedLight: "#b7babb",
+    vibrantColor: "#815fb1",
   },
   {
     category: "Media & Mixed Arts",
-    image: "https://images.unsplash.com/photo-1575411602736-5e9f24e277d0?auto=format&fit=crop&w=600&q=80",
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Media%20&%20Mixed%20Arts.png",
     items: [
       "Film & Television",
       "Short Films",
       "Documentaries",
     ],
+    mutedDark: "#1b2d53",
+    mutedLight: "#c59dc4",
+    vibrantColor: "#397eb9",
   },
   {
     category: "Radio & Podcasts",
-    image: "https://images.unsplash.com/photo-1627667050025-be23c83837e9?auto=format&fit=crop&w=600&q=80",
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Radio%20&%20Podcasts.png",
     items: [
       "Radio Plays",
       "Literary Podcasts",
       "Interviews",
     ],
+    mutedDark: "#312935",
+    mutedLight: "#4dc3de",
+    vibrantColor: "#297ca4",
   },
   {
     category: "Blogs",
-    image: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=600&q=80",
+    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Blogs.png",
     items: [
-      "Tech Blogs",
       "Travel Blogs",
       "Lifestyle Blogs",
       "Educational Blogs",
     ],
+    mutedDark: "#565960",
+    mutedLight: "#6462a8",
+    vibrantColor: "#6462a8",
   },
 ];
 
