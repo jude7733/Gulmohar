@@ -90,26 +90,26 @@ export default function About() {
         </Card>
 
         {/*  Developers Section  */}
-        <Card className="rounded-xl max-w-4xl w-full">
-          <CardHeader className="items-center">
-            <CardTitle>
-              <Text className="text-2xl font-bold mb-4 text-center">Meet the Developers</Text>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="gap-y-2">
-            {developers.map((dev, index) => (
-              <View
-                key={index}
-                className="flex-row items-center justify-between w-full"
-              >
-                <Text className="text-lg">{dev.name}</Text>
-                <Button size="icon" variant="default" onPress={() => openUrl(dev.socialUrl)}>
-                  <Github className="inline-block" color="white" size={16} />
-                </Button>
-              </View>
-            ))}
-          </CardContent>
-        </Card>
+        {/* <Card className="rounded-xl max-w-4xl w-full"> */}
+        {/*   <CardHeader className="items-center"> */}
+        {/*     <CardTitle> */}
+        {/*       <Text className="text-2xl font-bold mb-4 text-center">Meet the Developers</Text> */}
+        {/*     </CardTitle> */}
+        {/*   </CardHeader> */}
+        {/*   <CardContent className="gap-y-2"> */}
+        {/*     {developers.map((dev, index) => ( */}
+        {/*       <View */}
+        {/*         key={index} */}
+        {/*         className="flex-row items-center justify-between w-full" */}
+        {/*       > */}
+        {/*         <Text className="text-lg">{dev.name}</Text> */}
+        {/*         <Button size="icon" variant="default" onPress={() => openUrl(dev.socialUrl)}> */}
+        {/*           <Github className="inline-block" color="white" size={16} /> */}
+        {/*         </Button> */}
+        {/*       </View> */}
+        {/*     ))} */}
+        {/*   </CardContent> */}
+        {/* </Card> */}
 
         {/* Contact Us Section */}
         <View className="rounded-xl max-w-4xl w-full p-6 bg-white dark:bg-gray-900 shadow-md">

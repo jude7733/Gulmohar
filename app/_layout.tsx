@@ -26,7 +26,7 @@ function WebLayout() {
   return (
     <SafeAreaView className="flex-1 bg-background">
       {/* --- Web Navbar --- */}
-      <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary border-border">
+      <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
         <Link href="/">
           <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
         </Link>
@@ -77,7 +77,7 @@ function NativeLayout() {
           options={{
             title: 'BMC-Art-Gallery',
             headerRight: () => <ThemeToggle />,
-            headerStyle: { backgroundColor: colorScheme === "dark" ? "#310047" : "#f3ccff" },
+            headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
             headerTitleStyle: { fontWeight: 'bold' },
           }}
         />

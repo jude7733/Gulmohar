@@ -1,79 +1,108 @@
-import { FlatList, Pressable, View, useWindowDimensions } from 'react-native';
+import { FlatList, Pressable, View, useWindowDimensions, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
 import { categories } from '~/lib/constants';
 import { useRouter } from 'expo-router';
 import { Text } from '~/components/ui/text';
-import { Badge } from '~/components/ui/badge';
 import { useColorScheme } from 'nativewind';
+import { Badge } from '~/components/ui/badge';
 
 export default function Category() {
   const router = useRouter();
+  const { colorScheme } = useColorScheme();
   const window = useWindowDimensions();
-  const { colorScheme } = useColorScheme()
 
-  const isDesktop = window.width >= 768; // md breakpoint approx
+  const isDesktop = window.width >= 768;
 
   const handleCategoryPress = (categoryName: string) => {
     router.push({
       pathname: '/category-list/[category]',
-      params: { category: categoryName }
+      params: { category: categoryName },
     });
   };
 
   return (
-    <View
-      style={{ flex: 1 }}
-    >
-      <View className='flex-1 md:p-20'>
-        <FlatList
-          data={categories}
-          keyExtractor={item => item.category}
-          contentContainerStyle={{ padding: 16, paddingVertical: 16, gap: 20 }}
-          showsVerticalScrollIndicator={false}
-          numColumns={isDesktop ? 2 : 1}
-          columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}
-          renderItem={({ item }) => (
-            <Pressable
-              onPress={() => handleCategoryPress(item.category)}
-              className={`justify-center p-0 items-center rounded-2xl ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-3xl'}`}
-              android_ripple={{ color: '#ccc', radius: 100, borderless: true, foreground: true }}
-            >
-              <View className="w-full rounded-2xl p-0 flex-row items-center justify-between"
-                style={{ backgroundColor: colorScheme == "dark" ? item.mutedDark : item.mutedLight }}
-              >
-                <View className='px-4'
-                  style={{ flex: 1 }}
-                >
-                  <Text className="text-lg font-bold mb-4 text-white">{item.category}</Text>
-                  <View className="flex w-full flex-row flex-wrap gap-2">
-                    {item.items.map((subitem, idx) => (
-                      <Badge
-                        key={idx}
-                        className="bg-blue-100 dark:bg-blue-800"
-                      >
-                        <Text className="text-[10px] text-blue-700 dark:text-blue-300">
-                          {subitem}
-                        </Text>
-                      </Badge>
-                    ))}
-                  </View>
-                </View>
-                <View style={{ flex: 1.35 }} className='p-0 items-end justify-end'>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={{
-                      flex: 1,
-                      width: "100%",
-                      height: 200,
-                    }}
-                    contentFit='contain'
-                  />
+    // 1. Add a wrapping View to act as a centering container.
+    <View style={{ flex: 1, alignItems: 'center', paddingTop: 16 }}>
+      <FlatList
+        style={{ width: '100%', maxWidth: 1280 }}
+        data={categories}
+        keyExtractor={(item) => item.category}
+        contentContainerStyle={{ padding: 16 }}
+        numColumns={isDesktop ? 2 : 1}
+        columnWrapperStyle={isDesktop ? { gap: 16 } : undefined}
+        ItemSeparatorComponent={() => <View style={{ height: 16 }} />} // Vertical gap between rows
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <Pressable
+            onPress={() => handleCategoryPress(item.category)}
+            className={`rounded-xl overflow-hidden ${isDesktop ? 'flex-1' : 'w-full'}`}
+            style={{
+              backgroundColor: colorScheme === 'dark' ? item.mutedDark : item.mutedLight,
+              minHeight: 220,
+              justifyContent: 'flex-end',
+            }}
+          >
+            <View style={styles.contentWrapper}>
+              <View style={styles.infoContainer}>
+                <Text className="text-2xl lg:text-3xl font-bold text-white mb-4" numberOfLines={2}>
+                  {item.category}
+                </Text>
+
+                <View className="flex-row flex-wrap gap-2 mt-2" style={{ maxWidth: '60%' }}>
+                  {item.items?.map((tag, index) => (
+                    <Badge key={index}
+                      style={{
+                        backgroundColor: item.vibrantColor,
+                      }}
+                      className="border-0 p-1.5 px-2">
+                      <Text className="text-white text-[11px] font-semibold">{tag}</Text>
+                    </Badge>
+                  ))}
                 </View>
               </View>
-            </Pressable>
-          )}
-        />
-      </View>
-    </View >
+
+              <View style={styles.imageWrapper}>
+                <Image
+                  source={{ uri: item.image }}
+                  style={styles.cardImage}
+                  contentFit="cover"
+                />
+              </View>
+            </View>
+          </Pressable>
+        )}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  contentWrapper: {
+    flex: 1,
+    padding: 16,
+    position: 'relative',
+  },
+  infoContainer: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    right: 16,
+    zIndex: 1,
+    alignItems: 'flex-start',
+    maxWidth: '70%',
+  },
+  imageWrapper: {
+    position: 'absolute',
+    bottom: -10,
+    right: -5,
+    width: 250,
+    height: 250,
+    borderRadius: 8,
+    overflow: 'hidden',
+    zIndex: 0,
+  },
+  cardImage: {
+    width: '100%',
+    height: '100%',
+  },
+});

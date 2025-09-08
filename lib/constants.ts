@@ -7,7 +7,7 @@ export const categories: CategoryItem[] = [
     items: ["Poetry", "Short Stories", "Novels"],
     mutedDark: "#271b19",
     mutedLight: "#cfb086",
-    vibrantColor: "#cfb086",
+    vibrantColor: "#bd9064",
   },
   {
     category: "Visual Arts",
@@ -19,7 +19,7 @@ export const categories: CategoryItem[] = [
     ],
     mutedDark: "#3b6188",
     mutedLight: "#7ca8ad",
-    vibrantColor: "#c9a88d",
+    vibrantColor: "#96755a",
 
   },
   {
@@ -28,7 +28,7 @@ export const categories: CategoryItem[] = [
     items: ["Newspapers", "Magazines", "Publications"],
     mutedDark: "#3e3332",
     mutedLight: "#948c7c",
-    vibrantColor: "#79438f",
+    vibrantColor: "#837058",
   },
   {
     category: "Photography",
@@ -36,7 +36,7 @@ export const categories: CategoryItem[] = [
     items: ["Artistic Photography", "Portraits"],
     mutedDark: "#2f3440",
     mutedLight: "#b7babb",
-    vibrantColor: "#815fb1",
+    vibrantColor: "#6d767d",
   },
   {
     category: "Media & Mixed Arts",
@@ -60,7 +60,7 @@ export const categories: CategoryItem[] = [
     ],
     mutedDark: "#312935",
     mutedLight: "#4dc3de",
-    vibrantColor: "#297ca4",
+    vibrantColor: "#a76765",
   },
   {
     category: "Blogs",
@@ -72,7 +72,7 @@ export const categories: CategoryItem[] = [
     ],
     mutedDark: "#565960",
     mutedLight: "#6462a8",
-    vibrantColor: "#6462a8",
+    vibrantColor: "#442d3e",
   },
 ];
 
@@ -107,7 +107,7 @@ export const ElementsText = {
 
 const isWeb = Platform.OS === "web";
 
-export const MAX_WIDTH = 930;
+export const MAX_WIDTH = 1200;
 
 export const window: ScaledSize = isWeb
   ? { width: MAX_WIDTH, height: 800, scale: 1, fontScale: 1 }

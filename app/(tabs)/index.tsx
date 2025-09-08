@@ -15,14 +15,14 @@ export default function Home() {
         <View
           className={`
         px-4 lg:px-96 py-4 rounded-lg shadow-md 
-        ${colorScheme === 'dark' ? 'bg-gray-900/90 from-gray-900 to-transparent' : 'bg-white/90 from-white to-transparent'}
+        ${colorScheme === 'dark' ? 'bg-gray-900 from-gray-900 to-transparent' : 'bg-white/90 from-white to-transparent'}
       `}
           style={{
             backgroundImage: 'linear-gradient(to bottom, var(--tw-gradient-stops))',
           }}
         >
           <Text
-            className={`text-2xl md:text-4xl font-extrabold drop-shadow-md ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
+            className={`text-xl md:text-4xl font-extrabold drop-shadow-md ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}
           >
             Explore Creative Journeys

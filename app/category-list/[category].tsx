@@ -88,7 +88,7 @@ export default function CategoryListScreen() {
       <Stack.Screen
         options={{
           header: () => (
-            <View className="flex-row items-center px-4 py-2 bg-white dark:bg-gray-900">
+            <View className="flex-row items-center px-4 py-2 bg-blue-50 dark:bg-gray-900">
               <Pressable onPress={() => router.back()} className="mr-3 p-1"
                 android_ripple={{ color: '#ccc', radius: 40, borderless: true, foreground: true }}
               >
@@ -123,7 +123,7 @@ export default function CategoryListScreen() {
             <FlatList
               data={content}
               keyExtractor={item => item.content_id}
-              contentContainerStyle={{ paddingVertical: 24, gap: 14 }}
+              contentContainerStyle={{ padding: 10, gap: 14 }}
               showsVerticalScrollIndicator={false}
               numColumns={isDesktop ? 2 : 1}
               columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}

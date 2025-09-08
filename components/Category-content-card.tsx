@@ -42,7 +42,6 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
           })
             .then(setPalette)
             .catch(console.error);
-          console.log("/npalette:", palette, "from url:", url);
         } catch (error) {
           console.error('Error fetching public URL:', error);
         }

@@ -31,7 +31,7 @@ function UpdatesCard({ item, index }: { item: UpdateItem; index: number }) {
       <Pressable onPress={handlePress} style={{ width: "96%" }} className="max-w-2xl">
         <Card className="rounded-lg border border-border shadow-md shadow-primary bg-secondary">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle numberOfLines={2}>{item.title}</CardTitle>
+            <CardTitle numberOfLines={2} className="text-lg">{item.title}</CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription>{item.desc}</CardDescription>
