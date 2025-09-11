@@ -1,7 +1,6 @@
 import { useColorScheme } from 'nativewind';
 import { Text, View, ScrollView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import NewsUpdates from '~/components/news';
 import FeaturedCarousel from '~/components/FeaturedCarousel';
 
 export default function Home() {
@@ -14,8 +13,8 @@ export default function Home() {
       >
         <View
           className={`
-        px-4 lg:px-96 py-4 rounded-lg shadow-md 
-        ${colorScheme === 'dark' ? 'bg-gray-900 from-gray-900 to-transparent' : 'bg-white/90 from-white to-transparent'}
+        px-4 lg:px-96 py-4 rounded-lg shadow-md md:mb-20 
+        ${colorScheme === 'dark' ? 'bg-gray-900/90 from-gray-900 to-transparent' : 'bg-white/90 from-white to-transparent'}
       `}
           style={{
             backgroundImage: 'linear-gradient(to bottom, var(--tw-gradient-stops))',
@@ -38,8 +37,7 @@ export default function Home() {
         </View>
 
         <FeaturedCarousel />
-        {/* <ArticlesCarousel /> */}
-        <NewsUpdates />
+        {/* <NewsUpdates /> */}
 
       </ScrollView >
     </GestureHandlerRootView>

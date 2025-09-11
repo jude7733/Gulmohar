@@ -55,7 +55,7 @@ export const categories: CategoryItem[] = [
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Radio%20&%20Podcasts.png",
     items: [
       "Radio Plays",
-      "Literary Podcasts",
+      "Podcasts",
       "Interviews",
     ],
     mutedDark: "#312935",
@@ -68,7 +68,6 @@ export const categories: CategoryItem[] = [
     items: [
       "Travel Blogs",
       "Lifestyle Blogs",
-      "Educational Blogs",
     ],
     mutedDark: "#565960",
     mutedLight: "#6462a8",
@@ -106,8 +105,9 @@ export const ElementsText = {
 };
 
 const isWeb = Platform.OS === "web";
+const isDesktop = isWeb && Dimensions.get("window").width >= 1024;
 
-export const MAX_WIDTH = 1200;
+export const MAX_WIDTH = isDesktop ? 800 : 400;
 
 export const window: ScaledSize = isWeb
   ? { width: MAX_WIDTH, height: 800, scale: 1, fontScale: 1 }

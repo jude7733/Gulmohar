@@ -21,7 +21,6 @@ export default function Category() {
   };
 
   return (
-    // 1. Add a wrapping View to act as a centering container.
     <View style={{ flex: 1, alignItems: 'center', paddingTop: 16 }}>
       <FlatList
         style={{ width: '100%', maxWidth: 1280 }}
