@@ -106,7 +106,7 @@ export const SlideItem: React.FC<Props> = (props) => {
 const styles = StyleSheet.create({
   card: {
     width: "100%",
-    height: 600,
+    height: 400,
     borderRadius: 18,
     overflow: "hidden",
     backgroundColor: '#f0f0f0',

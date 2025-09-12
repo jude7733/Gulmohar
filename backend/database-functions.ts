@@ -55,9 +55,12 @@ export async function fetchFeatured() {
   return { data, error };
 }
 
-export async function fetchUpdates() {
+export async function fetchLatest() {
   const { data, error } = await supabase
-    .from('updates')
-    .select('*')
+    .from('content')
+    .select('content_id, created_at, title, author_name, category, tags, media_items')
+    .order('created_at', { ascending: false })
+    .limit(8);
   return { data, error };
 }
+

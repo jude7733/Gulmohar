@@ -42,7 +42,7 @@ function FeaturedCarousel() {
         data={featuredList}
         ref={ref}
         autoPlay={true}
-        height={600}
+        height={400}
         loop={true}
         pagingEnabled={true}
         snapEnabled={true}
