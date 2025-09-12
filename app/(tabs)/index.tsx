@@ -11,28 +11,20 @@ export default function Home() {
         nestedScrollEnabled={true}
         showsVerticalScrollIndicator={false}
       >
-        <View
-          className={`
-        px-4 lg:px-96 py-4 rounded-lg shadow-md md:mb-20 
-        ${colorScheme === 'dark' ? 'bg-gray-900/90 from-gray-900 to-transparent' : 'bg-white/90 from-white to-transparent'}
-      `}
-          style={{
-            backgroundImage: 'linear-gradient(to bottom, var(--tw-gradient-stops))',
-          }}
-        >
+        <View className='px-4 pt-6 items-center justify-center'>
           <Text
-            className={`text-xl md:text-4xl font-extrabold drop-shadow-md ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
+            className={`text-xl md:text-3xl font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}
           >
-            Explore Creative Journeys
+            Discover Creative Excellence
           </Text>
           <Text
             className={`
-          mt-3 max-w-xl text-md md:text-xl
-          ${colorScheme === 'dark' ? 'text-gray-300' : 'text-gray-700'}
+          mt-3 max-w-2xl text-center font-thin text-md md:text-lg
+          ${colorScheme === 'dark' ? 'text-gray-300' : 'text-gray-600'}
         `}
           >
-            Discover the latest articles and publications curated just for you.
+            Explore the vibrant artistic landscape of Bharata Mata College. From visual arts to literature, discover talents that make our community extraordinary.
           </Text>
         </View>
 

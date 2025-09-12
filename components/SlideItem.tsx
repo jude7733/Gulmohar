@@ -17,6 +17,28 @@ interface Props extends AnimatedProps<ViewProps> {
   item?: FeaturedContent;
 }
 
+const GradientOverlay = () => {
+  const gradientSteps = Array.from({ length: 15 });
+
+  return (
+    <View style={styles.gradient}>
+      {gradientSteps.map((_, index) => {
+        const opacity = (index / (gradientSteps.length - 1)) * 0.8;
+        return (
+          <View
+            key={index}
+            style={{
+              flex: 1, // Each step takes an equal amount of space
+              backgroundColor: `rgba(0, 0, 0, ${opacity})`,
+            }}
+          />
+        );
+      })}
+    </View>
+  );
+};
+
+
 export const SlideItem: React.FC<Props> = (props) => {
   const { index = 0, item, testID, ...animatedViewProps } = props;
   const [publicUrl, setPublicUrl] = useState<string>("");
@@ -69,12 +91,12 @@ export const SlideItem: React.FC<Props> = (props) => {
           source={{ uri: publicUrl }}
           resizeMode="cover"
         />
-        {/* Elegant overlay at the bottom */}
-        <View style={styles.overlay}>
-          <View style={styles.overlayTextContainer}>
-            <Text style={styles.title} numberOfLines={1}>{item?.title}</Text>
-            <Text style={styles.author} numberOfLines={1}>{item?.author_name}</Text>
-          </View>
+
+        <GradientOverlay />
+
+        <View style={styles.textContainer}>
+          <Text style={styles.title} numberOfLines={1}>{item?.title}</Text>
+          <Text style={styles.author} numberOfLines={1}>{item?.author_name}</Text>
         </View>
       </Animated.View>
     </Pressable>
@@ -87,6 +109,7 @@ const styles = StyleSheet.create({
     height: 600,
     borderRadius: 18,
     overflow: "hidden",
+    backgroundColor: '#f0f0f0',
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowOffset: { width: 0, height: 4 },
@@ -95,40 +118,37 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   image: {
+    ...StyleSheet.absoluteFillObject,
     width: "100%",
     height: "100%",
   },
-  overlay: {
-    position: "absolute",
-    top: 0,
+  gradient: {
+    position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    height: '50%',
   },
-  overlayTextContainer: {
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    width: "100%",
-    padding: 10,
-    borderRadius: 10,
-    minWidth: 40,
-    minHeight: 40,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+  textContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   title: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 20,
-    marginBottom: 2,
+    fontSize: 22,
+    marginBottom: 4,
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 3,
   },
   author: {
     color: "#eaeaea",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "500",
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: 0, height: 1 },

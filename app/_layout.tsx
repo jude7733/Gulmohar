@@ -73,7 +73,7 @@ function NativeLayout() {
       <Stack.Screen
         name="(tabs)"
         options={{
-          title: 'BMC-Art-Gallery',
+          title: 'Art Gallery',
           headerRight: () => <ThemeToggle />,
           headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
           headerTitleStyle: { fontWeight: 'bold' },
@@ -104,7 +104,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
       <StatusBar translucent />
-      <SafeAreaView edges={['left', 'right', 'bottom']} className="flex-1 bg-background">
+      <SafeAreaView edges={['left', 'right', 'bottom']} className="bg-background" style={{ flex: 1 }}>
         {Platform.OS === 'web' ? <WebLayout /> : <NativeLayout />}
       </SafeAreaView>
       <PortalHost />
