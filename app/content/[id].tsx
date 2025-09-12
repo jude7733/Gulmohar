@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, ActivityIndicator, Dimensions } from 'react-native';
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { ContentItem, MediaItem } from '~/lib/types';
 import { fetchContentById, fetchPublicUrl } from '~/backend/database-functions';
@@ -15,7 +15,6 @@ export default function ContentDetailScreen() {
   const [details, setDetails] = useState<ContentItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [fileUrl, setFileUrl] = useState<string[] | null>(null);
-  const screenWidth = Dimensions.get('window').width;
   const screenHeight = Dimensions.get('window').height;
   const { colorScheme } = useColorScheme();
 
@@ -24,7 +23,7 @@ export default function ContentDetailScreen() {
   useEffect(() => {
     const fetchContent = async () => {
       setLoading(true);
-      const { data, error } = await fetchContentById(id);
+      const { data } = await fetchContentById(id);
       setDetails(data);
       if (data?.media_items?.length) {
         const urls = await Promise.all(
@@ -72,8 +71,8 @@ export default function ContentDetailScreen() {
             <Image
               source={{ uri: publicUrl }}
               style={{
-                width: screenWidth,
-                height: screenHeight - 240,
+                width: "100%",
+                height: 600,
                 borderRadius: 12,
               }}
               contentFit="contain"
@@ -88,17 +87,11 @@ export default function ContentDetailScreen() {
           </View>
         );
       case 'video':
-        return (
-          <View key={index} className="mb-4 space-y-8 rounded-lg" style={{ height: screenHeight - 240 }}>
-            <ShareArticle publicUrl={publicUrl} />
-            <VideoPlayer url={publicUrl} />
-          </View>
-        )
       case 'audio':
         return (
           <View key={index} className="mb-4 space-y-8 rounded-lg" style={{ height: screenHeight - 240 }}>
             <ShareArticle publicUrl={publicUrl} />
-            <VideoPlayer url={publicUrl} isAudio />
+            <VideoPlayer url={publicUrl} />
           </View>
         )
       default:

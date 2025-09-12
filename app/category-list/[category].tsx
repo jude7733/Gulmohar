@@ -104,35 +104,35 @@ export default function CategoryListScreen() {
         }}
       />
 
-      <View style={{ flex: 1, width: '100%' }}>
-        <View className="flex-1 p-2 lg:p-20 w-full">
-          {loading ? (
-            <View className="flex-1 justify-center items-center">
-              <ActivityIndicator size="large" color={categoryInfo.color} />
-              <Text className="text-gray-600 dark:text-gray-400 mt-2">Loading content...</Text>
-            </View>
-          ) : content.length === 0 ? (
-            <View className="flex-1 justify-center items-center px-6">
-              <Text className="text-6xl mb-4">{categoryInfo.icon}</Text>
-              <Text className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No content found</Text>
-              <Text className="text-gray-600 dark:text-gray-400 text-center">
-                There are no items in the {category} category yet.
-              </Text>
-            </View>
-          ) : (
-            <FlatList
-              data={content}
-              keyExtractor={item => item.content_id}
-              contentContainerStyle={{ padding: 10, gap: 14 }}
-              showsVerticalScrollIndicator={false}
-              numColumns={isDesktop ? 2 : 1}
-              columnWrapperStyle={isDesktop ? { justifyContent: 'space-between' } : undefined}
-              renderItem={({ item }) => (
-                <CategoryContentCard item={item} onPress={handleContentPress} />
-              )}
-            />
-          )}
-        </View>
+      <View style={{ flex: 1, alignItems: 'center', paddingTop: 16 }}>
+        {loading ? (
+          <View className="flex-1 justify-center items-center">
+            <ActivityIndicator size="large" color={categoryInfo.color} />
+            <Text className="text-gray-600 dark:text-gray-400 mt-2">Loading content...</Text>
+          </View>
+        ) : content.length === 0 ? (
+          <View className="flex-1 justify-center items-center px-6">
+            <Text className="text-6xl mb-4">{categoryInfo.icon}</Text>
+            <Text className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No content found</Text>
+            <Text className="text-gray-600 dark:text-gray-400 text-center">
+              There are no items in the {category} category yet.
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={content}
+            keyExtractor={item => item.content_id}
+            style={{ width: '100%', maxWidth: 1280 }}
+            contentContainerStyle={{ padding: 10 }}
+            showsVerticalScrollIndicator={false}
+            numColumns={isDesktop ? 2 : 1}
+            columnWrapperStyle={isDesktop ? { gap: 16 } : undefined}
+            ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+            renderItem={({ item }) => (
+              <CategoryContentCard item={item} onPress={handleContentPress} />
+            )}
+          />
+        )}
       </View>
     </>
   );

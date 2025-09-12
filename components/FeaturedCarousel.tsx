@@ -42,13 +42,15 @@ function FeaturedCarousel() {
         data={featuredList}
         ref={ref}
         autoPlay={true}
-        height={458}
+        height={600}
         loop={true}
         pagingEnabled={true}
         snapEnabled={true}
         width={window.width}
         style={{
-          width: window.width,
+          width: window.width + 700,
+          alignItems: "center",
+          justifyContent: "center",
         }}
         mode="parallax"
         modeConfig={{

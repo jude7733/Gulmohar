@@ -1,4 +1,3 @@
-import React from 'react';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { StyleSheet, View } from 'react-native';
 
@@ -16,8 +15,10 @@ export default function VideoPlayer({ url }: VideoPlayerProps) {
       <VideoView
         style={styles.video}
         player={player}
-        allowsFullscreen
         allowsPictureInPicture
+        fullscreenOptions={{
+          enable: true
+        }}
         crossOrigin="anonymous"
       />
     </View>

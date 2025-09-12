@@ -62,15 +62,15 @@ export const CategoryContentCard = ({ item, onPress }: CategoryContentCardProps)
   }
   return (
     <Pressable onPress={() => onPress(item.content_id)}
-      className={`overflow-hidden justify-center items-center rounded-2xl ${isDesktop ? 'flex-1 max-w-[48%]' : 'w-full max-w-4xl'}`}
+      className={`overflow-hidden justify-center items-center rounded-2xl ${isDesktop ? 'flex-1' : 'w-full max-w-2xl'}`}
       accessibilityRole="button"
       android_ripple={{ color: '#ccc', radius: 10, borderless: true, foreground: true }}
     >
       <Card
-        className="mb-4 w-full shadow-xl shadow-primary rounded-2xl"
+        className="mb-4 w-full shadow-lg shadow-primary rounded-2xl max-w-xl"
         style={{ backgroundColor: colorScheme == "dark" ? palette?.darkMuted : palette?.lightMuted }}
       >
-        <CardHeader className='justify-between items-center flex-row p-2'>
+        <CardHeader className='justify-between items-center flex-row p-2 md:p-0'>
           <Image
             source={{ uri: publicUrl }}
             style={{

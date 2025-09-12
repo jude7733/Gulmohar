@@ -7,8 +7,8 @@ import { Platform, Text, View } from 'react-native';
 import { NAV_THEME } from '~/lib/theme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from 'nativewind';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -24,81 +24,83 @@ const navLinks = [
 function WebLayout() {
 
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      {/* --- Web Navbar --- */}
-      <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
-        <Link href="/">
-          <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
-        </Link>
-        <View className="flex-row items-center gap-6">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-sm md:text-xl">
-              <Text>{link.title}</Text>
-            </Link>
-          ))}
-          <ThemeToggle />
+    <SafeAreaProvider>
+      <SafeAreaView className="flex-1 bg-background">
+        {/* --- Web Navbar --- */}
+        <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
+          <Link href="/">
+            <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
+          </Link>
+          <View className="flex-row items-center gap-6">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-sm md:text-xl">
+                <Text>{link.title}</Text>
+              </Link>
+            ))}
+            <ThemeToggle />
+          </View>
         </View>
-      </View>
 
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="category-list/[category]"
-          options={{
-            headerShown: true,
-            presentation: 'modal',
-            animation: 'slide_from_right',
-          }}
-        />
-        <Stack.Screen
-          name="content/[id]"
-          options={{
-            headerShown: true,
-            presentation: 'modal',
-            animation: 'slide_from_right',
-          }}
-        />
-      </Stack>
-    </SafeAreaView>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="category-list/[category]"
+            options={{
+              headerShown: true,
+              animation: 'slide_from_right',
+            }}
+          />
+          <Stack.Screen
+            name="content/[id]"
+            options={{
+              headerShown: true,
+              presentation: 'modal',
+              webModalStyle: {
+                height: '75vh',
+                width: '80vw',
+              },
+              sheetAllowedDetents: [0.95, 1],
+            }}
+          />
+        </Stack>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 function NativeLayout() {
   const { colorScheme } = useColorScheme();
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', 'right', 'left']}>
-      <Stack
-        screenOptions={{
-          animation: Platform.OS === 'android' ? 'slide_from_right' : 'default',
-        }}
-      >
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            title: 'BMC-Art-Gallery',
-            headerRight: () => <ThemeToggle />,
-            headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
-            headerTitleStyle: { fontWeight: 'bold' },
-          }}
-        />
-        <Stack.Screen
-          name="category-list/[category]"
-          options={{
-            headerShown: true,
-            presentation: 'modal',
-            animation: 'slide_from_right',
-          }}
-        />
-        <Stack.Screen
-          name="content/[id]"
-          options={{
-            headerShown: true,
-            presentation: 'modal',
-            animation: 'slide_from_right',
-          }}
-        />
-      </Stack>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Stack>
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              title: 'BMC-Art-Gallery',
+              headerRight: () => <ThemeToggle />,
+              headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
+              headerTitleStyle: { fontWeight: 'bold' },
+              animation: 'fade',
+            }}
+          />
+          <Stack.Screen
+            name="category-list/[category]"
+            options={{
+              headerShown: true,
+              animation: 'flip',
+            }}
+          />
+          <Stack.Screen
+            name="content/[id]"
+            options={{
+              headerShown: true,
+              animation: 'fade_from_bottom',
+            }}
+          />
+        </Stack>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
