@@ -25,45 +25,43 @@ function WebLayout() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView className="flex-1 bg-background">
-        {/* --- Web Navbar --- */}
-        <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
-          <Link href="/">
-            <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
-          </Link>
-          <View className="flex-row items-center gap-6">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-sm md:text-xl">
-                <Text>{link.title}</Text>
-              </Link>
-            ))}
-            <ThemeToggle />
-          </View>
+      {/* --- Web Navbar --- */}
+      <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
+        <Link href="/">
+          <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
+        </Link>
+        <View className="flex-row items-center gap-6">
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-sm md:text-xl">
+              <Text>{link.title}</Text>
+            </Link>
+          ))}
+          <ThemeToggle />
         </View>
+      </View>
 
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="category-list/[category]"
-            options={{
-              headerShown: true,
-              animation: 'slide_from_right',
-            }}
-          />
-          <Stack.Screen
-            name="content/[id]"
-            options={{
-              headerShown: true,
-              presentation: 'modal',
-              webModalStyle: {
-                height: '75vh',
-                width: '80vw',
-              },
-              sheetAllowedDetents: [0.95, 1],
-            }}
-          />
-        </Stack>
-      </SafeAreaView>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="category-list/[category]"
+          options={{
+            headerShown: true,
+            animation: 'slide_from_right',
+          }}
+        />
+        <Stack.Screen
+          name="content/[id]"
+          options={{
+            headerShown: true,
+            presentation: 'modal',
+            webModalStyle: {
+              height: '75vh',
+              width: '80vw',
+            },
+            sheetAllowedDetents: [0.95, 1],
+          }}
+        />
+      </Stack>
     </SafeAreaProvider>
   );
 }
@@ -71,36 +69,32 @@ function WebLayout() {
 function NativeLayout() {
   const { colorScheme } = useColorScheme();
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              title: 'BMC-Art-Gallery',
-              headerRight: () => <ThemeToggle />,
-              headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
-              headerTitleStyle: { fontWeight: 'bold' },
-              animation: 'fade',
-            }}
-          />
-          <Stack.Screen
-            name="category-list/[category]"
-            options={{
-              headerShown: true,
-              animation: 'flip',
-            }}
-          />
-          <Stack.Screen
-            name="content/[id]"
-            options={{
-              headerShown: true,
-              animation: 'fade_from_bottom',
-            }}
-          />
-        </Stack>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          title: 'BMC-Art-Gallery',
+          headerRight: () => <ThemeToggle />,
+          headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
+          headerTitleStyle: { fontWeight: 'bold' },
+          animation: 'fade',
+        }}
+      />
+      <Stack.Screen
+        name="category-list/[category]"
+        options={{
+          headerShown: true,
+          animation: 'flip',
+        }}
+      />
+      <Stack.Screen
+        name="content/[id]"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+        }}
+      />
+    </Stack>
   );
 }
 
@@ -109,8 +103,10 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={NAV_THEME[colorScheme ?? 'dark']}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      {Platform.OS === 'web' ? <WebLayout /> : <NativeLayout />}
+      <StatusBar translucent />
+      <SafeAreaView edges={['left', 'right', 'bottom']} className="flex-1 bg-background">
+        {Platform.OS === 'web' ? <WebLayout /> : <NativeLayout />}
+      </SafeAreaView>
       <PortalHost />
     </ThemeProvider>
   );
