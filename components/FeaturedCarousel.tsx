@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel, { ICarouselInstance, Pagination } from "react-native-reanimated-carousel";
-import { window } from "~/lib/constants";
+import { customWindow } from "~/lib/constants";
 import { SlideItem } from "./SlideItem";
 import { fetchFeatured } from "~/backend/database-functions";
 import { useEffect, useRef, useState } from "react";
@@ -42,20 +42,21 @@ function FeaturedCarousel() {
         data={featuredList}
         ref={ref}
         autoPlay={true}
-        height={400}
+        height={customWindow.height}
         loop={true}
         pagingEnabled={true}
         snapEnabled={true}
-        width={window.width}
+        width={customWindow.width}
         style={{
-          width: window.width + 700,
+          width: customWindow.width + 800,
           alignItems: "center",
           justifyContent: "center",
         }}
         mode="parallax"
         modeConfig={{
           parallaxScrollingScale: 0.9,
-          parallaxScrollingOffset: 50,
+          parallaxScrollingOffset: 60,
+          parallaxAdjacentItemScale: 0.7,
         }}
         onProgressChange={progress}
         renderItem={({ item, index }) => (

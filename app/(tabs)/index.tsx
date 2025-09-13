@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ScrollView className="flex-1 pb-2 gap-8 bg-background">
-        <View className='px-4 pt-6 items-center justify-center mb-4 md:my-20'>
+        <View className='px-4 pt-6 items-center justify-center mb-6 md:my-20'>
           <Text
             className={`text-xl md:text-3xl font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}

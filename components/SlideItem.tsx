@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import type { AnimatedProps } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
+import { customWindow } from "~/lib/constants";
 
 interface Props extends AnimatedProps<ViewProps> {
   index?: number;
@@ -106,7 +107,7 @@ export const SlideItem: React.FC<Props> = (props) => {
 const styles = StyleSheet.create({
   card: {
     width: "100%",
-    height: 400,
+    height: customWindow.height,
     borderRadius: 18,
     overflow: "hidden",
     backgroundColor: '#f0f0f0',

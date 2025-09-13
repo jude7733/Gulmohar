@@ -108,8 +108,8 @@ const isWeb = Platform.OS === "web";
 export const windowWidth = Dimensions.get("window").width;
 const isDesktop = isWeb && windowWidth >= 1024;
 
-export const MAX_WIDTH = isDesktop ? windowWidth - 700 : 400;
-
-export const window: ScaledSize = isWeb
-  ? { width: MAX_WIDTH, height: 800, scale: 1, fontScale: 1 }
-  : Dimensions.get("screen");
+export const customWindow: ScaledSize = {
+  width: isDesktop ? 500 : 350,
+  height: isDesktop ? 700 : 400,
+  scale: 1, fontScale: 1
+}
