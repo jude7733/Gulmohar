@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ScrollView className="flex-1 pb-2 gap-8 bg-background">
-        <View className='px-4 pt-6 items-center justify-center mb-6 md:my-20'>
+        <View className='px-4 pt-6 items-center justify-center mb-6 md:my-28'>
           <Text
             className={`text-xl md:text-3xl font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}
@@ -18,8 +18,8 @@ export default function Home() {
           </Text>
           <Text
             className={`
-          mt-3 max-w-2xl text-center font-extralight text-md md:text-lg
-          ${colorScheme === 'dark' ? 'text-gray-300' : 'text-gray-800'}
+          mt-3 max-w-2xl text-center font-light text-md md:text-lg
+          ${colorScheme === 'dark' ? 'text-gray-300' : 'text-gray-900'}
         `}
           >
             Explore the vibrant artistic landscape of Bharata Mata College. From visual arts to literature, discover talents that make our community extraordinary.
@@ -31,7 +31,6 @@ export default function Home() {
         <ContentHorizontalList
           type="latest"
           title="Latest Additions"
-          onViewAllPress={() => alert('Navigate to All Additions')}
         />
       </ScrollView >
     </GestureHandlerRootView>

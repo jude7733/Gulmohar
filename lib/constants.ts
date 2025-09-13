@@ -110,6 +110,6 @@ const isDesktop = isWeb && windowWidth >= 1024;
 
 export const customWindow: ScaledSize = {
   width: isDesktop ? 500 : 350,
-  height: isDesktop ? 700 : 400,
+  height: isDesktop ? 600 : 400,
   scale: 1, fontScale: 1
 }

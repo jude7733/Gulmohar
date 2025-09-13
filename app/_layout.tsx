@@ -28,7 +28,7 @@ function WebLayout() {
       {/* --- Web Navbar --- */}
       <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
         <Link href="/">
-          <Text className="text-xl font-bold text-foreground">BMC-Art-Gallery</Text>
+          <Text className="text-xl font-bold text-foreground">Art-Gallery</Text>
         </Link>
         <View className="flex-row items-center gap-6">
           {navLinks.map((link) => (
