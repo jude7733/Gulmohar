@@ -98,18 +98,12 @@ export const contacts = [
 import type { ScaledSize } from "react-native";
 import { Dimensions, Platform } from "react-native";
 
-export const HEADER_HEIGHT = 100;
-
-export const ElementsText = {
-  AUTOPLAY: "AutoPlay",
-};
-
 const isWeb = Platform.OS === "web";
 export const windowWidth = Dimensions.get("window").width;
 const isDesktop = isWeb && windowWidth >= 1024;
 
 export const customWindow: ScaledSize = {
   width: isDesktop ? 500 : 350,
-  height: isDesktop ? 600 : 400,
+  height: 450,
   scale: 1, fontScale: 1
 }
