@@ -62,12 +62,6 @@ function WebLayout() {
             sheetAllowedDetents: [0.95, 1],
           }}
         />
-        <Stack.Screen
-          name="upload"
-          options={{
-            headerShown: false,
-          }}
-        />
       </Stack>
     </SafeAreaProvider>
   );
