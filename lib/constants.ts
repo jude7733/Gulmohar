@@ -3,6 +3,7 @@ import { Category, CategoryItem } from "./types";
 export const categories: CategoryItem[] = [
   {
     category: "Literary Arts",
+    value: 'literary-arts',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Literary%20Arts.png",
     items: ["Poetry", "Short Stories", "Novels"],
     mutedDark: "#271b19",
@@ -11,6 +12,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Visual Arts",
+    value: 'visual-arts',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Visual%20Arts.png",
     items: [
       "Mural Art",
@@ -24,6 +26,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Print Media",
+    value: 'print-media',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Print%20Media.png",
     items: ["Newspapers", "Magazines", "Publications"],
     mutedDark: "#3e3332",
@@ -32,6 +35,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Photography",
+    value: 'photography',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Photography.png",
     items: ["Artistic Photography", "Portraits"],
     mutedDark: "#2f3440",
@@ -40,6 +44,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Media & Mixed Arts",
+    value: 'media-mixed-arts',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Media%20&%20Mixed%20Arts.png",
     items: [
       "Film & Television",
@@ -52,6 +57,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Radio & Podcasts",
+    value: 'radio-podcasts',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Radio%20&%20Podcasts.png",
     items: [
       "Radio Plays",
@@ -64,6 +70,7 @@ export const categories: CategoryItem[] = [
   },
   {
     category: "Blogs",
+    value: 'blogs',
     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Blogs.png",
     items: [
       "Travel Blogs",

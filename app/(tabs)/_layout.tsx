@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Platform } from 'react-native';
-import { HouseIcon, InfoIcon, LayoutPanelTop } from 'lucide-react-native';
+import { HouseIcon, InfoIcon, LayoutPanelTop, Upload } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (
@@ -26,6 +26,13 @@ export default function TabLayout() {
         options={{
           title: 'Category',
           tabBarIcon: ({ color }) => <LayoutPanelTop size={24} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="upload"
+        options={{
+          title: 'Upload',
+          tabBarIcon: ({ color }) => <Upload size={24} color={color} />,
         }}
       />
       <Tabs.Screen

@@ -9,6 +9,7 @@ export type Category =
 
 export type CategoryItem = {
   category: Category;
+  value: string;
   image: string;
   items: string[];
   mutedDark: string;

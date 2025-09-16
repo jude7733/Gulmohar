@@ -19,7 +19,7 @@ export async function fetchContentById(contentId: string) {
   return { data, error };
 }
 
-function categoryToBucketName(category: Category): string {
+export function categoryToBucketName(category: Category): string {
   const mapping: Record<Category, string> = {
     'Literary Arts': 'literary-arts',
     'Print Media': 'print-media',

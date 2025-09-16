@@ -19,6 +19,7 @@ const navLinks = [
   { href: '/', title: 'Home' },
   { href: '/category', title: 'Category' },
   { href: '/about', title: 'About' },
+  { href: '/upload', title: 'Upload' },
 ];
 
 function WebLayout() {
@@ -59,6 +60,12 @@ function WebLayout() {
               width: '80vw',
             },
             sheetAllowedDetents: [0.95, 1],
+          }}
+        />
+        <Stack.Screen
+          name="upload"
+          options={{
+            headerShown: false,
           }}
         />
       </Stack>
