@@ -29,7 +29,7 @@ function WebLayout() {
       {/* --- Web Navbar --- */}
       <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
         <Link href="/">
-          <Text className="text-xl font-bold text-foreground">Art-Gallery</Text>
+          <Text className="text-xl font-bold text-foreground">Gulmohar</Text>
         </Link>
         <View className="flex-row items-center gap-6">
           {navLinks.map((link) => (
@@ -74,7 +74,7 @@ function NativeLayout() {
       <Stack.Screen
         name="(tabs)"
         options={{
-          title: 'Art Gallery',
+          title: 'Gulmohar',
           headerRight: () => <ThemeToggle />,
           headerStyle: { backgroundColor: colorScheme === "dark" ? "#111827" : "#f3ccff" },
           headerTitleStyle: { fontWeight: 'bold' },

@@ -82,7 +82,7 @@ export default function About() {
               style={{ width: 150, height: 150 }}
               contentFit="contain"
             />
-            <Text className="text-4xl font-bold mt-6 text-foreground">About Art Gallery</Text>
+            <Text className="text-4xl font-bold mt-6 text-foreground">About Gulmohar Art Gallery</Text>
             <Text className="text-lg text-center mt-2 text-muted-foreground">
               Bharata Mata College, Thrikkakara is home to a diverse community of talented artists with unique skills and creations. However, their art often remains unseen and unappreciated outside of small circles. This platform was created to bridge that gap — providing a space where their work can be shared, celebrated, and accessed by a wider audience. The idea for this platform was initially coined by the students of Malayalam department.
             </Text>
