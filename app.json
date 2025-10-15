@@ -42,7 +42,8 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "tsconfigPaths": true
+      "tsconfigPaths": true,
+      "baseUrl": "/Gulmohar"
     },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
