@@ -2,6 +2,7 @@ import { useColorScheme } from 'nativewind';
 import { Text, View, ScrollView } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FeaturedCarousel from '~/components/FeaturedCarousel';
+import { Footer } from '~/components/footer';
 import { ContentHorizontalList } from '~/components/horizontal-list';
 
 export default function Home() {
@@ -32,6 +33,8 @@ export default function Home() {
           type="latest"
           title="Latest Additions"
         />
+
+        <Footer />
       </ScrollView >
     </GestureHandlerRootView>
   );

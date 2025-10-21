@@ -68,18 +68,18 @@ export const categories: CategoryItem[] = [
     mutedLight: "#4dc3de",
     vibrantColor: "#a76765",
   },
-  {
-    category: "Blogs",
-    value: 'blogs',
-    image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Blogs.png",
-    items: [
-      "Travel Blogs",
-      "Lifestyle Blogs",
-    ],
-    mutedDark: "#565960",
-    mutedLight: "#6462a8",
-    vibrantColor: "#442d3e",
-  },
+  //   {
+  //     category: "Blogs",
+  //     value: 'blogs',
+  //     image: "https://rvxwbisktphfyibdcfcd.supabase.co/storage/v1/object/public/assets/Blogs.png",
+  //     items: [
+  //       "Travel Blogs",
+  //       "Lifestyle Blogs",
+  //     ],
+  //     mutedDark: "#565960",
+  //     mutedLight: "#6462a8",
+  //     vibrantColor: "#442d3e",
+  //   },
 ];
 
 

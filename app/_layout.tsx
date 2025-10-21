@@ -16,7 +16,6 @@ export {
 } from 'expo-router';
 
 const navLinks = [
-  { href: '/', title: 'Home' },
   { href: '/category', title: 'Category' },
   { href: '/about', title: 'About' },
   { href: '/upload', title: 'Upload' },
@@ -31,7 +30,13 @@ function WebLayout() {
         <Link href="/">
           <Text className="text-xl font-bold text-foreground">Gulmohar</Text>
         </Link>
-        <View className="flex-row items-center gap-6">
+        <View className="flex-row items-center gap-6 ml-4">
+          <Link
+            href="/"
+            className="hidden md:inline-flex text-foreground hover:text-primary text-sm md:text-xl"
+          >
+            <Text>Home</Text>
+          </Link>
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} className="text-foreground hover:text-primary text-sm md:text-xl">
               <Text>{link.title}</Text>

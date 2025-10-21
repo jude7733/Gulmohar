@@ -59,7 +59,7 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
 
 
   return (
-    <View className='max-w-5xl mt-4 md:mt-40' style={{ flex: 1, alignSelf: 'center' }}>
+    <View className='md:max-w-5xl mt-4 md:mt-40' style={{ flex: 1, alignSelf: 'center' }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title} className='text-foreground'>{title}</Text>
