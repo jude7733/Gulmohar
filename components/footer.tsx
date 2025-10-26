@@ -39,7 +39,7 @@ export function Footer() {
                 Download Gulmohar Mobile App
               </Text>
               <Text className="text-xs md:text-sm text-foreground/70 text-center md:text-left">
-                Get the best experience with our native mobile application
+                Get the best experience with our native mobile application (beta)
               </Text>
             </View>
             <Button

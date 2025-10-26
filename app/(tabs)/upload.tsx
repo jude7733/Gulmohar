@@ -242,10 +242,10 @@ export default function Upload() {
           <TextInput value={title} onChangeText={setTitle} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., The Midnight Sun" />
         </FormField>
         <FormField label="Author Name">
-          <TextInput value={authorName} onChangeText={setAuthorName} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., Jane Doe" />
+          <TextInput value={authorName} onChangeText={setAuthorName} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="Full name" />
         </FormField>
         <FormField label="Department">
-          <TextInput value={department} onChangeText={setDepartment} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., English" />
+          <TextInput value={department} onChangeText={setDepartment} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., Malayalam" />
         </FormField>
         <FormField label="Category">
           <Select onValueChange={setCategory} className='bg-secondary text-foreground' value={category}>

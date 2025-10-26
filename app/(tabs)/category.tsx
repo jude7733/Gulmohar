@@ -95,7 +95,7 @@ export default function Category() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', paddingTop: 16 }}>
+    <View style={{ flex: 1, alignItems: 'center', paddingTop: 16 }} className='lg:mt-20'>
       <FlatList
         style={{ width: '100%', maxWidth: 1280 }}
         data={categories}
