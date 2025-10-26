@@ -35,6 +35,7 @@ export interface ContentItem {
   media_items: MediaItem[];
   is_featured: boolean;
   tags: string[];
+  batch_year: number;
 }
 
 export type FeaturedContent = {
@@ -43,6 +44,7 @@ export type FeaturedContent = {
   author_name: string;
   category: Category;
   media_items: MediaItem[];
+  batch_year: number;
 }
 
 export type UpdateItem = {
@@ -51,4 +53,5 @@ export type UpdateItem = {
   desc: string;
   link: string;
   created_at: Date;
+  batch_year: number;
 }

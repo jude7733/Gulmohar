@@ -35,6 +35,17 @@ const getMediaType = (mimeType?: string): MediaItem['type'] => {
   return 'image';
 };
 
+// Generate batch years dynamically
+const generateBatchYears = (): string[] => {
+  const currentYear = new Date().getFullYear();
+  const endYear = currentYear + 5;
+  const years: string[] = [];
+  for (let year = 2000; year <= endYear; year++) {
+    years.push(year.toString());
+  }
+  return years;
+};
+
 const FormField = ({ label, children }: { label: string, children: React.ReactNode }) => (
   <View className="mb-4">
     <Text className="text-base font-medium text-foreground mb-2">{label}</Text>
@@ -47,6 +58,7 @@ export default function Upload() {
   const [authorName, setAuthorName] = useState("");
   const [department, setDepartment] = useState("");
   const [category, setCategory] = useState("");
+  const [batchYear, setBatchYear] = useState("");
   const [body, setBody] = useState("");
   const [file, setFile] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
   const [thumbnail, setThumbnail] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
@@ -56,6 +68,7 @@ export default function Upload() {
   const [isLoading, setIsLoading] = useState(false);
 
   const ref = useRef<TriggerRef>(null)
+  const batchRef = useRef<TriggerRef>(null)
   const insets = useSafeAreaInsets();
   const contentInsets = {
     top: insets.top,
@@ -66,6 +79,10 @@ export default function Upload() {
 
   function onTouchStart() {
     ref.current?.open();
+  }
+
+  function onBatchTouchStart() {
+    batchRef.current?.open();
   }
 
   useEffect(() => {
@@ -114,8 +131,8 @@ export default function Upload() {
   };
 
   const handleSubmit = async () => {
-    if (!title || !authorName || !department || !category) {
-      setSubmissionError("Please fill all required fields, including category.");
+    if (!title || !authorName || !department || !category || !batchYear) {
+      setSubmissionError("Please fill all required fields, including category and batch year.");
       return;
     }
 
@@ -189,13 +206,14 @@ export default function Upload() {
       author_id: null,
       department,
       category: category.value,
+      batch_year: parseInt(batchYear.value),
       body,
       media_items: mediaItemsPayload,
       tags: tagsArray,
       is_featured: false
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("upload")
       .insert([payload])
       .select();
@@ -204,11 +222,13 @@ export default function Upload() {
       setSubmissionError(`Submission failed: ${error.message}`);
     } else {
       setSubmissionSuccess(true);
-      setTitle(""); setAuthorName(""); setDepartment(""); setCategory("");
+      setTitle(""); setAuthorName(""); setDepartment(""); setCategory(""); setBatchYear("");
       setBody(""); setFile(null); setThumbnail(null); setTags("");
     }
     setIsLoading(false);
   };
+
+  const batchYears = generateBatchYears();
 
   return (
     <ScrollView
@@ -219,16 +239,16 @@ export default function Upload() {
         <Text className="text-3xl font-bold text-foreground mb-8 text-center">Content Submission</Text>
 
         <FormField label="Title">
-          <TextInput value={title} onChangeText={setTitle} style={styles.input} className='bg-secondary' placeholderTextColor="#9ca3af" placeholder="e.g., The Midnight Sun" />
+          <TextInput value={title} onChangeText={setTitle} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., The Midnight Sun" />
         </FormField>
         <FormField label="Author Name">
-          <TextInput value={authorName} onChangeText={setAuthorName} style={styles.input} className='bg-secondary' placeholderTextColor="#9ca3af" placeholder="e.g., Jane Doe" />
+          <TextInput value={authorName} onChangeText={setAuthorName} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., Jane Doe" />
         </FormField>
         <FormField label="Department">
-          <TextInput value={department} onChangeText={setDepartment} style={styles.input} className='bg-secondary' placeholderTextColor="#9ca3af" placeholder="e.g., English" />
+          <TextInput value={department} onChangeText={setDepartment} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., English" />
         </FormField>
         <FormField label="Category">
-          <Select onValueChange={setCategory} className='bg-secondary' value={category}>
+          <Select onValueChange={setCategory} className='bg-secondary text-foreground' value={category}>
             <SelectTrigger ref={ref} className="w-full" onTouchStart={onTouchStart}>
               <SelectValue
                 className="text-foreground text-sm native:text-md"
@@ -247,11 +267,33 @@ export default function Upload() {
             </SelectContent>
           </Select>
         </FormField>
+
+        <FormField label="Batch Year">
+          <Select onValueChange={setBatchYear} className='bg-secondary text-foreground' value={batchYear}>
+            <SelectTrigger ref={batchRef} className="w-full" onTouchStart={onBatchTouchStart}>
+              <SelectValue
+                className="text-foreground text-sm native:text-md"
+                placeholder="Select batch year"
+              />
+            </SelectTrigger>
+            <SelectContent insets={contentInsets} className="w-full">
+              <SelectGroup>
+                <SelectLabel>Batch Year</SelectLabel>
+                {batchYears.map((year) => (
+                  <SelectItem key={year} label={year} value={year}>
+                    {year}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </FormField>
+
         <FormField label="Description">
-          <TextInput value={body} onChangeText={setBody} style={[styles.input, styles.textArea]} className='bg-secondary' placeholderTextColor="#9ca3af" multiline placeholder="A short description of the artwork..." />
+          <TextInput value={body} onChangeText={setBody} style={[styles.input, styles.textArea]} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" multiline placeholder="A short description of the artwork..." />
         </FormField>
         <FormField label="Upload Art File">
-          <Pressable onPress={handlePickDocument} className='bg-secondary' style={styles.filePicker}>
+          <Pressable onPress={handlePickDocument} className='bg-secondary text-foreground' style={styles.filePicker}>
             <Feather name="upload" size={20} color="red" />
             <Text className="text-secondary-foreground font-semibold ml-2">{file ? file.name : "Choose a file"}</Text>
           </Pressable>
@@ -259,7 +301,7 @@ export default function Upload() {
 
         {requiresThumbnail() && (
           <FormField label="Upload Thumbnail (Required)">
-            <Pressable onPress={handlePickThumbnail} className='bg-secondary' style={styles.filePicker}>
+            <Pressable onPress={handlePickThumbnail} className='bg-secondary text-foreground' style={styles.filePicker}>
               <Feather name="image" size={20} color="red" />
               <Text className="text-secondary-foreground font-semibold ml-2">
                 {thumbnail ? thumbnail.name : "Choose a thumbnail image"}
@@ -272,8 +314,12 @@ export default function Upload() {
         )}
 
         <FormField label="Tags (comma-separated)">
-          <TextInput value={tags} onChangeText={setTags} style={styles.input} className='bg-secondary' placeholderTextColor="#9ca3af" placeholder="e.g., poetry, nature, abstract" />
+          <TextInput value={tags} onChangeText={setTags} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., poetry, nature, abstract" />
         </FormField>
+        <Text className="text-sm text-muted-foreground">
+          Your submission will be reviewed by our admin team before being published.
+          Make sure all information is accurate.
+        </Text>
 
         <Button className='mt-4' onPress={handleSubmit} disabled={isLoading}>
           <Text className='text-white'>{isLoading ? "Submitting..." : "Submit"}</Text>

@@ -9,6 +9,7 @@ import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { useColorScheme } from 'nativewind';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -27,8 +28,9 @@ function WebLayout() {
     <SafeAreaProvider>
       {/* --- Web Navbar --- */}
       <View className="flex-row items-center justify-between p-4 border-b-2 bg-secondary dark:bg-gray-900 border-border">
-        <Link href="/">
-          <Text className="text-xl font-bold text-foreground">Gulmohar</Text>
+        <Link href="/" className='flex flex-row items-center md:gap-2'>
+          <Image source={require('~/assets/icon.png')} className="w-10 h-10" />
+          <Text className="text-xl font-bold text-foreground hidden md:block">Gulmohar</Text>
         </Link>
         <View className="flex-row items-center gap-6 ml-4">
           <Link
