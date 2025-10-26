@@ -49,6 +49,7 @@ export default function Upload() {
   const [category, setCategory] = useState("");
   const [body, setBody] = useState("");
   const [file, setFile] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
+  const [thumbnail, setThumbnail] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
   const [tags, setTags] = useState("");
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
@@ -82,6 +83,8 @@ export default function Upload() {
       const result = await DocumentPicker.getDocumentAsync({});
       if (!result.canceled && result.assets && result.assets[0]) {
         setFile(result.assets[0]);
+        // Clear thumbnail when file changes
+        setThumbnail(null);
       }
     } catch (error) {
       Alert.alert("Error", "Failed to pick document.");
@@ -89,10 +92,36 @@ export default function Upload() {
     }
   };
 
+  const handlePickThumbnail = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        type: 'image/*',
+      });
+      if (!result.canceled && result.assets && result.assets[0]) {
+        setThumbnail(result.assets[0]);
+      }
+    } catch (error) {
+      Alert.alert("Error", "Failed to pick thumbnail.");
+      console.error(error);
+    }
+  };
+
+  // Check if current file type requires a thumbnail
+  const requiresThumbnail = (): boolean => {
+    if (!file || !file.mimeType) return false;
+    const mediaType = getMediaType(file.mimeType);
+    return mediaType === 'video' || mediaType === 'pdf' || mediaType === 'audio';
+  };
+
   const handleSubmit = async () => {
-    // --- FIX 2: The validation check now works correctly for the category string ---
     if (!title || !authorName || !department || !category) {
       setSubmissionError("Please fill all required fields, including category.");
+      return;
+    }
+
+    // Validate thumbnail if required
+    if (requiresThumbnail() && !thumbnail) {
+      setSubmissionError("Please upload a thumbnail for this file type.");
       return;
     }
 
@@ -105,8 +134,9 @@ export default function Upload() {
     if (file && category) {
       try {
         const bucketName = categoryToBucketName(category.value);
-        const filePath = `${Date.now()}-${file.name}`;
+        const filePath = `${file.name}-${Date.now()}`;
 
+        // Upload main file
         const response = await fetch(file.uri);
         const fileBuffer = await response.arrayBuffer();
 
@@ -118,10 +148,31 @@ export default function Upload() {
           throw new Error(`File upload failed: ${uploadError.message}`);
         }
 
+        let thumbnailPath: string | undefined = undefined;
+
+        // Upload thumbnail if exists
+        if (thumbnail) {
+          const thumbnailFilePath = `thumbnail/${thumbnail.name}-${Date.now()}`;
+
+          const thumbnailResponse = await fetch(thumbnail.uri);
+          const thumbnailBuffer = await thumbnailResponse.arrayBuffer();
+
+          const { error: thumbnailUploadError } = await supabase.storage
+            .from(bucketName)
+            .upload(thumbnailFilePath, thumbnailBuffer, { contentType: thumbnail.mimeType });
+
+          if (thumbnailUploadError && thumbnailUploadError.message !== 'The resource already exists') {
+            throw new Error(`Thumbnail upload failed: ${thumbnailUploadError.message}`);
+          }
+
+          thumbnailPath = thumbnailFilePath;
+        }
+
         mediaItemsPayload = [{
           type: getMediaType(file.mimeType),
           storagePath: filePath,
           title: file.name,
+          ...(thumbnailPath && { thumbnailPath })
         }];
 
       } catch (error: any) {
@@ -154,7 +205,7 @@ export default function Upload() {
     } else {
       setSubmissionSuccess(true);
       setTitle(""); setAuthorName(""); setDepartment(""); setCategory("");
-      setBody(""); setFile(null); setTags("");
+      setBody(""); setFile(null); setThumbnail(null); setTags("");
     }
     setIsLoading(false);
   };
@@ -205,6 +256,20 @@ export default function Upload() {
             <Text className="text-secondary-foreground font-semibold ml-2">{file ? file.name : "Choose a file"}</Text>
           </Pressable>
         </FormField>
+
+        {requiresThumbnail() && (
+          <FormField label="Upload Thumbnail (Required)">
+            <Pressable onPress={handlePickThumbnail} className='bg-secondary' style={styles.filePicker}>
+              <Feather name="image" size={20} color="red" />
+              <Text className="text-secondary-foreground font-semibold ml-2">
+                {thumbnail ? thumbnail.name : "Choose a thumbnail image"}
+              </Text>
+            </Pressable>
+            <Text className="text-sm text-muted-foreground mt-1">
+              A thumbnail is required for {getMediaType(file?.mimeType)} files
+            </Text>
+          </FormField>
+        )}
 
         <FormField label="Tags (comma-separated)">
           <TextInput value={tags} onChangeText={setTags} style={styles.input} className='bg-secondary' placeholderTextColor="#9ca3af" placeholder="e.g., poetry, nature, abstract" />
