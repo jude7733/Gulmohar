@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator, Platform, ScrollView } from 'react-native';
 import { fetchLatest } from '~/backend/database-functions';
 import { useRouter } from 'expo-router';
 import { ContentCard } from './content-card';
@@ -16,6 +16,7 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
   const router = useRouter();
 
   const flatListRef = useRef<FlatList | null>(null);
+  const scrollViewRef = useRef<ScrollView | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
   };
 
   const handleScroll = (direction: 'left' | 'right') => {
-    if (!flatListRef.current || items.length === 0) return;
+    if (items.length === 0) return;
 
     let newIndex = 0;
     if (direction === 'right') {
@@ -45,7 +46,14 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
       newIndex = Math.max(currentIndex - 2, 0);
     }
 
-    flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
+    if (Platform.OS === 'web' && scrollViewRef.current) {
+      // For web, calculate scroll position (card width + gap)
+      const scrollOffset = newIndex * (280 + 20); // 280px card width + 20px gap
+      scrollViewRef.current.scrollTo({ x: scrollOffset, animated: true });
+    } else if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
+    }
+
     setCurrentIndex(newIndex);
   };
 
@@ -84,7 +92,23 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
           <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color="#4f46e5" />
           </View>
+        ) : Platform.OS === 'web' ? (
+          // Web-optimized ScrollView
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.listContentContainer}
+            style={styles.scrollView}
+          >
+            {items.map((item, index) => (
+              <View key={item.id} style={{ marginRight: index === items.length - 1 ? 0 : 20 }}>
+                <ContentCard item={item} onPress={handleContentPress} />
+              </View>
+            ))}
+          </ScrollView>
         ) : (
+          // Native FlatList
           <FlatList
             ref={flatListRef}
             data={items}
@@ -99,9 +123,6 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             scrollEventThrottle={200}
-            nestedScrollEnabled={true}
-            removeClippedSubviews={Platform.OS === 'web' ? false : true}
-            style={Platform.OS === 'web' ? { overflow: 'scroll' } : undefined}
           />
         )}
       </View>
@@ -114,9 +135,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 34,
     height: 320,
-    ...(Platform.OS === 'web' && {
-      overflow: 'visible',
-    }),
   },
   header: {
     flexDirection: 'row',
@@ -140,6 +158,9 @@ const styles = StyleSheet.create({
   },
   listContentContainer: {
     paddingHorizontal: 20,
+  },
+  scrollView: {
+    flex: 1,
   },
   loaderContainer: {
     flex: 1,

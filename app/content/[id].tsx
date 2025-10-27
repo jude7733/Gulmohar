@@ -89,7 +89,7 @@ export default function ContentDetailScreen() {
       case 'video':
       case 'audio':
         return (
-          <View key={index} className="mb-8 space-y-8 rounded-lg" style={{ height: screenHeight - 250 }}>
+          <View key={index} className="mb-4 space-y-4 rounded-lg" style={{ height: screenHeight - 250 }}>
             <ShareArticle publicUrl={publicUrl} />
             <VideoPlayer url={publicUrl} />
           </View>
@@ -114,7 +114,7 @@ export default function ContentDetailScreen() {
               {details.author_name}
             </Text>
             <Text className="text-md text-gray-600 dark:text-gray-400">
-              {details.department}
+              {details.department} | {details.batch_year}
             </Text>
           </View>
           <Text className="text-xs font-semibold text-gray-800 dark:text-gray-100">{date}</Text>

@@ -28,12 +28,12 @@ export default function VideoPlayer({ url }: VideoPlayerProps) {
 const styles = StyleSheet.create({
   videoBackground: {
     flex: 1,
-    maxHeight: 500,
+    maxHeight: 400,
     width: '100%',
     backgroundColor: '#000',
   },
   video: {
-    maxHeight: 500,
+    maxHeight: 300,
     flex: 1,
   },
 });
