@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { fetchLatest } from '~/backend/database-functions';
 import { useRouter } from 'expo-router';
 import { ContentCard } from './content-card';
@@ -57,7 +57,6 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
 
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
 
-
   return (
     <View className='md:max-w-5xl mt-4 md:mt-40' style={{ flex: 1, alignSelf: 'center' }}>
       <View style={styles.container}>
@@ -100,6 +99,9 @@ export function ContentHorizontalList({ title, type }: ContentHorizontalListProp
             onViewableItemsChanged={onViewableItemsChanged}
             viewabilityConfig={viewabilityConfig}
             scrollEventThrottle={200}
+            nestedScrollEnabled={true}
+            removeClippedSubviews={Platform.OS === 'web' ? false : true}
+            style={Platform.OS === 'web' ? { overflow: 'scroll' } : undefined}
           />
         )}
       </View>
@@ -112,6 +114,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 34,
     height: 320,
+    ...(Platform.OS === 'web' && {
+      overflow: 'visible',
+    }),
   },
   header: {
     flexDirection: 'row',
