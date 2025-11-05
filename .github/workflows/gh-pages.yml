@@ -39,6 +39,9 @@ jobs:
       - name: Export Expo web build
         run: pnpm exec expo export --platform web
 
+      - name: Add SPA fallback
+        run: cp dist/index.html dist/404.html
+
       - name: Publish to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
