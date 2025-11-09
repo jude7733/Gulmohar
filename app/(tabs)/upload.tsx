@@ -45,9 +45,12 @@ const generateBatchYears = (): string[] => {
   return years;
 };
 
-const FormField = ({ label, children }: { label: string, children: React.ReactNode }) => (
+const FormField = ({ label, required = false, children }: { label: string, required?: boolean, children: React.ReactNode }) => (
   <View className="mb-4">
-    <Text className="text-base font-medium text-foreground mb-2">{label}</Text>
+    <Text className="text-base font-medium text-foreground mb-2">
+      {label}
+      {required && <Text className="text-red-500"> *</Text>}
+    </Text>
     {children}
   </View>
 );
@@ -130,8 +133,44 @@ export default function Upload() {
   };
 
   const handleSubmit = async () => {
-    if (!title || !authorName || !department || !category || !batchYear) {
-      setSubmissionError("Please fill all required fields, including category and batch year.");
+    // Validate all required fields
+    if (!title.trim()) {
+      setSubmissionError("Title is required.");
+      return;
+    }
+
+    if (!authorName.trim()) {
+      setSubmissionError("Author name is required.");
+      return;
+    }
+
+    if (!department.trim()) {
+      setSubmissionError("Department is required.");
+      return;
+    }
+
+    if (!category) {
+      setSubmissionError("Please select a category.");
+      return;
+    }
+
+    if (!batchYear) {
+      setSubmissionError("Please select a batch year.");
+      return;
+    }
+
+    if (!body.trim()) {
+      setSubmissionError("Description is required.");
+      return;
+    }
+
+    if (!file) {
+      setSubmissionError("Please upload an art file.");
+      return;
+    }
+
+    if (!tags.trim()) {
+      setSubmissionError("Tags are required.");
       return;
     }
 
@@ -237,16 +276,40 @@ export default function Upload() {
       <View className="w-full max-w-lg p-2">
         <Text className="text-3xl font-bold text-foreground mb-8 text-center">Content Submission</Text>
 
-        <FormField label="Title">
-          <TextInput value={title} onChangeText={setTitle} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., The Midnight Sun" />
+        <FormField label="Title" required>
+          <TextInput
+            value={title}
+            onChangeText={setTitle}
+            style={styles.input}
+            className='bg-secondary text-foreground'
+            placeholderTextColor="#9ca3af"
+            placeholder="e.g., The Midnight Sun"
+          />
         </FormField>
-        <FormField label="Author Name">
-          <TextInput value={authorName} onChangeText={setAuthorName} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="Full name" />
+
+        <FormField label="Author Name" required>
+          <TextInput
+            value={authorName}
+            onChangeText={setAuthorName}
+            style={styles.input}
+            className='bg-secondary text-foreground'
+            placeholderTextColor="#9ca3af"
+            placeholder="Full name"
+          />
         </FormField>
-        <FormField label="Department">
-          <TextInput value={department} onChangeText={setDepartment} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., Malayalam" />
+
+        <FormField label="Department" required>
+          <TextInput
+            value={department}
+            onChangeText={setDepartment}
+            style={styles.input}
+            className='bg-secondary text-foreground'
+            placeholderTextColor="#9ca3af"
+            placeholder="e.g., Malayalam"
+          />
         </FormField>
-        <FormField label="Category">
+
+        <FormField label="Category" required>
           <Select onValueChange={setCategory} className='bg-secondary text-foreground' value={category}>
             <SelectTrigger ref={ref} className="w-full" onTouchStart={onTouchStart}>
               <SelectValue
@@ -267,7 +330,7 @@ export default function Upload() {
           </Select>
         </FormField>
 
-        <FormField label="Batch Year">
+        <FormField label="Batch Year" required>
           <Select onValueChange={setBatchYear} className='bg-secondary text-foreground' value={batchYear}>
             <SelectTrigger ref={batchRef} className="w-full" onTouchStart={onBatchTouchStart}>
               <SelectValue
@@ -288,10 +351,19 @@ export default function Upload() {
           </Select>
         </FormField>
 
-        <FormField label="Description">
-          <TextInput value={body} onChangeText={setBody} style={[styles.input, styles.textArea]} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" multiline placeholder="A short description of the artwork..." />
+        <FormField label="Description" required>
+          <TextInput
+            value={body}
+            onChangeText={setBody}
+            style={[styles.input, styles.textArea]}
+            className='bg-secondary text-foreground'
+            placeholderTextColor="#9ca3af"
+            multiline
+            placeholder="A short description of the artwork..."
+          />
         </FormField>
-        <FormField label="Upload art file (image, video, audio, pdf)">
+
+        <FormField label="Upload art file (image, video, audio, pdf)" required>
           <Pressable onPress={handlePickDocument} className='bg-secondary text-foreground' style={styles.filePicker}>
             <Feather name="upload" size={20} color="red" />
             <Text className="text-secondary-foreground font-semibold ml-2">{file ? file.name : "Choose a file"}</Text>
@@ -299,7 +371,7 @@ export default function Upload() {
         </FormField>
 
         {requiresThumbnail() && (
-          <FormField label="Upload Thumbnail (Required)">
+          <FormField label="Upload Thumbnail" required>
             <Pressable onPress={handlePickThumbnail} className='bg-secondary text-foreground' style={styles.filePicker}>
               <Feather name="image" size={20} color="red" />
               <Text className="text-secondary-foreground font-semibold ml-2">
@@ -312,10 +384,20 @@ export default function Upload() {
           </FormField>
         )}
 
-        <FormField label="Tags (comma-separated)">
-          <TextInput value={tags} onChangeText={setTags} style={styles.input} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" placeholder="e.g., poetry, nature, abstract" />
+        <FormField label="Tags (comma-separated)" required>
+          <TextInput
+            value={tags}
+            onChangeText={setTags}
+            style={styles.input}
+            className='bg-secondary text-foreground'
+            placeholderTextColor="#9ca3af"
+            placeholder="e.g., poetry, nature, abstract"
+          />
         </FormField>
-        <Text className="text-sm text-muted-foreground">
+
+        <Text className="text-sm text-red-500 mb-2">* Required fields</Text>
+
+        <Text className="text-sm text-muted-foreground mb-4">
           Your submission will be reviewed by our admin team before being published.
           Make sure all information is accurate.
         </Text>
