@@ -34,7 +34,6 @@ const AnimatedSection = ({ children, delay = 0 }: { children: React.ReactNode; d
   );
 };
 
-
 const StatItem = ({ value, label }: { value: string; label: string }) => (
   <View className="items-center">
     <Text className="text-2xl md:text-4xl font-bold text-white">{value}</Text>
@@ -82,7 +81,7 @@ export default function About() {
               style={{ width: 150, height: 150 }}
               contentFit="contain"
             />
-            <Text className="text-4xl font-bold mt-6 text-foreground">About Gulmohar Art Gallery</Text>
+            <Text className="text-4xl font-bold mt-6 text-foreground text-center">About Gulmohar Art Gallery</Text>
             <Text className="text-lg text-center mt-2 text-muted-foreground">
               Bharata Mata College, Thrikkakara is home to a diverse community of talented artists with unique skills and creations. However, their art often remains unseen and unappreciated outside of small circles. This platform was created to bridge that gap — providing a space where their work can be shared, celebrated, and accessed by a wider audience. The idea for this platform was initially coined by the students of Malayalam department.
             </Text>
@@ -157,6 +156,14 @@ export default function About() {
                   <Feather name="tool" size={18} className="text-foreground" color="red" />
                   <Text className="text-base font-semibold text-foreground">Report a Bug</Text>
                 </Pressable>
+                {/* Added Contribute to Project Link */}
+                <Pressable
+                  className="flex-row items-center justify-center gap-3 p-3 bg-black dark:bg-white rounded-lg mt-2"
+                  onPress={() => openLink('https://github.com/jude7733/Gulmohar')}
+                >
+                  <Feather name="github" size={18} className="text-white dark:text-black" />
+                  <Text className="text-base font-semibold text-white dark:text-black">Contribute to Project</Text>
+                </Pressable>
               </View>
             </View>
           </AnimatedSection>
@@ -172,8 +179,8 @@ export default function About() {
                 <View className="flex-row flex-wrap justify-around items-center gap-y-6">
                   <StatItem value="50+" label="Artworks" />
                   <StatItem value="25+" label="Artists" />
-                  <StatItem value="12" label="Departments" />
-                  <StatItem value="7" label="Categories" />
+                  <StatItem value="25" label="Departments" />
+                  <StatItem value="6" label="Categories" />
                 </View>
               </View>
             </View>

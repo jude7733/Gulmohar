@@ -24,7 +24,7 @@ export function Footer() {
   }
 
   const handleDownloadAPK = () => {
-    Linking.openURL('https://expo.dev/artifacts/eas/fAxzy2nSi4g6FYN18Nc4Lj.apk');
+    Linking.openURL('https://expo.dev/artifacts/eas/rwrEhysje8MNNWGdGbdkyV.apk');
   };
 
   return (

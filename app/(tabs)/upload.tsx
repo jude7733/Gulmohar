@@ -38,9 +38,8 @@ const getMediaType = (mimeType?: string): MediaItem['type'] => {
 // Generate batch years dynamically
 const generateBatchYears = (): string[] => {
   const currentYear = new Date().getFullYear();
-  const endYear = currentYear + 5;
   const years: string[] = [];
-  for (let year = 2000; year <= endYear; year++) {
+  for (let year = 2020; year <= currentYear; year++) {
     years.push(year.toString());
   }
   return years;
@@ -292,7 +291,7 @@ export default function Upload() {
         <FormField label="Description">
           <TextInput value={body} onChangeText={setBody} style={[styles.input, styles.textArea]} className='bg-secondary text-foreground' placeholderTextColor="#9ca3af" multiline placeholder="A short description of the artwork..." />
         </FormField>
-        <FormField label="Upload Art File">
+        <FormField label="Upload art file (image, video, audio, pdf)">
           <Pressable onPress={handlePickDocument} className='bg-secondary text-foreground' style={styles.filePicker}>
             <Feather name="upload" size={20} color="red" />
             <Text className="text-secondary-foreground font-semibold ml-2">{file ? file.name : "Choose a file"}</Text>
