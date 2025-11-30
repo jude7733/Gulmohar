@@ -26,6 +26,12 @@ type MediaItem = {
   thumbnailPath?: string;
 };
 
+type UploadProgress = {
+  file: number;
+  thumbnail: number;
+  database: number;
+};
+
 const getMediaType = (mimeType?: string): MediaItem['type'] => {
   if (!mimeType) return 'image';
   if (mimeType.startsWith('image/')) return 'image';
@@ -33,6 +39,21 @@ const getMediaType = (mimeType?: string): MediaItem['type'] => {
   if (mimeType.startsWith('audio/')) return 'audio';
   if (mimeType === 'application/pdf') return 'pdf';
   return 'image';
+};
+
+// Function to sanitize filenames - replace non-English characters with timestamp
+const sanitizeFilename = (filename: string): string => {
+  const ext = filename.substring(filename.lastIndexOf('.'));
+
+  // Check if filename contains only safe characters (a-z, A-Z, 0-9, dash, underscore, dot)
+  const isSafeFilename = /^[a-zA-Z0-9._-]+$/.test(filename.replace(ext, ''));
+
+  if (isSafeFilename) {
+    return filename;
+  }
+
+  // If not safe, replace with timestamp + extension
+  return `file-${Date.now()}${ext}`;
 };
 
 // Generate batch years dynamically
@@ -55,6 +76,26 @@ const FormField = ({ label, required = false, children }: { label: string, requi
   </View>
 );
 
+// Progress Bar Component
+const ProgressBar = ({ progress, label }: { progress: number; label: string }) => {
+  return (
+    <View className="mb-3">
+      <View className="flex-row justify-between mb-1">
+        <Text className="text-sm font-medium text-foreground">{label}</Text>
+        <Text className="text-sm font-medium text-foreground">{Math.round(progress)}%</Text>
+      </View>
+      <View style={styles.progressContainer}>
+        <View
+          style={[
+            styles.progressBar,
+            { width: `${progress}%` }
+          ]}
+        />
+      </View>
+    </View>
+  );
+};
+
 export default function Upload() {
   const [title, setTitle] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -68,6 +109,12 @@ export default function Upload() {
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress>({
+    file: 0,
+    thumbnail: 0,
+    database: 0,
+  });
+  const [uploadStatus, setUploadStatus] = useState<string>("");
 
   const ref = useRef<TriggerRef>(null)
   const batchRef = useRef<TriggerRef>(null)
@@ -102,7 +149,6 @@ export default function Upload() {
       const result = await DocumentPicker.getDocumentAsync({});
       if (!result.canceled && result.assets && result.assets[0]) {
         setFile(result.assets[0]);
-        // Clear thumbnail when file changes
         setThumbnail(null);
       }
     } catch (error) {
@@ -125,7 +171,6 @@ export default function Upload() {
     }
   };
 
-  // Check if current file type requires a thumbnail
   const requiresThumbnail = (): boolean => {
     if (!file || !file.mimeType) return false;
     const mediaType = getMediaType(file.mimeType);
@@ -174,7 +219,6 @@ export default function Upload() {
       return;
     }
 
-    // Validate thumbnail if required
     if (requiresThumbnail() && !thumbnail) {
       setSubmissionError("Please upload a thumbnail for this file type.");
       return;
@@ -183,17 +227,27 @@ export default function Upload() {
     setIsLoading(true);
     setSubmissionSuccess(false);
     setSubmissionError(null);
+    setUploadProgress({ file: 0, thumbnail: 0, database: 0 });
 
     let mediaItemsPayload: MediaItem[] = [];
 
     if (file && category) {
       try {
         const bucketName = categoryToBucketName(category.value);
-        const filePath = `${file.name}-${Date.now()}`;
+
+        // Sanitize filename
+        const sanitizedFileName = sanitizeFilename(file.name);
+        const filePath = `${sanitizedFileName}-${Date.now()}`;
+
+        setUploadStatus("Uploading main file...");
+        setUploadProgress(prev => ({ ...prev, file: 10 }));
 
         // Upload main file
         const response = await fetch(file.uri);
         const fileBuffer = await response.arrayBuffer();
+
+        // Simulate progress for file upload
+        setUploadProgress(prev => ({ ...prev, file: 50 }));
 
         const { error: uploadError } = await supabase.storage
           .from(bucketName)
@@ -203,14 +257,23 @@ export default function Upload() {
           throw new Error(`File upload failed: ${uploadError.message}`);
         }
 
+        setUploadProgress(prev => ({ ...prev, file: 100 }));
+
         let thumbnailPath: string | undefined = undefined;
 
         // Upload thumbnail if exists
         if (thumbnail) {
-          const thumbnailFilePath = `thumbnail/${thumbnail.name}-${Date.now()}`;
+          setUploadStatus("Uploading thumbnail...");
+          setUploadProgress(prev => ({ ...prev, thumbnail: 10 }));
+
+          // Sanitize thumbnail filename
+          const sanitizedThumbnailName = sanitizeFilename(thumbnail.name);
+          const thumbnailFilePath = `thumbnail/${sanitizedThumbnailName}-${Date.now()}`;
 
           const thumbnailResponse = await fetch(thumbnail.uri);
           const thumbnailBuffer = await thumbnailResponse.arrayBuffer();
+
+          setUploadProgress(prev => ({ ...prev, thumbnail: 50 }));
 
           const { error: thumbnailUploadError } = await supabase.storage
             .from(bucketName)
@@ -220,6 +283,7 @@ export default function Upload() {
             throw new Error(`Thumbnail upload failed: ${thumbnailUploadError.message}`);
           }
 
+          setUploadProgress(prev => ({ ...prev, thumbnail: 100 }));
           thumbnailPath = thumbnailFilePath;
         }
 
@@ -233,9 +297,13 @@ export default function Upload() {
       } catch (error: any) {
         setSubmissionError(error.message);
         setIsLoading(false);
+        setUploadStatus("");
         return;
       }
     }
+
+    setUploadStatus("Saving to database...");
+    setUploadProgress(prev => ({ ...prev, database: 10 }));
 
     const tagsArray = tags.split(",").map((tag) => tag.trim()).filter(tag => tag);
     const payload = {
@@ -251,6 +319,8 @@ export default function Upload() {
       is_featured: false
     };
 
+    setUploadProgress(prev => ({ ...prev, database: 50 }));
+
     const { error } = await supabase
       .from("upload")
       .insert([payload])
@@ -259,14 +329,27 @@ export default function Upload() {
     if (error) {
       setSubmissionError(`Submission failed: ${error.message}`);
     } else {
+      setUploadProgress(prev => ({ ...prev, database: 100 }));
       setSubmissionSuccess(true);
-      setTitle(""); setAuthorName(""); setDepartment(""); setCategory(""); setBatchYear("");
-      setBody(""); setFile(null); setThumbnail(null); setTags("");
+      setTitle("");
+      setAuthorName("");
+      setDepartment("");
+      setCategory("");
+      setBatchYear("");
+      setBody("");
+      setFile(null);
+      setThumbnail(null);
+      setTags("");
+      setUploadStatus("");
     }
+
     setIsLoading(false);
   };
 
   const batchYears = generateBatchYears();
+  const totalProgress = uploadProgress.file > 0 || uploadProgress.thumbnail > 0 || uploadProgress.database > 0
+    ? Math.round((uploadProgress.file + uploadProgress.thumbnail + uploadProgress.database) / 3)
+    : 0;
 
   return (
     <ScrollView
@@ -284,6 +367,7 @@ export default function Upload() {
             className='bg-secondary text-foreground'
             placeholderTextColor="#9ca3af"
             placeholder="e.g., The Midnight Sun"
+            editable={!isLoading}
           />
         </FormField>
 
@@ -295,6 +379,7 @@ export default function Upload() {
             className='bg-secondary text-foreground'
             placeholderTextColor="#9ca3af"
             placeholder="Full name"
+            editable={!isLoading}
           />
         </FormField>
 
@@ -306,6 +391,7 @@ export default function Upload() {
             className='bg-secondary text-foreground'
             placeholderTextColor="#9ca3af"
             placeholder="e.g., Malayalam"
+            editable={!isLoading}
           />
         </FormField>
 
@@ -360,11 +446,17 @@ export default function Upload() {
             placeholderTextColor="#9ca3af"
             multiline
             placeholder="A short description of the artwork..."
+            editable={!isLoading}
           />
         </FormField>
 
         <FormField label="Upload art file (image, video, audio, pdf)" required>
-          <Pressable onPress={handlePickDocument} className='bg-secondary text-foreground' style={styles.filePicker}>
+          <Pressable
+            onPress={handlePickDocument}
+            className='bg-secondary text-foreground'
+            style={styles.filePicker}
+            disabled={isLoading}
+          >
             <Feather name="upload" size={20} color="red" />
             <Text className="text-secondary-foreground font-semibold ml-2">{file ? file.name : "Choose a file"}</Text>
           </Pressable>
@@ -372,7 +464,12 @@ export default function Upload() {
 
         {requiresThumbnail() && (
           <FormField label="Upload Thumbnail" required>
-            <Pressable onPress={handlePickThumbnail} className='bg-secondary text-foreground' style={styles.filePicker}>
+            <Pressable
+              onPress={handlePickThumbnail}
+              className='bg-secondary text-foreground'
+              style={styles.filePicker}
+              disabled={isLoading}
+            >
               <Feather name="image" size={20} color="red" />
               <Text className="text-secondary-foreground font-semibold ml-2">
                 {thumbnail ? thumbnail.name : "Choose a thumbnail image"}
@@ -392,6 +489,7 @@ export default function Upload() {
             className='bg-secondary text-foreground'
             placeholderTextColor="#9ca3af"
             placeholder="e.g., poetry, nature, abstract"
+            editable={!isLoading}
           />
         </FormField>
 
@@ -402,7 +500,34 @@ export default function Upload() {
           Make sure all information is accurate.
         </Text>
 
-        <Button className='mt-4' onPress={handleSubmit} disabled={isLoading}>
+        {/* Upload Progress Section */}
+        {isLoading && (
+          <View className="mb-4 p-4 bg-blue-50 rounded-lg">
+            <Text className="font-semibold text-foreground mb-3">Uploading... {Math.round(totalProgress)}%</Text>
+
+            {uploadProgress.file > 0 && (
+              <ProgressBar progress={uploadProgress.file} label="Main File" />
+            )}
+
+            {uploadProgress.thumbnail > 0 && (
+              <ProgressBar progress={uploadProgress.thumbnail} label="Thumbnail" />
+            )}
+
+            {uploadProgress.database > 0 && (
+              <ProgressBar progress={uploadProgress.database} label="Saving to Database" />
+            )}
+
+            {uploadStatus && (
+              <Text className="text-sm text-foreground mt-2">{uploadStatus}</Text>
+            )}
+          </View>
+        )}
+
+        <Button
+          className='mt-4'
+          onPress={handleSubmit}
+          disabled={isLoading}
+        >
           <Text className='text-white'>{isLoading ? "Submitting..." : "Submit"}</Text>
         </Button>
 
@@ -446,5 +571,16 @@ const styles = StyleSheet.create({
     borderColor: '#d1d5db',
     borderRadius: 8,
     padding: 12,
+  },
+  progressContainer: {
+    height: 8,
+    backgroundColor: '#e5e7eb',
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#3b82f6',
+    borderRadius: 4,
   },
 });
